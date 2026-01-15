@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Steel Wiki — Configuration deterministe</title>
+    <meta
+      name="description"
+      content="Wiki Steel: pipeline de configuration, fichiers clefs, analyses et commandes."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <div class="bg-shapes" aria-hidden="true"></div>
+    <header class="hero">
+      <nav class="nav">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span>Steel Wiki</span>
+        </div>
+        <div class="nav-links">
+          <a href="#vision">Vision</a>
+          <a href="#pipeline">Pipeline</a>
+          <a href="#analyse">Analyse</a>
+          <a href="#examples">Exemples</a>
+          <a href="#code">Code</a>
+          <a href="#deep-dive">Deep dive</a>
+          <a href="#contrats">Contrats</a>
+          <a href="#cli">CLI</a>
+          <a href="#commandes">Commandes</a>
+        </div>
+        <a class="cta" href="#quickstart">Demarrer</a>
+      </nav>
+
+      <div class="hero-content">
+        <div>
+          <p class="kicker">Configuration declarative Steel</p>
+          <h1>Geler la configuration pour construire sans surprise.</h1>
+          <p class="lead">
+            Steel parse, valide et resout un workspace, puis emet un artefact stable
+            (<code>steel.log</code>). Ce wiki explique le flux,
+            les contrats et la logique d'analyse qui rendent le build deterministe.
+          </p>
+          <div class="hero-actions">
+            <a class="primary" href="#quickstart">Voir le parcours</a>
+            <a class="ghost" href="#contrats">Lire les fichiers clefs</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <p class="hero-card-title">Cycle steel</p>
+          <ol>
+            <li>Chargement du <code>steelconf</code></li>
+            <li>Validation des contraintes</li>
+            <li>Resolution (profils, overrides)</li>
+            <li>Emission de <code>steel.log</code></li>
+            <li>Construction</li>
+          </ol>
+          <div class="chip-row">
+            <span class="chip">Deterministe</span>
+            <span class="chip">Outillable</span>
+            <span class="chip">Multi-OS</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="vision" class="section">
+        <div class="section-title">
+          <p class="kicker">Vision</p>
+          <h2>Une config unique, une sortie canonique.</h2>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Pourquoi Steel</h3>
+            <p>
+              Steel separe la configuration de l'execution. L'objectif est de rendre
+              le build portable, observable et reproductible, quel que soit le langage
+              ou la machine.
+            </p>
+            <ul>
+              <li>Configuration declarative, explicite et stable</li>
+              <li>Artefact canonique pour audit, CI et debug</li>
+              <li>Introspection native (print/graph/why)</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Ce que Steel fournit</h3>
+            <p>
+              Steel produit un artefact fige, normalise, et versionne pour executer
+              un DAG de build sans ambiguite.
+            </p>
+            <div class="callout">
+              <span class="callout-label">Contrat</span>
+              <span><code>steel.log</code> est la verite unique.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pipeline" class="section">
+        <div class="section-title">
+          <p class="kicker">Pipeline</p>
+          <h2>Freeze then Build.</h2>
+        </div>
+        <div class="timeline">
+          <div class="step">
+            <span class="step-index">01</span>
+            <div>
+              <h3>Configuration</h3>
+              <p>Chargement du workspace, des profils, targets et toolchains.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-index">02</span>
+            <div>
+              <h3>Validation</h3>
+              <p>Contraintes, compatibilites, references et coherence globale.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-index">03</span>
+            <div>
+              <h3>Resolution</h3>
+              <p>Heritage, overrides, variables et empreintes toolchain.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-index">04</span>
+            <div>
+              <h3>Emission</h3>
+              <p>Generation de <code>steel.log</code>, format stable et outillable.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-index">05</span>
+            <div>
+              <h3>Construction</h3>
+              <p>Steel construit le DAG et execute les etapes de compilation.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="quickstart" class="section">
+        <div class="section-title">
+          <p class="kicker">Quickstart</p>
+          <h2>Installer Steel et demarrer vite.</h2>
+        </div>
+        <p class="muted-line">
+          Telechargeable comme executable sur
+          <a href="https://github.com/vitte-lang/steel.org/releases">github.com/vitte-lang/steel.org/releases</a>
+        </p>
+        <div class="grid three">
+          <div class="panel">
+            <h3>1. Installer Steel</h3>
+            <p>
+              Telecharge la release officielle depuis
+              <a href="https://github.com/vitte-lang/steel.org/releases">github.com/vitte-lang/steel.org/releases</a>
+              et place le binaire dans ton <code>PATH</code>.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>2. Verifier l'installation</h3>
+            <p>
+              Lance <code>steel --version</code> pour confirmer que l'outil est accessible.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>3. Premier build</h3>
+            <p>
+              Cree un <code>steelconf</code>, puis execute <code>steel build steel</code>
+              pour generer <code>steel.log</code>.
+            </p>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel terminal">
+            <h3>Telecharger</h3>
+            <pre><code class="language-text">$ open https://github.com/vitte-lang/steel.org/releases
+$ curl -L -o steel.tar.gz &lt;URL_DU_RELEASE&gt;
+$ tar -xzf steel.tar.gz</code></pre>
+          </div>
+          <div class="panel terminal">
+            <h3>Installer</h3>
+            <pre><code class="language-text">$ chmod +x steel
+$ sudo mv steel /usr/local/bin/steel
+$ steel --version</code></pre>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel terminal">
+            <h3>Creer un projet</h3>
+            <pre><code class="language-text">$ mkdir demo-steel
+$ cd demo-steel
+$ ls
+src
+steelconf</code></pre>
+          </div>
+          <div class="panel terminal">
+            <h3>Exemple steelconf</h3>
+            <pre><code class="language-text">$ cat &gt; steelconf &lt;&lt;'EOF'
+!muf 4
+
+[workspace]
+  .set name "demo"
+  .set root "."
+  .set target_dir "target"
+  .set profile "debug"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
+..
+
+[profile release]
+  .set opt 2
+  .set debug 0
+..
+
+[target x86_64-apple-darwin]
+  .set os "macos"
+  .set arch "x86_64"
+..
+
+[tool cc]
+  .exec "clang"
+..
+EOF
+$ ls</code></pre>
+          </div>
+        </div>
+        <div class="panel terminal">
+          <h3>Build</h3>
+          <pre><code class="language-text">$ steel build steelconf</code></pre>
+        </div>
+        <p class="muted-line">Creer un projet: <code>steel build steelconf</code></p>
+      </section>
+
+      <section id="analyse" class="section">
+        <div class="section-title">
+          <p class="kicker">Analyse</p>
+          <h2>Comment Steel analyse la configuration.</h2>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Parser</h3>
+            <p>
+              Lecture lexicale et syntaxique des fichiers Steel. Construction des blocs
+              (workspace, package, profile, target, tool).
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Validateur</h3>
+            <p>
+              Controle des references, compatibilites, versions, permissions et chemins.
+              Toute incoherence est levee avant l'execution.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Resolveur</h3>
+            <p>
+              Fusion des profils, application des overrides, resolution des dependances
+              transitives et calcul des fingerprints.
+            </p>
+          </div>
+        </div>
+        <div class="panel wide">
+          <h3>Observation et diagnostics</h3>
+          <p>
+            Steel expose des vues de la configuration resolue pour aider l'analyse de build.
+            Les exports sont textes ou graphes (dot/json), et la commande <code>why</code>
+            explique les rebuilds.
+          </p>
+        </div>
+      </section>
+
+      <section id="examples-hero" class="section examples-hero">
+        <div class="section-title">
+          <p class="kicker">Exemples</p>
+          <h2>Steelconf par langage, prets a copier.</h2>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <p>
+              Accelerez vos integrations: chaque exemple montre un outil, un profil
+              et un target minimal. Adaptez les executables a votre toolchain.
+            </p>
+            <div class="hero-actions">
+              <a class="primary" href="#examples">Voir tous les exemples</a>
+              <a class="ghost" href="#commandes">Lire toutes les commandes</a>
+            </div>
+          </div>
+          <div class="panel hero-card">
+            <p class="hero-card-title">Selection rapide</p>
+            <div class="chip-row">
+              <span class="chip">C</span>
+              <span class="chip">C++</span>
+              <span class="chip">Rust</span>
+              <span class="chip">Go</span>
+              <span class="chip">Java</span>
+              <span class="chip">C#</span>
+              <span class="chip">Swift</span>
+              <span class="chip">Kotlin</span>
+              <span class="chip">Zig</span>
+              <span class="chip">OCaml</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="code" class="section">
+        <div class="section-title">
+          <p class="kicker">Code</p>
+          <h2>Lecture du code: modules et flux internes.</h2>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Entree CLI</h3>
+            <p>
+              Le binaire appelle <code>steel::commands::run_cli</code> pour parser et
+              executer les commandes.
+            </p>
+            <p class="muted-line"><code>src/bin/steel.rs</code> · <code>src/commands.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Facade Load API</h3>
+            <p>
+              <code>LoadApi</code> centralise le chargement de configuration, la fusion
+              des fragments et les erreurs deterministes.
+            </p>
+            <p class="muted-line"><code>src/loadapi.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Configuration phase</h3>
+            <p>
+              <code>build steel</code> parse, valide, resolv, puis emet
+              <code>steelconfig.mff</code>.
+            </p>
+            <p class="muted-line"><code>src/build_muf.rs</code></p>
+          </div>
+        </div>
+        <div class="panel wide">
+          <h3>Carte des modules (src/)</h3>
+          <div class="grid two">
+            <div>
+              <ul>
+                <li><code>parser/</code>: lexer, AST, parser MUF</li>
+                <li><code>validator/</code>: coherence, references, targets</li>
+                <li><code>resolver/</code>: variables, inheritance, implicit rules</li>
+                <li><code>generator/</code>: emission et exports</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li><code>model/</code>: workspace, profile, toolchain, rules</li>
+                <li><code>runtime/</code>: OS, jobs, debug</li>
+                <li><code>cli/</code>: commandes et interface</li>
+                <li><code>platform/</code>: VMS/remote stubs</li>
+              </ul>
+            </div>
+          </div>
+          <p class="muted-line"><code>src/MODULE_ORGANIZATION.md</code> · <code>src/lib.rs</code></p>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Parser MUF</h3>
+            <p>
+              Lexer + parser transforment les fichiers en AST stable. Les tokens
+              sont definis et parcours de maniere deterministe.
+            </p>
+            <p class="muted-line"><code>src/parser/</code> · <code>src/arscan.rs</code> · <code>src/read.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Validation</h3>
+            <p>
+              Verifie les contraintes globales, les dependances et les specs de
+              target avant execution.
+            </p>
+            <p class="muted-line"><code>src/config.rs</code> · <code>src/dependancies.rs</code> · <code>src/target_file.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Resolution</h3>
+            <p>
+              Applique les defaults, l'heritage de profils, les variables et
+              les rules implicites.
+            </p>
+            <p class="muted-line"><code>src/default.rs</code> · <code>src/variable.rs</code> · <code>src/expand.rs</code> · <code>src/implicit.rs</code></p>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Generation et export</h3>
+            <p>
+              Emission deterministe du fichier <code>steelconfig.mff</code> et
+              sorties outillables.
+            </p>
+            <p class="muted-line"><code>src/output.rs</code> · <code>src/generator.rs</code> · <code>src/interface.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Execution et tools</h3>
+            <p>
+              Gestion des jobs et appels tools, y compris les runners MUF.
+            </p>
+            <p class="muted-line"><code>src/run_muf.rs</code> · <code>src/job.rs</code> · <code>src/os.rs</code></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="deep-dive" class="section">
+        <div class="section-title">
+          <p class="kicker">Deep Dive</p>
+          <h2>Analyse detaillee de tous les modules.</h2>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Lexer</h3>
+            <p>
+              Tokenisation deterministe: ident, int, string, punctuation. Support
+              des commentaires <code>#</code> et des lignes EOL explicites.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef parser fill:#e7f0ff,stroke:#5a88ff,color:#1b2a44,stroke-width:1px;
+  A[Source] --> B[Lexer]
+  B --> C[TokenKind]
+  C --> D[Span ligne/col]
+  class A,B,C,D parser;</pre>
+            <ul>
+              <li>Position ligne/col pour diagnostics precis</li>
+              <li>Gestion des string escapes (\\n, \\t, \\\")</li>
+              <li>Erreur claire sur fin de string</li>
+            </ul>
+            <pre><code class="language-rust">pub enum TokenKind {
+    Ident(String),
+    Int(i64),
+    Str(String),
+    Dot,
+}</code></pre>
+            <p class="muted-line"><code>src/parser/lexer.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Parser</h3>
+            <p>
+              Build d'un AST MUF avec header <code>!muf 4</code> et blocs
+              structures (<code>tool</code>, <code>profile</code>, <code>target</code>).
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef parser fill:#e7f0ff,stroke:#5a88ff,color:#1b2a44,stroke-width:1px;
+  A[Tokens] --> B[Parser]
+  B --> C[AST File]
+  C --> D[Stmts + Blocks]
+  class A,B,C,D parser;</pre>
+            <ul>
+              <li>Bloc ferme par <code>.end</code></li>
+              <li>Statements <code>set</code> et <code>var</code></li>
+              <li>Erreur explicite sur tokens en trop</li>
+            </ul>
+            <pre><code class="language-rust">pub fn parse_muf(src: &str) -> Result&lt;File, ParseError&gt; {
+    let mut parser = Parser::new(src);
+    parser.parse_file()
+}</code></pre>
+            <p class="muted-line"><code>src/parser/parser.rs</code> · <code>src/parser/ast.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Validation</h3>
+            <p>
+              Framework d'issues stables: severite, categorie, code machine,
+              span optionnel et metadata.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef validator fill:#e5fbf7,stroke:#3fd6c0,color:#0b3b34,stroke-width:1px;
+  A[Checks] --> B[Issue]
+  B --> C[Severity]
+  B --> D[Category]
+  B --> E[Span?]
+  class A,B,C,D,E validator;</pre>
+            <ul>
+              <li>Mode fail-fast ou collecte complete</li>
+              <li>Codes stables (REQUIRED, INVALID, DUPLICATE)</li>
+              <li>Formatage humain pour CLI/CI</li>
+            </ul>
+            <pre><code class="language-rust">pub struct Issue {
+    pub severity: Severity,
+    pub category: Category,
+    pub code: IssueCode,
+}</code></pre>
+            <p class="muted-line"><code>src/validator.rs</code></p>
+          </div>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Variables</h3>
+            <p>
+              Store multi-scope (env/global/target/profile/job/local) avec
+              shadowing deterministe et valeurs typées.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef vars fill:#fff0d9,stroke:#f59b38,color:#5a2f00,stroke-width:1px;
+  A[Layers] --> B[VariableStore]
+  B --> C[Shadowing]
+  B --> D[Scopes]
+  class A,B,C,D vars;</pre>
+            <ul>
+              <li>Identifiants valides <code>[A-Za-z_][A-Za-z0-9_]*</code></li>
+              <li>Expansion: <code>${NAME}</code>, defaults, required</li>
+              <li>Builtins: upper/lower/trim/join/path</li>
+            </ul>
+            <pre><code class="language-rust">pub enum VariableScope {
+    Env, Global, Target, Profile, Job, Local,
+}</code></pre>
+            <p class="muted-line"><code>src/variable.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Expansion</h3>
+            <p>
+              Moteur simple, sans shell: <code>$name</code>, <code>${name}</code>,
+              et appels <code>$(...)</code> (env/path/lower/upper/if).
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef expand fill:#f0f7ff,stroke:#5a88ff,color:#18314b,stroke-width:1px;
+  A[Input] --> B[expand]
+  B --> C[Vars map]
+  B --> D[Result]
+  class A,B,C,D expand;</pre>
+            <ul>
+              <li>Mode strict ou best-effort</li>
+              <li>Limite de recursion configurable</li>
+              <li>Base dir pour <code>path:join</code></li>
+            </ul>
+            <pre><code class="language-rust">pub fn expand(input: &str, vars: &Vars, opts: &ExpandOptions)
+  -> Result&lt;String, ExpandError&gt;</code></pre>
+            <p class="muted-line"><code>src/expand.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Implicit</h3>
+            <p>
+              Injection deterministe de variables, tools et rules implicites
+              avec trace explicite.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef implicit fill:#eaf8ef,stroke:#60c26a,color:#164020,stroke-width:1px;
+  A[Workspace] --> B[apply_implicit]
+  B --> C[Vars]
+  B --> D[Tools]
+  B --> E[Rules]
+  class A,B,C,D,E implicit;</pre>
+            <ul>
+              <li>Regles <code>all</code> et <code>clean</code> auto</li>
+              <li>Vars workspace.root et build.dir</li>
+              <li>Classification des rules</li>
+            </ul>
+            <pre><code class="language-rust">pub fn apply_implicit(ws: &mut Workspace, cfg: &ImplicitConfig)
+  -> Result&lt;ImplicitTrace, ImplicitError&gt;</code></pre>
+            <p class="muted-line"><code>src/implicit.rs</code></p>
+          </div>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Defaults</h3>
+            <p>
+              Politique de valeurs par defaut: profile/target/dirs/toolchain,
+              derivees de l'env quand disponible.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef defaults fill:#fff6e9,stroke:#f59b38,color:#5a2f00,stroke-width:1px;
+  A[Policy] --> B[apply_defaults]
+  B --> C[Options]
+  B --> D[ResolvedConfig]
+  class A,B,C,D defaults;</pre>
+            <ul>
+              <li>Remplit <code>steel.root</code>, <code>steel.profile</code></li>
+              <li>Best-effort host triple</li>
+              <li>Sync des vars toolchain</li>
+            </ul>
+            <pre><code class="language-rust">pub fn apply_defaults_to_resolved(
+  cfg: &mut ResolvedConfig,
+  policy: &DefaultPolicy
+)</code></pre>
+            <p class="muted-line"><code>src/default.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Generator</h3>
+            <p>
+              Emission deterministe: fichiers, graph DOT, response files, stamp
+              pour detection de changements.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef generator fill:#e8f1ff,stroke:#5a88ff,color:#1b2a44,stroke-width:1px;
+  A[Workspace] --> B[Generator]
+  B --> C[Files]
+  B --> D[Dot graph]
+  class A,B,C,D generator;</pre>
+            <ul>
+              <li>BTreeMap pour ordre stable</li>
+              <li>Mini JSON serializer interne</li>
+              <li>Refuse overwrite si configure</li>
+            </ul>
+            <pre><code class="language-rust">pub fn gen_dot(ws: &Workspace) -> String {
+    let mut out = String::new();
+    out.push_str(\"digraph steel {\\n\");
+    out
+}</code></pre>
+            <p class="muted-line"><code>src/generator.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Output</h3>
+            <p>
+              Couche de logs: niveaux, couleurs, timestamps optionnels et sinks
+              capturables pour tests.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef output fill:#eef5f2,stroke:#3fd6c0,color:#0b3b34,stroke-width:1px;
+  A[Event] --> B[Output]
+  B --> C[Stdout]
+  B --> D[Stderr]
+  class A,B,C,D output;</pre>
+            <ul>
+              <li>Stdout/stderr + capture</li>
+              <li>Events structures avec metadata</li>
+              <li>Mode line-buffered</li>
+            </ul>
+            <pre><code class="language-rust">pub enum Level {
+    Error,
+    Warn,
+    Info,
+    Debug,
+}</code></pre>
+            <p class="muted-line"><code>src/output.rs</code></p>
+          </div>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Interface</h3>
+            <p>
+              Traits stables pour loader, output, host IO, jobs et remote.
+              Facilite tests et sandbox.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef iface fill:#e8fff9,stroke:#3fd6c0,color:#0b3b34,stroke-width:1px;
+  A[IHost] --> B[FS/Env/Proc]
+  C[IOutput] --> D[Logs]
+  class A,B,C,D iface;</pre>
+            <ul>
+              <li><code>IHost</code> pour fs/env/process</li>
+              <li><code>IOutput</code> pour logs</li>
+              <li>IDs <code>RuleId</code>/<code>JobId</code></li>
+            </ul>
+            <pre><code class="language-rust">pub trait IHost: Send + Sync {
+    fn read(&self, path: &Path) -> Result&lt;Vec&lt;u8&gt;, HostError&gt;;
+}</code></pre>
+            <p class="muted-line"><code>src/interface.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>Build steel</h3>
+            <p>
+              Pipeline configuration: discovery, resolution, toolchain fingerprint,
+              emission du <code>steelconfig.mff</code>.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef build fill:#fff0d9,stroke:#f59b38,color:#5a2f00,stroke-width:1px;
+  A[steelconf] --> B[build steel]
+  B --> C[ResolvedConfig]
+  C --> D[steelconfig.mff]
+  class A,B,C,D build;</pre>
+            <ul>
+              <li>Options strict/offline/emit</li>
+              <li>Fingerprint toolchain best-effort</li>
+              <li>Sortie deterministe</li>
+            </ul>
+            <pre><code class="language-rust">pub const DEFAULT_EMIT_NAME: &str = \"steelconfig.mff\";</code></pre>
+            <p class="muted-line"><code>src/build_muf.rs</code></p>
+          </div>
+          <div class="panel">
+            <h3>CLI</h3>
+            <p>
+              Dispatcher minimal: <code>build</code>, <code>resolve</code>, <code>check</code>,
+              <code>print</code>, <code>run</code>, <code>doctor</code>, <code>ninja</code>.
+            </p>
+            <pre class="mermaid">flowchart TD
+  classDef cli fill:#e6ecf2,stroke:#7b8b99,color:#2a3642,stroke-width:1px;
+  A[argv] --> B[parse_command]
+  B --> C[execute]
+  class A,B,C cli;</pre>
+            <ul>
+              <li>Codes d'erreur stables</li>
+              <li>Parsing deterministe std-only</li>
+              <li>Alias resolve/check/print</li>
+            </ul>
+            <pre><code class="language-rust">pub fn run_cli(args: &[String]) -> i32 {
+    match dispatch(args) { Ok(()) => 0, Err(_) => 1 }
+}</code></pre>
+            <p class="muted-line"><code>src/commands.rs</code> · <code>src/bin/steel.rs</code></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contrats" class="section">
+        <div class="section-title">
+          <p class="kicker">Contrats</p>
+          <h2>Les fichiers clefs du modele.</h2>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>steelconf</h3>
+            <p>Source unique de configuration. Declaratif, lisible, versionnable.</p>
+          </div>
+          <div class="panel">
+            <h3>steel.log</h3>
+            <p>Configuration figee, normalisee et consommee par le moteur de build.</p>
+          </div>
+          <div class="panel">
+            <h3>main.muff</h3>
+            <p>Configuration locale par dossier et regles de construction.</p>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>master.muff</h3>
+            <p>Point d'ancrage global qui agrege les dossiers et plans de build.</p>
+          </div>
+          <div class="panel">
+            <h3>Sorties</h3>
+            <p>
+              Artefacts par dossier dans <code>./.steel/</code> ou <code>./.muff/</code>,
+              puis binaires et libs selon les targets.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="cli" class="section">
+        <div class="section-title">
+          <p class="kicker">CLI</p>
+          <h2>Commandes rapides.</h2>
+        </div>
+        <div class="grid two">
+          <div class="panel code-block">
+            <pre><code>steel build steel --profile release
+steel build steel --target x86_64-apple-darwin
+steel build steel --emit dist/steel.log
+steel run --log target/run.mff --log-mode truncate --all</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Outils d'analyse</h3>
+            <ul>
+              <li><code>steel print</code> pour afficher la config resolue</li>
+              <li><code>steel graph</code> pour exporter le DAG</li>
+              <li><code>steel why</code> pour diagnostiquer un rebuild</li>
+              <li><code>build steel -watch</code> pour le mode dev</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="commandes" class="section">
+        <div class="section-title">
+          <p class="kicker">Commandes</p>
+          <h2>Liste complete des commandes Steel.</h2>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Aide et version</h3>
+            <pre><code class="language-text">steel help | -h | --help
+steel version | -V | --version</code></pre>
+            <p class="muted-line"><code>doc/manifest.md</code></p>
+          </div>
+          <div class="panel">
+            <h3>Configuration</h3>
+            <pre><code class="language-text">steel build steel [--root &lt;path&gt;] [--file &lt;path&gt;]
+                  [--profile &lt;name&gt;] [--target &lt;triple&gt;]
+                  [--emit &lt;path&gt;] [--offline] [--strict]
+                  [--no-tool-fingerprint]
+                  [--include-hidden] [--follow-symlinks]
+                  [--max-depth &lt;n&gt;] [--print] [-v]</code></pre>
+            <p class="muted-line">Aliases: <code>steel resolve</code>, <code>steel check</code>, <code>steel print</code></p>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Execution</h3>
+            <pre><code class="language-text">steel run [--root &lt;path&gt;] [--file &lt;path&gt;] [--profile &lt;name&gt;]
+          [--toolchain &lt;path&gt;] [--bake &lt;name&gt;] [--all]
+          [--print] [--no-cache]
+          [--log &lt;path&gt;] [--log-mode &lt;append|truncate&gt;] [-v]</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Diagnostics</h3>
+            <pre><code class="language-text">steel doctor [--root &lt;path&gt;] [--json] [-v]</code></pre>
+          </div>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Cache</h3>
+            <pre><code class="language-text">steel cache status [--root &lt;path&gt;] [--json] [-v]
+steel cache clear  [--root &lt;path&gt;] [--json] [-v]</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Graph (stub)</h3>
+            <pre><code class="language-text">steel graph [--root &lt;path&gt;] [--text|--dot] [-v]</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Fmt (stub)</h3>
+            <pre><code class="language-text">steel fmt [--file &lt;path&gt;] [--check] [-v]</code></pre>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="examples" class="section">
+        <div class="section-title">
+          <p class="kicker">Exemples</p>
+          <h2>Top 10 langages compilables.</h2>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>C</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool cc]
+  .exec "clang"
+  .arg "-Wall"
+  .arg "-Wextra"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-apple-darwin]
+  .set os "macos"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+          </div>
+          <div class="panel">
+            <h3>C++</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool cxx]
+  .exec "clang++"
+  .arg "-std=c++20"
+  .arg "-Wall"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-apple-darwin]
+  .set os "macos"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+          </div>
+          <div class="panel">
+            <h3>Rust</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool rustc]
+  .exec "rustc"
+  .arg "-C"
+  .arg "opt-level=2"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-unknown-linux-gnu]
+  .set os "linux"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+          </div>
+          <div class="panel">
+            <h3>Go</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool go]
+  .exec "go"
+  .arg "build"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-unknown-linux-gnu]
+  .set os "linux"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>app.exe</code></p>
+          </div>
+          <div class="panel">
+            <h3>Java</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool javac]
+  .exec "javac"
+  .arg "-g"
+..
+
+[tool jar]
+  .exec "jar"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
+..
+
+[target x86_64-unknown-linux-gnu]
+  .set os "linux"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app.jar</code>, <code>app-cli.jar</code>, <code>app-test.jar</code></p>
+          </div>
+          <div class="panel">
+            <h3>C#</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool dotnet]
+  .exec "dotnet"
+  .arg "build"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
+..
+
+[target x86_64-unknown-linux-gnu]
+  .set os "linux"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app.exe</code>, <code>app.dll</code>, <code>app_debug.exe</code>, <code>app_release.exe</code>, <code>app-cli.exe</code>, <code>app-test.exe</code></p>
+          </div>
+          <div class="panel">
+            <h3>Swift</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool swiftc]
+  .exec "swiftc"
+  .arg "-O"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-apple-darwin]
+  .set os "macos"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>app.exe</code></p>
+          </div>
+          <div class="panel">
+            <h3>Kotlin</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool kotlinc]
+  .exec "kotlinc"
+  .arg "-jvm-target"
+  .arg "17"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-unknown-linux-gnu]
+  .set os "linux"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app.jar</code>, <code>app-cli.jar</code>, <code>app-test.jar</code></p>
+          </div>
+          <div class="panel">
+            <h3>Zig</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool zig]
+  .exec "zig"
+  .arg "build"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-unknown-linux-gnu]
+  .set os "linux"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>app.exe</code></p>
+          </div>
+          <div class="panel">
+            <h3>OCaml</h3>
+            <pre><code class="language-text">!muf 4
+
+[tool ocamlc]
+  .exec "ocamlc"
+  .arg "-O2"
+..
+
+[tool ocamlopt]
+  .exec "ocamlopt"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[target x86_64-apple-darwin]
+  .set os "macos"
+  .set arch "x86_64"
+..</code></pre>
+            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="recap" class="section">
+        <div class="section-title">
+          <p class="kicker">Recap</p>
+          <h2>Une config unique, une sortie canonique.</h2>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Pourquoi Steel</h3>
+            <p>
+              Steel separe la configuration de l'execution. L'objectif est de rendre
+              le build portable, observable et reproductible, quel que soit le langage
+              ou la machine.
+            </p>
+            <ul>
+              <li>Configuration declarative, explicite et stable</li>
+              <li>Artefact canonique pour audit, CI et debug</li>
+              <li>Introspection native (print/graph/why)</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Ce que Steel fournit</h3>
+            <p>
+              Steel produit un artefact fige, normalise, et versionne pour executer
+              un DAG de build sans ambiguite.
+            </p>
+            <div class="callout">
+              <span class="callout-label">Contrat</span>
+              <span><code>steel.log</code> est la verite unique.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Steel Wiki — modele declaratif et deterministe.</p>
+    </footer>
+
+    <script>
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "base",
+        themeVariables: {
+          background: "#f7f2ea",
+          primaryColor: "#ffffff",
+          primaryTextColor: "#1c2228",
+          primaryBorderColor: "#d8cfc2",
+          lineColor: "#f59b38",
+          secondaryColor: "#f2ede5",
+          tertiaryColor: "#faf7f2",
+          noteBkgColor: "#fff4e5",
+          noteTextColor: "#6a5a45",
+          fontFamily: "IBM Plex Sans, Segoe UI, sans-serif",
+        },
+      });
+    </script>
+    <script src="app.js"></script>
+  </body>
+</html>
