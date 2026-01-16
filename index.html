@@ -1,14 +1,12 @@
-<!doctype html>
-<html lang="fr">
+
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Steel Wiki — Configuration deterministe</title>
-    <meta
-      name="description"
-      content="Wiki Steel: pipeline de configuration, fichiers clefs, analyses et commandes."
-    />
+    <title>Steel Wiki — Deterministic Configuration</title>
+    <meta name="description" content="Wiki Steel: pipeline de configuration, fichiers clefs, analyses et commandes." />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   </head>
   <body>
@@ -17,49 +15,46 @@
       <nav class="nav">
         <div class="brand">
           <span class="brand-dot"></span>
-          <span>Steel Wiki</span>
+          <span class="brand-text" data-i18n="brand">Steel</span>
         </div>
         <div class="nav-links">
-          <a href="#vision">Vision</a>
-          <a href="#pipeline">Pipeline</a>
-          <a href="#analyse">Analyse</a>
-          <a href="#examples">Exemples</a>
-          <a href="#code">Code</a>
-          <a href="#deep-dive">Deep dive</a>
-          <a href="#contrats">Contrats</a>
-          <a href="#cli">CLI</a>
-          <a href="#commandes">Commandes</a>
+          <a href="#vision" data-i18n="nav_vision">Vision</a>
+          <a href="#pipeline" data-i18n="nav_pipeline">pipeline</a>
+          <a href="#analyse" data-i18n="nav_analyse">Analyse</a>
+          <a href="#examples" data-i18n="nav_examples">Exemples</a>
+          <a href="#code" data-i18n="nav_code">Code</a>
+          <a href="#deep-dive" data-i18n="nav_deep_dive">Deep diving</a>
+          <a href="#contrats" data-i18n="nav_contrats">Contrats</a>
+          <a href="#cli" data-i18n="nav_cli">CLI</a>
+          <a href="#commandes" data-i18n="nav_commandes">Commandes</a>
         </div>
         <a class="cta" href="#quickstart">Demarrer</a>
-      </nav>
+</nav>
 
       <div class="hero-content">
         <div>
-          <p class="kicker">Configuration declarative Steel</p>
-          <h1>Geler la configuration pour construire sans surprise.</h1>
-          <p class="lead">
-            Steel parse, valide et resout un workspace, puis emet un artefact stable
-            (<code>steel.log</code>). Ce wiki explique le flux,
-            les contrats et la logique d'analyse qui rendent le build deterministe.
+          <p class="kicker" data-i18n="hero_kicker">Configuration declarative Steel</p>
+          <h1 data-i18n="hero_title">Same pipeline for all: steelconf configures, steel produces the binary.</h1>
+          <p class="lead" data-i18n="hero_lead">
+            Ce wiki explique le flux, les contrats et la logique d'analyse qui rendent le build deterministe.
           </p>
           <div class="hero-actions">
-            <a class="primary" href="#quickstart">Voir le parcours</a>
-            <a class="ghost" href="#contrats">Lire les fichiers clefs</a>
+            <a class="primary" href="#quickstart" data-i18n="hero_primary">See the route</a>
+            <a class="ghost" href="#contrats" data-i18n="hero_ghost">Read key files</a>
           </div>
         </div>
         <div class="hero-card">
-          <p class="hero-card-title">Cycle steel</p>
+          <p class="hero-card-title" data-i18n="hero_card_title">Cycle steel</p>
           <ol>
-            <li>Chargement du <code>steelconf</code></li>
-            <li>Validation des contraintes</li>
-            <li>Resolution (profils, overrides)</li>
-            <li>Emission de <code>steel.log</code></li>
-            <li>Construction</li>
+            <li data-i18n="hero_step_1">Loading the  <code>steelconf</code></li>
+            <li data-i18n="hero_step_2">Validation of constraints</li>
+            <li data-i18n="hero_step_3">Resolution (profiles, overrides)</li>
+            <li data-i18n="hero_step_5">build</li>
           </ol>
           <div class="chip-row">
-            <span class="chip">Deterministe</span>
-            <span class="chip">Outillable</span>
-            <span class="chip">Multi-OS</span>
+            <span class="chip" data-i18n="chip_deterministe">Deterministe</span>
+            <span class="chip" data-i18n="chip_outillable">Outillable</span>
+            <span class="chip" data-i18n="chip_multi_os">Multi-OS</span>
           </div>
         </div>
       </div>
@@ -69,39 +64,29 @@
       <section id="vision" class="section">
         <div class="section-title">
           <p class="kicker">Vision</p>
-          <h2>Une config unique, une sortie canonique.</h2>
+          <h2>A unique config, a canonical output.</h2>
         </div>
         <div class="grid two">
           <div class="panel">
-            <h3>Pourquoi Steel</h3>
+            <h3>Why Steel</h3>
             <p>
-              Steel separe la configuration de l'execution. L'objectif est de rendre
-              le build portable, observable et reproductible, quel que soit le langage
-              ou la machine.
+                            Steel separates configuration from execution. The objective is to make
+              the portable, observable and reproducible build, whatever the language
+              or the machine.
+            
             </p>
             <ul>
-              <li>Configuration declarative, explicite et stable</li>
-              <li>Artefact canonique pour audit, CI et debug</li>
-              <li>Introspection native (print/graph/why)</li>
+              <li>Declarative, explicit and stable configuration</li>
+              <li>Canonical artifact for audit, CI and debug</li>
+              <li>Native introspection (print/graph)</li>
             </ul>
-          </div>
-          <div class="panel">
-            <h3>Ce que Steel fournit</h3>
-            <p>
-              Steel produit un artefact fige, normalise, et versionne pour executer
-              un DAG de build sans ambiguite.
-            </p>
-            <div class="callout">
-              <span class="callout-label">Contrat</span>
-              <span><code>steel.log</code> est la verite unique.</span>
-            </div>
           </div>
         </div>
       </section>
 
       <section id="pipeline" class="section">
         <div class="section-title">
-          <p class="kicker">Pipeline</p>
+          <p class="kicker">pipeline</p>
           <h2>Freeze then Build.</h2>
         </div>
         <div class="timeline">
@@ -109,35 +94,35 @@
             <span class="step-index">01</span>
             <div>
               <h3>Configuration</h3>
-              <p>Chargement du workspace, des profils, targets et toolchains.</p>
+              <p>Loading the workspace, profiles, targets and toolchains.</p>
             </div>
           </div>
           <div class="step">
             <span class="step-index">02</span>
             <div>
               <h3>Validation</h3>
-              <p>Contraintes, compatibilites, references et coherence globale.</p>
+              <p>Constraints, compatibility, references and global coherence.</p>
             </div>
           </div>
           <div class="step">
             <span class="step-index">03</span>
             <div>
               <h3>Resolution</h3>
-              <p>Heritage, overrides, variables et empreintes toolchain.</p>
+              <p>Inheritance, overrides, variables and toolchain fingerprints.</p>
             </div>
           </div>
           <div class="step">
             <span class="step-index">04</span>
             <div>
               <h3>Emission</h3>
-              <p>Generation de <code>steel.log</code>, format stable et outillable.</p>
+              <p>Generation of <code>steel.log</code>, stable and tooling-friendly format.</p>
             </div>
           </div>
           <div class="step">
             <span class="step-index">05</span>
             <div>
-              <h3>Construction</h3>
-              <p>Steel construit le DAG et execute les etapes de compilation.</p>
+              <h3>build</h3>
+              <p>Steel builds the DAG and executes the compilation steps.</p>
             </div>
           </div>
         </div>
@@ -146,32 +131,35 @@
       <section id="quickstart" class="section">
         <div class="section-title">
           <p class="kicker">Quickstart</p>
-          <h2>Installer Steel et demarrer vite.</h2>
+          <h2>Install Steel and get started quickly.</h2>
         </div>
         <p class="muted-line">
-          Telechargeable comme executable sur
+                    Downloadable as executable from
+          
           <a href="https://github.com/vitte-lang/steel.org/releases">github.com/vitte-lang/steel.org/releases</a>
         </p>
         <div class="grid three">
           <div class="panel">
-            <h3>1. Installer Steel</h3>
+            <h3>1. Install Steel</h3>
             <p>
-              Telecharge la release officielle depuis
+                            Download the official release from
+              
               <a href="https://github.com/vitte-lang/steel.org/releases">github.com/vitte-lang/steel.org/releases</a>
-              et place le binaire dans ton <code>PATH</code>.
+                            and place the binary in your  <code>PATH</code>.
             </p>
           </div>
           <div class="panel">
-            <h3>2. Verifier l'installation</h3>
+            <h3>2. Check the installation</h3>
             <p>
-              Lance <code>steel --version</code> pour confirmer que l'outil est accessible.
+              Run <code>steel --version</code>  to confirm that the tool is accessible.
+            
             </p>
           </div>
           <div class="panel">
-            <h3>3. Premier build</h3>
+            <h3>3. First build</h3>
             <p>
-              Cree un <code>steelconf</code>, puis execute <code>steel build steel</code>
-              pour generer <code>steel.log</code>.
+                            Create a  <code>steelconf</code>, then execute  <code>steel</code>
+                            to generate  <code>steel.log</code>.
             </p>
           </div>
         </div>
@@ -191,7 +179,7 @@ $ steel --version</code></pre>
         </div>
         <div class="grid two">
           <div class="panel terminal">
-            <h3>Creer un projet</h3>
+            <h3>Build a project</h3>
             <pre><code class="language-text">$ mkdir demo-steel
 $ cd demo-steel
 $ ls
@@ -199,7 +187,7 @@ src
 steelconf</code></pre>
           </div>
           <div class="panel terminal">
-            <h3>Exemple steelconf</h3>
+            <h3>steelconf example</h3>
             <pre><code class="language-text">$ cat &gt; steelconf &lt;&lt;'EOF'
 !muf 4
 
@@ -229,50 +217,53 @@ steelconf</code></pre>
   .exec "clang"
 ..
 EOF
-$ ls</code></pre>
+</code></pre>
           </div>
         </div>
         <div class="panel terminal">
           <h3>Build</h3>
-          <pre><code class="language-text">$ steel build steelconf</code></pre>
+          <pre><code class="language-text">$ steel run</code></pre>
         </div>
-        <p class="muted-line">Creer un projet: <code>steel build steelconf</code></p>
+        <p class="muted-line">Build a project:  <code>steel run</code></p>
       </section>
 
       <section id="analyse" class="section">
         <div class="section-title">
           <p class="kicker">Analyse</p>
-          <h2>Comment Steel analyse la configuration.</h2>
+          <h2>How Steel analyzes the configuration.</h2>
         </div>
         <div class="grid three">
           <div class="panel">
             <h3>Parser</h3>
             <p>
-              Lecture lexicale et syntaxique des fichiers Steel. Construction des blocs
+              Lexical and syntactic reading of Steel files. build of blocks
               (workspace, package, profile, target, tool).
+            
             </p>
           </div>
           <div class="panel">
             <h3>Validateur</h3>
             <p>
-              Controle des references, compatibilites, versions, permissions et chemins.
-              Toute incoherence est levee avant l'execution.
+                            Control of references, compatibility, versions, permissions and paths.
+              Any inconsistency is removed before execution.
+            
             </p>
           </div>
           <div class="panel">
             <h3>Resolveur</h3>
             <p>
-              Fusion des profils, application des overrides, resolution des dependances
-              transitives et calcul des fingerprints.
+                            Merging profiles, applying overrides, resolving dependencies
+              transitives and calculation of fingerprints.
+            
             </p>
           </div>
         </div>
         <div class="panel wide">
-          <h3>Observation et diagnostics</h3>
+          <h3>Observation and diagnostics</h3>
           <p>
-            Steel expose des vues de la configuration resolue pour aider l'analyse de build.
-            Les exports sont textes ou graphes (dot/json), et la commande <code>why</code>
-            explique les rebuilds.
+                        Steel exposes views of the resolved configuration to aid build analysis.
+            The exports are text or graphs (dot), useful for diagnosing the build.
+          
           </p>
         </div>
       </section>
@@ -280,21 +271,22 @@ $ ls</code></pre>
       <section id="examples-hero" class="section examples-hero">
         <div class="section-title">
           <p class="kicker">Exemples</p>
-          <h2>Steelconf par langage, prets a copier.</h2>
+          <h2>steelconf by language, ready to copy.</h2>
         </div>
         <div class="grid two">
           <div class="panel">
             <p>
-              Accelerez vos integrations: chaque exemple montre un outil, un profil
-              et un target minimal. Adaptez les executables a votre toolchain.
+                            Accelerate your integrations: each example shows a tool, a profile
+              and a minimal target. Adapt the executables to your toolchain.
+            
             </p>
             <div class="hero-actions">
-              <a class="primary" href="#examples">Voir tous les exemples</a>
-              <a class="ghost" href="#commandes">Lire toutes les commandes</a>
+              <a class="primary" href="#examples">See all examples</a>
+              <a class="ghost" href="#commandes">Read all orders</a>
             </div>
           </div>
           <div class="panel hero-card">
-            <p class="hero-card-title">Selection rapide</p>
+            <p class="hero-card-title">Quick selection</p>
             <div class="chip-row">
               <span class="chip">C</span>
               <span class="chip">C++</span>
@@ -315,97 +307,106 @@ $ ls</code></pre>
       <section id="code" class="section">
         <div class="section-title">
           <p class="kicker">Code</p>
-          <h2>Lecture du code: modules et flux internes.</h2>
+          <h2>Reading code: internal modules and flows.</h2>
         </div>
         <div class="grid three">
           <div class="panel">
-            <h3>Entree CLI</h3>
+            <h3>CLI entry</h3>
             <p>
-              Le binaire appelle <code>steel::commands::run_cli</code> pour parser et
-              executer les commandes.
+                            Binary calls  <code>steel::commands::run_cli</code>  to parse and
+              execute commands.
+            
             </p>
-            <p class="muted-line"><code>src/bin/steel.rs</code> · <code>src/commands.rs</code></p>
+            <p class="muted-line"><code>src/bin/steel.rs</code>  ·  <code>src/commands.rs</code></p>
           </div>
           <div class="panel">
             <h3>Facade Load API</h3>
             <p>
-              <code>LoadApi</code> centralise le chargement de configuration, la fusion
-              des fragments et les erreurs deterministes.
+              <code>LoadApi</code>  centralizes configuration loading, merging
+              fragments and deterministic errors.
+            
             </p>
             <p class="muted-line"><code>src/loadapi.rs</code></p>
           </div>
           <div class="panel">
-            <h3>Configuration phase</h3>
+            <h3>Phase configuration</h3>
             <p>
-              <code>build steel</code> parse, valide, resolv, puis emet
+              <code>steel build steelconf</code>  parse, validate, resolv, then emit
+              
               <code>steelconfig.mff</code>.
+              No flag: everything is read from  <code>steelconf</code>.
             </p>
             <p class="muted-line"><code>src/build_muf.rs</code></p>
           </div>
         </div>
         <div class="panel wide">
-          <h3>Carte des modules (src/)</h3>
+          <h3>Module map (src/)</h3>
           <div class="grid two">
             <div>
               <ul>
                 <li><code>parser/</code>: lexer, AST, parser MUF</li>
                 <li><code>validator/</code>: coherence, references, targets</li>
                 <li><code>resolver/</code>: variables, inheritance, implicit rules</li>
-                <li><code>generator/</code>: emission et exports</li>
+                <li><code>generator/</code>: emissions and exports</li>
               </ul>
             </div>
             <div>
               <ul>
                 <li><code>model/</code>: workspace, profile, toolchain, rules</li>
                 <li><code>runtime/</code>: OS, jobs, debug</li>
-                <li><code>cli/</code>: commandes et interface</li>
+                <li><code>cli/</code>: commands and interface</li>
                 <li><code>platform/</code>: VMS/remote stubs</li>
               </ul>
             </div>
           </div>
-          <p class="muted-line"><code>src/MODULE_ORGANIZATION.md</code> · <code>src/lib.rs</code></p>
+          <p class="muted-line"><code>src/MODULE_ORGANIZATION.md</code>  ·  <code>src/lib.rs</code></p>
         </div>
         <div class="grid three">
           <div class="panel">
             <h3>Parser MUF</h3>
             <p>
-              Lexer + parser transforment les fichiers en AST stable. Les tokens
-              sont definis et parcours de maniere deterministe.
+                            Lexer + parser transform files into stable AST. Tokens
+              are defined and traversed in a deterministic manner.
+            
             </p>
-            <p class="muted-line"><code>src/parser/</code> · <code>src/arscan.rs</code> · <code>src/read.rs</code></p>
+            <p class="muted-line"><code>src/parser/</code>  ·  <code>src/arscan.rs</code>  ·  <code>src/read.rs</code></p>
           </div>
           <div class="panel">
             <h3>Validation</h3>
             <p>
-              Verifie les contraintes globales, les dependances et les specs de
-              target avant execution.
+                            Checks global constraints, dependencies and specifications
+              target before execution.
+            
             </p>
-            <p class="muted-line"><code>src/config.rs</code> · <code>src/dependancies.rs</code> · <code>src/target_file.rs</code></p>
+            <p class="muted-line"><code>src/config.rs</code>  ·  <code>src/dependancies.rs</code>  · <code>src/target_file.rs</code></p>
           </div>
           <div class="panel">
             <h3>Resolution</h3>
             <p>
-              Applique les defaults, l'heritage de profils, les variables et
-              les rules implicites.
+              Applies defaults, profile inheritance, variables and
+              the implicit rules.
+            
             </p>
-            <p class="muted-line"><code>src/default.rs</code> · <code>src/variable.rs</code> · <code>src/expand.rs</code> · <code>src/implicit.rs</code></p>
+            <p class="muted-line"><code>src/default.rs</code>  ·  <code>src/variable.rs</code>  ·  <code>src/expand.rs</code>  ·  <code>src/implicit.rs</code></p>
           </div>
         </div>
         <div class="grid two">
           <div class="panel">
-            <h3>Generation et export</h3>
+            <h3>Generation and export</h3>
             <p>
-              Emission deterministe du fichier <code>steelconfig.mff</code> et
-              sorties outillables.
+                            Deterministic emission of the file  <code>steelconfig.mff</code>  and
+              tooling-friendly outputs.
+            
             </p>
-            <p class="muted-line"><code>src/output.rs</code> · <code>src/generator.rs</code> · <code>src/interface.rs</code></p>
+            <p class="muted-line"><code>src/output.rs</code>  ·  <code>src/generator.rs</code>  ·  <code>src/interface.rs</code></p>
           </div>
           <div class="panel">
-            <h3>Execution et tools</h3>
+            <h3>Execution and tools</h3>
             <p>
-              Gestion des jobs et appels tools, y compris les runners MUF.
+                            Management of jobs and tool calls, including MUF runners.
+            
             </p>
-            <p class="muted-line"><code>src/run_muf.rs</code> · <code>src/job.rs</code> · <code>src/os.rs</code></p>
+            <p class="muted-line"><code>src/run_muf.rs</code>  ·  <code>src/job.rs</code>  ·  <code>src/os.rs</code></p>
           </div>
         </div>
       </section>
@@ -413,14 +414,15 @@ $ ls</code></pre>
       <section id="deep-dive" class="section">
         <div class="section-title">
           <p class="kicker">Deep Dive</p>
-          <h2>Analyse detaillee de tous les modules.</h2>
+          <h2>Detailed analysis of all modules.</h2>
         </div>
         <div class="grid three">
           <div class="panel">
             <h3>Lexer</h3>
             <p>
-              Tokenisation deterministe: ident, int, string, punctuation. Support
-              des commentaires <code>#</code> et des lignes EOL explicites.
+                            Deterministic tokenization: ident, int, string, punctuation. Support
+              comments  <code>#</code>  and explicit EOL lines.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef parser fill:#e7f0ff,stroke:#5a88ff,color:#1b2a44,stroke-width:1px;
@@ -429,9 +431,9 @@ $ ls</code></pre>
   C --> D[Span ligne/col]
   class A,B,C,D parser;</pre>
             <ul>
-              <li>Position ligne/col pour diagnostics precis</li>
-              <li>Gestion des string escapes (\\n, \\t, \\\")</li>
-              <li>Erreur claire sur fin de string</li>
+              <li>Line/neck position for precise diagnostics</li>
+              <li>Handling string escapes (\\n, \\t, \\\")</li>
+              <li>Clear error at end of string</li>
             </ul>
             <pre><code class="language-rust">pub enum TokenKind {
     Ident(String),
@@ -444,8 +446,9 @@ $ ls</code></pre>
           <div class="panel">
             <h3>Parser</h3>
             <p>
-              Build d'un AST MUF avec header <code>!muf 4</code> et blocs
-              structures (<code>tool</code>, <code>profile</code>, <code>target</code>).
+                            Build an AST MUF with header  <code>!muf 4</code>  and blocks
+              structures (<code>tool</code>,  <code>profile</code>,  <code>target</code>).
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef parser fill:#e7f0ff,stroke:#5a88ff,color:#1b2a44,stroke-width:1px;
@@ -454,21 +457,22 @@ $ ls</code></pre>
   C --> D[Stmts + Blocks]
   class A,B,C,D parser;</pre>
             <ul>
-              <li>Bloc ferme par <code>.end</code></li>
+              <li>Closed block by  <code>.end</code></li>
               <li>Statements <code>set</code> et <code>var</code></li>
-              <li>Erreur explicite sur tokens en trop</li>
+              <li>Explicit error on excess tokens</li>
             </ul>
-            <pre><code class="language-rust">pub fn parse_muf(src: &str) -> Result&lt;File, ParseError&gt; {
+            <pre><code class="language-rust">pub fn parse_muf(src: &str;) -> Result&lt;File, ParseError&gt; {
     let mut parser = Parser::new(src);
     parser.parse_file()
 }</code></pre>
-            <p class="muted-line"><code>src/parser/parser.rs</code> · <code>src/parser/ast.rs</code></p>
+            <p class="muted-line"><code>src/parser/parser.rs</code>  ·  <code>src/parser/ast.rs</code></p>
           </div>
           <div class="panel">
             <h3>Validation</h3>
             <p>
-              Framework d'issues stables: severite, categorie, code machine,
-              span optionnel et metadata.
+                            Stable outcome framework: severity, category, machine code,
+              optional span and metadata.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef validator fill:#e5fbf7,stroke:#3fd6c0,color:#0b3b34,stroke-width:1px;
@@ -478,9 +482,9 @@ $ ls</code></pre>
   B --> E[Span?]
   class A,B,C,D,E validator;</pre>
             <ul>
-              <li>Mode fail-fast ou collecte complete</li>
-              <li>Codes stables (REQUIRED, INVALID, DUPLICATE)</li>
-              <li>Formatage humain pour CLI/CI</li>
+              <li>Fail-fast mode or complete collection</li>
+              <li>Stable codes (REQUIRED, INVALID, DUPLICATE)</li>
+              <li>Human formatting for CLI/CI</li>
             </ul>
             <pre><code class="language-rust">pub struct Issue {
     pub severity: Severity,
@@ -494,8 +498,9 @@ $ ls</code></pre>
           <div class="panel">
             <h3>Variables</h3>
             <p>
-              Store multi-scope (env/global/target/profile/job/local) avec
-              shadowing deterministe et valeurs typées.
+                            Multi-scope store (env/global/target/profile/job/local) with
+              Deterministic shadowing and typed values.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef vars fill:#fff0d9,stroke:#f59b38,color:#5a2f00,stroke-width:1px;
@@ -504,20 +509,21 @@ $ ls</code></pre>
   B --> D[Scopes]
   class A,B,C,D vars;</pre>
             <ul>
-              <li>Identifiants valides <code>[A-Za-z_][A-Za-z0-9_]*</code></li>
+              <li>Valid credentials  <code>[A-Za-z_][A-Za-z0-9_]*</code></li>
               <li>Expansion: <code>${NAME}</code>, defaults, required</li>
               <li>Builtins: upper/lower/trim/join/path</li>
             </ul>
             <pre><code class="language-rust">pub enum VariableScope {
-    Env, Global, Target, Profile, Job, Local,
+    Env, Global, target, profile, Job, Local,
 }</code></pre>
             <p class="muted-line"><code>src/variable.rs</code></p>
           </div>
           <div class="panel">
             <h3>Expansion</h3>
             <p>
-              Moteur simple, sans shell: <code>$name</code>, <code>${name}</code>,
-              et appels <code>$(...)</code> (env/path/lower/upper/if).
+                            Simple engine, without shell:  <code>$name</code>,  <code>${name}</code>,
+              and calls  <code>$(...)</code>  (env/path/lower/upper/if).
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef expand fill:#f0f7ff,stroke:#5a88ff,color:#18314b,stroke-width:1px;
@@ -526,33 +532,34 @@ $ ls</code></pre>
   B --> D[Result]
   class A,B,C,D expand;</pre>
             <ul>
-              <li>Mode strict ou best-effort</li>
-              <li>Limite de recursion configurable</li>
-              <li>Base dir pour <code>path:join</code></li>
+              <li>Strict or best-effort mode</li>
+              <li>Configurable recursion limit</li>
+              <li>Base dir for  <code>path:join</code></li>
             </ul>
-            <pre><code class="language-rust">pub fn expand(input: &str, vars: &Vars, opts: &ExpandOptions)
+            <pre><code class="language-rust">pub fn expand(input: &str;, vars: &Vars;, opts: &ExpandOptions;)
   -> Result&lt;String, ExpandError&gt;</code></pre>
             <p class="muted-line"><code>src/expand.rs</code></p>
           </div>
           <div class="panel">
             <h3>Implicit</h3>
             <p>
-              Injection deterministe de variables, tools et rules implicites
-              avec trace explicite.
+                            Deterministic injection of implicit variables, tools and rules
+              with explicit trace.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef implicit fill:#eaf8ef,stroke:#60c26a,color:#164020,stroke-width:1px;
-  A[Workspace] --> B[apply_implicit]
+  A[workspace] --> B[apply_implicit]
   B --> C[Vars]
   B --> D[Tools]
   B --> E[Rules]
   class A,B,C,D,E implicit;</pre>
             <ul>
               <li>Regles <code>all</code> et <code>clean</code> auto</li>
-              <li>Vars workspace.root et build.dir</li>
-              <li>Classification des rules</li>
+              <li>Vars workspace.root and build.dir</li>
+              <li>Classification of rules</li>
             </ul>
-            <pre><code class="language-rust">pub fn apply_implicit(ws: &mut Workspace, cfg: &ImplicitConfig)
+            <pre><code class="language-rust">pub fn apply_implicit(ws: &mut; workspace, cfg: &ImplicitConfig;)
   -> Result&lt;ImplicitTrace, ImplicitError&gt;</code></pre>
             <p class="muted-line"><code>src/implicit.rs</code></p>
           </div>
@@ -561,8 +568,9 @@ $ ls</code></pre>
           <div class="panel">
             <h3>Defaults</h3>
             <p>
-              Politique de valeurs par defaut: profile/target/dirs/toolchain,
-              derivees de l'env quand disponible.
+                            Default values policy: profile/target/dirs/toolchain,
+              derived from env when available.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef defaults fill:#fff6e9,stroke:#f59b38,color:#5a2f00,stroke-width:1px;
@@ -571,34 +579,35 @@ $ ls</code></pre>
   B --> D[ResolvedConfig]
   class A,B,C,D defaults;</pre>
             <ul>
-              <li>Remplit <code>steel.root</code>, <code>steel.profile</code></li>
+              <li>Remplit <code>steel.root</code>,  <code>steel.profile</code></li>
               <li>Best-effort host triple</li>
-              <li>Sync des vars toolchain</li>
+              <li>toolchain vars sync</li>
             </ul>
             <pre><code class="language-rust">pub fn apply_defaults_to_resolved(
-  cfg: &mut ResolvedConfig,
-  policy: &DefaultPolicy
+  cfg: &mut; ResolvedConfig,
+  policy: &DefaultPolicy;
 )</code></pre>
             <p class="muted-line"><code>src/default.rs</code></p>
           </div>
           <div class="panel">
             <h3>Generator</h3>
             <p>
-              Emission deterministe: fichiers, graph DOT, response files, stamp
-              pour detection de changements.
+              Deterministic emission: files, DOT graph, response files, stamp
+              for change detection.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef generator fill:#e8f1ff,stroke:#5a88ff,color:#1b2a44,stroke-width:1px;
-  A[Workspace] --> B[Generator]
+  A[workspace] --> B[Generator]
   B --> C[Files]
   B --> D[Dot graph]
   class A,B,C,D generator;</pre>
             <ul>
-              <li>BTreeMap pour ordre stable</li>
-              <li>Mini JSON serializer interne</li>
-              <li>Refuse overwrite si configure</li>
+              <li>BTreeMap for stable order</li>
+              <li>Internal mini JSON serializer</li>
+              <li>Refuse overwrite if configure</li>
             </ul>
-            <pre><code class="language-rust">pub fn gen_dot(ws: &Workspace) -> String {
+            <pre><code class="language-rust">pub fn gen_dot(ws: &workspace;) -> String {
     let mut out = String::new();
     out.push_str(\"digraph steel {\\n\");
     out
@@ -608,8 +617,9 @@ $ ls</code></pre>
           <div class="panel">
             <h3>Output</h3>
             <p>
-              Couche de logs: niveaux, couleurs, timestamps optionnels et sinks
-              capturables pour tests.
+                            Log layer: levels, colors, optional timestamps and sinks
+              captureable for testing.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef output fill:#eef5f2,stroke:#3fd6c0,color:#0b3b34,stroke-width:1px;
@@ -619,8 +629,8 @@ $ ls</code></pre>
   class A,B,C,D output;</pre>
             <ul>
               <li>Stdout/stderr + capture</li>
-              <li>Events structures avec metadata</li>
-              <li>Mode line-buffered</li>
+              <li>Event structures with metadata</li>
+              <li>Line-buffered mode</li>
             </ul>
             <pre><code class="language-rust">pub enum Level {
     Error,
@@ -635,8 +645,9 @@ $ ls</code></pre>
           <div class="panel">
             <h3>Interface</h3>
             <p>
-              Traits stables pour loader, output, host IO, jobs et remote.
-              Facilite tests et sandbox.
+                            Stable traits for loader, output, host IO, jobs and remote.
+              Facilitates testing and sandboxing.
+            
             </p>
             <pre class="mermaid">flowchart TD
   classDef iface fill:#e8fff9,stroke:#3fd6c0,color:#0b3b34,stroke-width:1px;
@@ -644,40 +655,43 @@ $ ls</code></pre>
   C[IOutput] --> D[Logs]
   class A,B,C,D iface;</pre>
             <ul>
-              <li><code>IHost</code> pour fs/env/process</li>
-              <li><code>IOutput</code> pour logs</li>
+              <li><code>IHost</code>  for fs/env/process</li>
+              <li><code>IOutput</code>  for logs</li>
               <li>IDs <code>RuleId</code>/<code>JobId</code></li>
             </ul>
             <pre><code class="language-rust">pub trait IHost: Send + Sync {
-    fn read(&self, path: &Path) -> Result&lt;Vec&lt;u8&gt;, HostError&gt;;
+    fn read(&self;, path: &Path;) -> Result&lt;Vec&lt;u8&gt;, HostError&gt;;
 }</code></pre>
             <p class="muted-line"><code>src/interface.rs</code></p>
           </div>
           <div class="panel">
-            <h3>Build steel</h3>
+            <h3>Build steelconf</h3>
             <p>
-              Pipeline configuration: discovery, resolution, toolchain fingerprint,
-              emission du <code>steelconfig.mff</code>.
+                            pipeline configuration: discovery, resolution, toolchain fingerprint,
+              emission of  <code>steelconfig.mff</code>.
             </p>
             <pre class="mermaid">flowchart TD
   classDef build fill:#fff0d9,stroke:#f59b38,color:#5a2f00,stroke-width:1px;
-  A[steelconf] --> B[build steel]
+  A[steelconf] --> B[build steelconf]
   B --> C[ResolvedConfig]
   C --> D[steelconfig.mff]
   class A,B,C,D build;</pre>
             <ul>
-              <li>Options strict/offline/emit</li>
+              <li>strict/offline/emit options</li>
               <li>Fingerprint toolchain best-effort</li>
-              <li>Sortie deterministe</li>
+              <li>Deterministic output</li>
             </ul>
-            <pre><code class="language-rust">pub const DEFAULT_EMIT_NAME: &str = \"steelconfig.mff\";</code></pre>
+            <pre><code class="language-rust">pub const DEFAULT_EMIT_NAME: &str; = \"steelconfig.mff\";</code></pre>
             <p class="muted-line"><code>src/build_muf.rs</code></p>
           </div>
           <div class="panel">
             <h3>CLI</h3>
             <p>
-              Dispatcher minimal: <code>build</code>, <code>resolve</code>, <code>check</code>,
-              <code>print</code>, <code>run</code>, <code>doctor</code>, <code>ninja</code>.
+                            Minimal dispatcher:  <code>build</code>,  <code>resolve</code>,  <code>check</code>,
+              
+              <code>print</code>,  <code>run</code>,  <code>doctor</code>,  <code>cache</code>,
+              
+              <code>graph</code>,  <code>fmt</code>.
             </p>
             <pre class="mermaid">flowchart TD
   classDef cli fill:#e6ecf2,stroke:#7b8b99,color:#2a3642,stroke-width:1px;
@@ -685,14 +699,14 @@ $ ls</code></pre>
   B --> C[execute]
   class A,B,C cli;</pre>
             <ul>
-              <li>Codes d'erreur stables</li>
-              <li>Parsing deterministe std-only</li>
+              <li>Stable error codes</li>
+              <li>Std-only deterministic parsing</li>
               <li>Alias resolve/check/print</li>
             </ul>
             <pre><code class="language-rust">pub fn run_cli(args: &[String]) -> i32 {
     match dispatch(args) { Ok(()) => 0, Err(_) => 1 }
 }</code></pre>
-            <p class="muted-line"><code>src/commands.rs</code> · <code>src/bin/steel.rs</code></p>
+            <p class="muted-line"><code>src/commands.rs</code>  ·  <code>src/bin/steel.rs</code></p>
           </div>
         </div>
       </section>
@@ -700,82 +714,120 @@ $ ls</code></pre>
       <section id="contrats" class="section">
         <div class="section-title">
           <p class="kicker">Contrats</p>
-          <h2>Les fichiers clefs du modele.</h2>
+          <h2>The key files of the model.</h2>
         </div>
         <div class="grid three">
           <div class="panel">
             <h3>steelconf</h3>
-            <p>Source unique de configuration. Declaratif, lisible, versionnable.</p>
+            <p>Single source of configuration. Declarative, readable, versionable.</p>
           </div>
           <div class="panel">
             <h3>steel.log</h3>
-            <p>Configuration figee, normalisee et consommee par le moteur de build.</p>
-          </div>
-          <div class="panel">
-            <h3>main.muff</h3>
-            <p>Configuration locale par dossier et regles de construction.</p>
+            <p>Frozen configuration, normalized and consumed by the build engine.</p>
           </div>
         </div>
-        <div class="grid two">
-          <div class="panel">
-            <h3>master.muff</h3>
-            <p>Point d'ancrage global qui agrege les dossiers et plans de build.</p>
-          </div>
-          <div class="panel">
-            <h3>Sorties</h3>
-            <p>
-              Artefacts par dossier dans <code>./.steel/</code> ou <code>./.muff/</code>,
-              puis binaires et libs selon les targets.
-            </p>
-          </div>
-        </div>
-      </section>
+        <div class="panel wide">
+          <h3>steel.log example</h3>
+          <pre><code class="language-text">mff 1
 
-      <section id="cli" class="section">
-        <div class="section-title">
-          <p class="kicker">CLI</p>
-          <h2>Commandes rapides.</h2>
+build
+  tool "steel"
+  command "build steel"
+  ts_iso "2026-01-15T14:45:46.056684+00:00"
+  ok false
+  message "validation error: steelconf not found: /Users/vincent/Documents/Github/muffin/examples/cpython/steelconfig"
+  emit "/Users/vincent/Documents/Github/muffin/examples/cpython/steelconfig.mff"
+.end
+
+errors
+  item "validation error: steelconf not found: /Users/vincent/Documents/Github/muffin/examples/cpython/steelconfig"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "build steel"
+  ts_iso "2026-01-15T14:48:14.277446+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/muffin/examples/cpython/steelconfig.mff"
+.end</code></pre>
         </div>
-        <div class="grid two">
-          <div class="panel code-block">
-            <pre><code>steel build steel --profile release
-steel build steel --target x86_64-apple-darwin
-steel build steel --emit dist/steel.log
-steel run --log target/run.mff --log-mode truncate --all</code></pre>
-          </div>
-          <div class="panel">
-            <h3>Outils d'analyse</h3>
-            <ul>
-              <li><code>steel print</code> pour afficher la config resolue</li>
-              <li><code>steel graph</code> pour exporter le DAG</li>
-              <li><code>steel why</code> pour diagnostiquer un rebuild</li>
-              <li><code>build steel -watch</code> pour le mode dev</li>
-            </ul>
-          </div>
+        <div class="panel wide">
+          <h3>steelconfig.mff example</h3>
+          <p class="muted-line">
+            This file is the resolved, normalized view of your configuration. It is deterministic
+            and can be diffed, audited, or cached across machines.
+          </p>
+          <ul>
+            <li><strong>project</strong>: absolute root and the source <code>steelconf</code> path.</li>
+            <li><strong>select</strong>: the active profile and target triple.</li>
+            <li><strong>paths</strong>: build/dist/cache directories resolved from the workspace.</li>
+            <li><strong>toolchain</strong>: compiler identity plus captured versions.</li>
+            <li><strong>vars</strong>: expanded variables used by the build graph.</li>
+            <li><strong>fingerprint</strong>: stable hash used for cache keys and change detection.</li>
+          </ul>
+          <pre><code class="language-text">mff 1
+
+project
+  root "/Users/vincent/Documents/Github/muffin/examples/cpython"
+  steelfile "/Users/vincent/Documents/Github/muffin/examples/cpython/ultra/steelconf"
+.end
+
+select
+  profile "debug"
+  target "aarch64-apple-darwin"
+.end
+
+paths
+  build "/Users/vincent/Documents/Github/muffin/examples/cpython/build"
+  dist "/Users/vincent/Documents/Github/muffin/examples/cpython/dist"
+  cache "/Users/vincent/Documents/Github/muffin/examples/cpython/.steel-cache"
+.end
+
+toolchain
+  rustc "rustc"
+
+  versions
+    rustc "rustc 1.92.0 (ded5c06cf 2025-12-08) (Homebrew)"
+  .end
+.end
+
+vars
+  set "steel.file" "/Users/vincent/Documents/Github/muffin/examples/cpython/ultra/steelconf"
+  set "steel.offline" "false"
+  set "steel.profile" "debug"
+  set "steel.root" "/Users/vincent/Documents/Github/muffin/examples/cpython"
+  set "steel.target" "aarch64-apple-darwin"
+.end
+
+fingerprint
+  value "fnv1a64:dd41448925d7d047"
+.end</code></pre>
         </div>
+        <div class="grid two"></div>
       </section>
 
       <section id="commandes" class="section">
         <div class="section-title">
           <p class="kicker">Commandes</p>
-          <h2>Liste complete des commandes Steel.</h2>
+          <h2>Complete list of Steel commands.</h2>
         </div>
         <div class="grid two">
           <div class="panel">
-            <h3>Aide et version</h3>
+            <h3>Help and version</h3>
             <pre><code class="language-text">steel help | -h | --help
 steel version | -V | --version</code></pre>
+            <p class="muted-line">List commands/options; print the exact installed Steel version.</p>
             <p class="muted-line"><code>doc/manifest.md</code></p>
           </div>
           <div class="panel">
             <h3>Configuration</h3>
-            <pre><code class="language-text">steel build steel [--root &lt;path&gt;] [--file &lt;path&gt;]
-                  [--profile &lt;name&gt;] [--target &lt;triple&gt;]
-                  [--emit &lt;path&gt;] [--offline] [--strict]
-                  [--no-tool-fingerprint]
-                  [--include-hidden] [--follow-symlinks]
-                  [--max-depth &lt;n&gt;] [--print] [-v]</code></pre>
-            <p class="muted-line">Aliases: <code>steel resolve</code>, <code>steel check</code>, <code>steel print</code></p>
+            <pre><code class="language-text">steel build steelconf</code></pre>
+            <p class="muted-line">Read <code>steelconf</code>, validate, and emit <code>steelconfig.mff</code>.</p>
+            <p class="muted-line">Everything is read from <code>steelconf</code> (no flag).</p>
+            <p class="muted-line">Aliases: <code>steel resolve</code>, <code>steel check</code>, <code>steel print</code>.</p>
           </div>
         </div>
         <div class="grid two">
@@ -785,122 +837,497 @@ steel version | -V | --version</code></pre>
           [--toolchain &lt;path&gt;] [--bake &lt;name&gt;] [--all]
           [--print] [--no-cache]
           [--log &lt;path&gt;] [--log-mode &lt;append|truncate&gt;] [-v]</code></pre>
+            <p class="muted-line">Run the build graph; choose a bake; write build logs to <code>target/</code> or <code>--log</code>.</p>
           </div>
           <div class="panel">
             <h3>Diagnostics</h3>
             <pre><code class="language-text">steel doctor [--root &lt;path&gt;] [--json] [-v]</code></pre>
+            <p class="muted-line">Check environment/config and report missing tools or bad paths.</p>
           </div>
         </div>
         <div class="grid three">
           <div class="panel">
-            <h3>Cache</h3>
+            <h3>cache</h3>
             <pre><code class="language-text">steel cache status [--root &lt;path&gt;] [--json] [-v]
 steel cache clear  [--root &lt;path&gt;] [--json] [-v]</code></pre>
+            <p class="muted-line"><code>status</code> shows cache usage; <code>clear</code> deletes cache entries.</p>
+          </div>
+          <div class="panel">
+            <h3>Introspection</h3>
+            <pre><code class="language-text">steel print
+steel graph [--text|--dot] [-v]</code></pre>
+            <p class="muted-line"><code>print</code> dumps resolved config; <code>graph</code> emits a text/DOT graph.</p>
           </div>
           <div class="panel">
             <h3>Graph (stub)</h3>
             <pre><code class="language-text">steel graph [--root &lt;path&gt;] [--text|--dot] [-v]</code></pre>
+            <p class="muted-line">Graph with explicit root when running outside the workspace.</p>
           </div>
+        </div>
+        <div class="grid two">
           <div class="panel">
             <h3>Fmt (stub)</h3>
             <pre><code class="language-text">steel fmt [--file &lt;path&gt;] [--check] [-v]</code></pre>
+            <p class="muted-line">Format <code>steelconf</code>; <code>--check</code> returns nonzero if formatting differs.</p>
+          </div>
+          <div class="panel">
+            <h3>Version</h3>
+            <pre><code class="language-text">steel version | -V | --version</code></pre>
+            <p class="muted-line">Print current Steel version string.</p>
           </div>
         </div>
       </section>
+
+      <section id="syntaxe-muf" class="section">
+        <div class="section-title">
+          <p class="kicker">Syntaxe</p>
+          <h2>Header and directives !muf 4.</h2>
+        </div>
+        <p class="muted-line">The file is a series of blocks; each directive begins with  <code>.</code>  and the blocks close with  <code>..</code>.</p>
+        <p>
+          The header <code>!muf 4</code> is mandatory and locks the grammar version so Steel can parse the file
+          deterministically. After the header, every block defines a scope (workspace, tool, bake, run) and
+          each directive inside that block adds a specific instruction. The parser reads top to bottom and
+          preserves a stable order so the same input always yields the same resolved configuration.
+        </p>
+        <div class="panel wide">
+          <h3>Directive explanations (simple)</h3>
+          <ul>
+            <li><code>!muf 4</code>: syntax version.</li>
+            <li><code>[workspace]</code>: root and globals.</li>
+            <li><code>[profile name]</code>: profile variables.</li>
+            <li><code>[tool name]</code>: tool executable.</li>
+            <li><code>[bake name]</code>: build rule.</li>
+            <li><code>[run tool]</code>: tool invocation.</li>
+            <li><code>[export]</code>: public targets.</li>
+            <li><code>.set</code>: set key/flag.</li>
+            <li><code>.exec</code>: command path.</li>
+            <li><code>.make</code>: input list.</li>
+            <li><code>.needs</code>: dependency.</li>
+            <li><code>.takes</code>: wire inputs.</li>
+            <li><code>.emits</code>: output port.</li>
+            <li><code>.output</code>: output path.</li>
+            <li><code>.include</code>: include path.</li>
+            <li><code>.define</code>: compile define.</li>
+            <li><code>.libdir</code>: library path.</li>
+            <li><code>.lib</code>: link lib.</li>
+            <li><code>.ref</code>: export bake.</li>
+            <li><code>..</code>: end block.</li>
+          </ul>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Header + blocks</h3>
+            <pre><code class="language-text">!muf 4
+
+[workspace]
+  .set name "demo"
+  .set root "."
+..
+
+[tool cc]
+  .exec "cc"
+..
+
+[bake build]
+  .make c_src cglob "src/**/*.c"
+  [run cc]
+    .takes c_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "target/out/app"
+..</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Essential Guidelines</h3>
+            <ul>
+              <li><code>.set</code>: workspace/profile variables or tool flags</li>
+              <li><code>.make &lt;id&gt; &lt;kind&gt; &lt;pattern&gt;</code>: <code>glob</code>/<code>cglob</code>/<code>file</code></li>
+              <li><code>.make &lt;id&gt; &lt;path&gt;</code>: shortcut for  <code>file</code></li>
+              <li><code>.needs &lt;bake&gt;</code>: explicit dependency</li>
+              <li><code>.takes &lt;port&gt; as "@args"</code>: injects the sources</li>
+              <li><code>.emits &lt;port&gt; as "-o"</code>: associates an output</li>
+              <li><code>.include</code>,  <code>.define</code>,  <code>.libdir</code>,  <code>.lib</code>: compilation options</li>
+              <li><code>.output &lt;port&gt; &lt;path&gt;</code>: final exit from the bake</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Blocks available</h3>
+            <ul>
+              <li><code>[workspace]</code>: project root + global variables</li>
+              <li><code>[profile &lt;name&gt;]</code>: variables per profile (debug/release)</li>
+              <li><code>[tool &lt;name&gt;]</code>: definition of an executable tool</li>
+              <li><code>[bake &lt;name&gt;]</code>: build rule with inputs/outputs</li>
+              <li><code>[run &lt;tool&gt;]</code>: tool invocation in a bake</li>
+              <li><code>[export]</code>: list of exported bakes</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Quick rules</h3>
+            <ul>
+              <li><code>!muf 4</code> must be the first line.</li>
+              <li>Blocks always close with <code>..</code>.</li>
+              <li>All paths are relative to <code>root</code>.</li>
+              <li>Globs are expanded in stable order.</li>
+              <li>Variables are referenced as <code>${key}</code>.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Interpretation details</h3>
+            <ul>
+              <li><code>.set &lt;flag&gt; 1|true|yes</code> adds a flag without a value.</li>
+              <li><code>.set &lt;flag&gt; 0|false|no</code> disables that flag.</li>
+              <li><code>.set &lt;flag&gt; &lt;val&gt;</code> writes <code>flag</code> and its value.</li>
+              <li><code>glob</code>/<code>cglob</code> scan from <code>root</code> in stable order.</li>
+              <li><code>.make &lt;id&gt; &lt;path&gt;</code> is the same as <code>file</code>.</li>
+              <li><code>.takes</code> only accepts <code>@args</code>.</li>
+              <li>All relative paths are resolved from <code>root</code>.</li>
+              <li>If no input matches, the bake fails.</li>
+              <li>Skip rebuild when outputs are newer than all inputs.</li>
+              <li>Fingerprinting is disabled with <code>--no-cache</code> or <code>--print</code>.</li>
+              <li>Cache key = profile + toolchain + variables + inputs + outputs.</li>
+              <li>Default run log: <code>target/steel_run_&lt;timestamp&gt;.mff</code>.</li>
+              <li>Config log: <code>steel.log</code> at workspace root.</li>
+              <li>Resolved config: <code>target/steel/config.mub</code>.</li>
+              <li>Execution logs go to <code>target/</code> unless <code>--log</code> is set.</li>
+              <li><code>--log-mode truncate</code> recreates the file; otherwise it appends.</li>
+              <li>Fingerprint files live in <code>.steel-cache/run/&lt;bake&gt;.fp</code>.</li>
+              <li>Fingerprint inputs include profile, toolchain, vars, inputs, outputs.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Quick semantics</h3>
+            <ul>
+              <li>A <code>[bake]</code> defines inputs, a command, and outputs.</li>
+              <li><code>.needs</code> declares dependencies between bakes.</li>
+              <li><code>[export]</code> lists the public bakes.</li>
+              <li>The active profile provides variables via <code>${key}</code>.</li>
+              <li>Outputs are the base for incremental cache checks.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>EBNF (minimal syntax)</h3>
+            <pre><code class="language-text">Block     = WS0 , BlockHead , WS0 , NL , { BlockItem } , WS0 , BlockClose , WS0 , NL ;
+BlockHead = "[" , WS0 , Tag , [ WS1 , Name ] , WS0 , "]" ;
+BlockClose = ".." ;
+Directive = WS0 , "." , Op , { WS1 , Atom } , WS0 , NL ;
+Atom = Ref | String | Number | Name ;</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Lexemes</h3>
+            <ul>
+              <li><code>String</code>: quotes with exhausts  <code>\n</code>,  <code>\r</code>,  <code>\t</code>,  <code>\0</code>,  <code>\xNN</code>,  <code>\uNNNN</code></li>
+              <li><code>Number</code>: <code>+42</code>,  <code>-7</code>,  <code>3.14</code>,  <code>1.2e3</code></li>
+              <li><code>Ref</code>: path  <code>~name/name/...</code></li>
+              <li><code>Name</code>: identifier without space</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>EBNF (extended)</h3>
+            <pre><code class="language-text">File      = Header , { Block } ;
+Header    = "!muf" , WS1 , Number , NL ;
+
+Block     = WS0 , BlockHead , WS0 , NL , { BlockItem } , WS0 , BlockClose , WS0 , NL ;
+BlockHead = "[" , WS0 , Tag , [ WS1 , Name ] , WS0 , "]" ;
+BlockClose = ".." ;
+
+BlockItem = Directive | Block ;
+Directive = WS0 , "." , Op , { WS1 , Atom } , WS0 , NL ;
+Atom      = Ref | String | Number | Name ;</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Tags + Ops</h3>
+            <ul>
+              <li><code>Tag</code>: workspace, profile, tool, bake, run, export</li>
+              <li><code>Op</code>  (common): set, exec, make, takes, emits, output, needs</li>
+              <li><code>Op</code>  (optional): include, define, libdir, lib</li>
+              <li><code>Op</code>  (runner): ref (in export)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Signatures (summary)</h3>
+            <ul>
+              <li><code>.set &lt;key&gt; &lt;value&gt;</code> — set a variable or flag value (ex: <code>.set "-O2" 1</code>).</li>
+              <li><code>.exec &lt;path&gt;</code> — define the tool executable (ex: <code>.exec "cc"</code>).</li>
+              <li><code>.make &lt;id&gt; &lt;kind&gt; &lt;pattern&gt;</code> — declare an input set (kind: <code>glob</code>/<code>cglob</code>/<code>file</code>).</li>
+              <li><code>.make &lt;id&gt; &lt;path&gt;</code> — shorthand for a single file input.</li>
+              <li><code>.needs &lt;bake&gt;</code> — declare a dependency on another bake (ex: <code>.needs lib</code>).</li>
+              <li><code>.takes &lt;port&gt; as "@args"</code> — pass inputs as command-line args.</li>
+              <li><code>.emits &lt;port&gt; as "-o"</code> — map an output port to a flag.</li>
+              <li><code>.output &lt;port&gt; &lt;path&gt;</code> — bind the final output path.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Signatures (options)</h3>
+            <ul>
+              <li><code>.include &lt;path&gt;</code> — add an include path (ex: <code>.include "src"</code>).</li>
+              <li><code>.define &lt;K&gt; [&lt;V&gt;]</code> — set a compile-time define (ex: <code>.define "DEBUG"</code>).</li>
+              <li><code>.libdir &lt;path&gt;</code> — add a library search directory (ex: <code>.libdir "/usr/lib"</code>).</li>
+              <li><code>.lib &lt;name&gt;</code> — link a library by name (ex: <code>.lib "m"</code>).</li>
+              <li><code>.ref &lt;bake&gt;</code> — export a bake from <code>[export]</code>.</li>
+            </ul>
+          </div>
+        </div>
+              <div class="grid two">
+          <div class="panel">
+            <h3>Examples (bake)</h3>
+            <pre><code class="language-text">[bake app]
+  .make c_src cglob "src/**/*.c"
+  .needs lib
+  [run cc]
+    .include "src"
+    .define "DEBUG"
+    .takes c_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "target/out/app"
+..</code></pre>
+          </div>
+          <div class="panel">
+            <h3>Examples (flags)</h3>
+            <pre><code class="language-text">[run cc]
+  .set "-O2" 1
+  .set "-g" 1
+  .libdir "/usr/lib"
+  .lib "m"
+  .takes src as "@args"
+  .emits exe as "-o"
+..</code></pre>
+          </div>
+        </div>
+</section>
 
 
       <section id="examples" class="section">
         <div class="section-title">
           <p class="kicker">Exemples</p>
-          <h2>Top 10 langages compilables.</h2>
+          <h2>Top 10 compilable languages.</h2>
         </div>
+        <p class="muted-line">Header syntax:  <code>!muf 4</code></p>
         <div class="grid three">
           <div class="panel">
             <h3>C</h3>
             <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
 
-[tool cc]
-  .exec "clang"
-  .arg "-Wall"
-  .arg "-Wextra"
+[workspace]
+  .set name "demo-c"
+  .set root "."
+  .set target_dir "examples/c/target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
 ..
 
 [profile release]
   .set opt 2
+  .set debug 0
 ..
 
-[target x86_64-apple-darwin]
-  .set os "macos"
-  .set arch "x86_64"
+[tool cc]
+  .exec "cc"
+..
+
+[bake build_debug]
+  .make c_src cglob "examples/c/src/**/*.c"
+  [run cc]
+    .set "-O${opt}" 1
+    .set "-g" "${debug}"
+    .takes c_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/c/target/out/c_app_debug"
+..
+
+[bake build_release]
+  .make c_src cglob "examples/c/src/**/*.c"
+  [run cc]
+    .set "-O${opt}" 1
+    .set "-g" "${debug}"
+    .takes c_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/c/target/out/c_app_release"
 ..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+            <p class="muted-line">Expected outputs:  <code>examples/c/target/out/c_app_debug</code>,  <code>examples/c/target/out/c_app_release</code></p>
           </div>
           <div class="panel">
             <h3>C++</h3>
             <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
 
-[tool cxx]
-  .exec "clang++"
-  .arg "-std=c++20"
-  .arg "-Wall"
+[workspace]
+  .set name "demo-cpp"
+  .set root "."
+  .set target_dir "examples/cpp/target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
 ..
 
 [profile release]
   .set opt 2
+  .set debug 0
 ..
 
-[target x86_64-apple-darwin]
-  .set os "macos"
-  .set arch "x86_64"
+[tool cxx]
+  .exec "c++"
+..
+
+[bake build_debug]
+  .make cpp_src cglob "examples/cpp/src/**/*.cpp"
+  [run cxx]
+    .set "-std=c++20" 1
+    .set "-O${opt}" 1
+    .set "-g" "${debug}"
+    .takes cpp_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/cpp/target/out/cpp_app_debug"
+..
+
+[bake build_release]
+  .make cpp_src cglob "examples/cpp/src/**/*.cpp"
+  [run cxx]
+    .set "-std=c++20" 1
+    .set "-O${opt}" 1
+    .set "-g" "${debug}"
+    .takes cpp_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/cpp/target/out/cpp_app_release"
 ..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+            <p class="muted-line">Expected outputs:  <code>examples/cpp/target/out/cpp_app_debug</code>,  <code>examples/cpp/target/out/cpp_app_release</code></p>
           </div>
           <div class="panel">
             <h3>Rust</h3>
             <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
+
+[workspace]
+  .set name "demo-rust"
+  .set root "."
+  .set target_dir "examples/rust/target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 2
+..
+
+[profile release]
+  .set opt 2
+  .set debug 0
+..
 
 [tool rustc]
   .exec "rustc"
-  .arg "-C"
-  .arg "opt-level=2"
 ..
 
-[profile release]
-  .set opt 2
+[bake build_debug]
+  .make main file "examples/rust/src/main.rs"
+  [run rustc]
+    .set "-C" "opt-level=${opt}"
+    .set "-C" "debuginfo=${debug}"
+    .takes main as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/rust/target/out/rust_app_debug"
 ..
 
-[target x86_64-unknown-linux-gnu]
-  .set os "linux"
-  .set arch "x86_64"
+[bake build_release]
+  .make main file "examples/rust/src/main.rs"
+  [run rustc]
+    .set "-C" "opt-level=${opt}"
+    .set "-C" "debuginfo=${debug}"
+    .takes main as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/rust/target/out/rust_app_release"
 ..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+            <p class="muted-line">Expected outputs:  <code>examples/rust/target/out/rust_app_debug</code>,  <code>examples/rust/target/out/rust_app_release</code></p>
           </div>
+        </div>
+        <div class="grid three">
           <div class="panel">
             <h3>Go</h3>
             <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
 
-[tool go]
-  .exec "go"
-  .arg "build"
+[workspace]
+  .set name "demo-go"
+  .set root "."
+  .set target_dir "examples/go/target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
 ..
 
 [profile release]
   .set opt 2
+  .set debug 0
 ..
 
-[target x86_64-unknown-linux-gnu]
-  .set os "linux"
-  .set arch "x86_64"
+[tool go]
+  .exec "go"
+..
+
+[bake build_debug]
+  .make go_src cglob "examples/go/cmd/app/**/*.go"
+  [run go]
+    .set "build" 1
+    .set "-gcflags" "all=-N -l"
+    .set "-o" "examples/go/target/out/go_app_debug"
+    .takes go_src as "@args"
+  ..
+  .output exe "examples/go/target/out/go_app_debug"
+..
+
+[bake build_release]
+  .make go_src cglob "examples/go/cmd/app/**/*.go"
+  [run go]
+    .set "build" 1
+    .set "-o" "examples/go/target/out/go_app_release"
+    .takes go_src as "@args"
+  ..
+  .output exe "examples/go/target/out/go_app_release"
 ..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>app.exe</code></p>
+            <p class="muted-line">Expected outputs:  <code>examples/go/target/out/go_app_debug</code>,  <code>examples/go/target/out/go_app_release</code></p>
           </div>
           <div class="panel">
             <h3>Java</h3>
             <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
+
+[workspace]
+  .set name "demo-java"
+  .set root "."
+  .set target_dir "examples/java/target"
+  .set profile "debug"
+..
 
 [tool javac]
   .exec "javac"
-  .arg "-g"
 ..
 
 [tool jar]
@@ -912,19 +1339,267 @@ steel cache clear  [--root &lt;path&gt;] [--json] [-v]</code></pre>
   .set debug 1
 ..
 
-[target x86_64-unknown-linux-gnu]
-  .set os "linux"
-  .set arch "x86_64"
+[profile release]
+  .set opt 2
+  .set debug 0
+..
+
+[bake build_debug]
+  .make java_src cglob "examples/java/src/main/java/**/*.java"
+  [run javac]
+    .set "-g" "${debug}"
+    .set "-d" "examples/java/target/classes"
+    .takes java_src as "@args"
+  ..
+  [run jar]
+    .set "-c" 1
+    .set "-f" "examples/java/target/out/app_debug.jar"
+    .set "-C" "examples/java/target/classes"
+    .set "." 1
+  ..
+  .output jar "examples/java/target/out/app_debug.jar"
+..
+
+[bake build_release]
+  .make java_src cglob "examples/java/src/main/java/**/*.java"
+  [run javac]
+    .set "-d" "examples/java/target/classes"
+    .takes java_src as "@args"
+  ..
+  [run jar]
+    .set "-c" 1
+    .set "-f" "examples/java/target/out/app_release.jar"
+    .set "-C" "examples/java/target/classes"
+    .set "." 1
+  ..
+  .output jar "examples/java/target/out/app_release.jar"
 ..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app.jar</code>, <code>app-cli.jar</code>, <code>app-test.jar</code></p>
+            <p class="muted-line">Expected outputs:  <code>examples/java/target/out/app_debug.jar</code>,  <code>examples/java/target/out/app_release.jar</code></p>
           </div>
+        </div>
+        <div class="grid three">
           <div class="panel">
             <h3>C#</h3>
             <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
+
+[workspace]
+  .set name "demo-csharp"
+  .set root "."
+  .set target_dir "examples/csharp/target"
+  .set profile "release"
+..
 
 [tool dotnet]
   .exec "dotnet"
-  .arg "build"
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile release]
+  .set opt 2
+..
+
+[bake build_debug]
+  .make csproj file "examples/csharp/app.csproj"
+  [run dotnet]
+    .set "build" 1
+    .set "examples/csharp/app.csproj" 1
+    .set "-c" "Debug"
+    .set "-o" "examples/csharp/target/out/debug"
+  ..
+  .output exe "examples/csharp/target/out/debug/app.dll"
+..
+
+[bake build_release]
+  .make csproj file "examples/csharp/app.csproj"
+  [run dotnet]
+    .set "build" 1
+    .set "examples/csharp/app.csproj" 1
+    .set "-c" "Release"
+    .set "-o" "examples/csharp/target/out/release"
+  ..
+  .output exe "examples/csharp/target/out/release/app.dll"
+..</code></pre>
+            <p class="muted-line">Expected outputs:  <code>examples/csharp/target/out/debug/app.dll</code>,  <code>examples/csharp/target/out/release/app.dll</code></p>
+          </div>
+          <div class="panel">
+            <h3>Swift</h3>
+            <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
+
+[workspace]
+  .set name "demo-swift"
+  .set root "."
+  .set target_dir "examples/swift/target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile release]
+  .set opt 2
+..
+
+[tool swiftc]
+  .exec "swiftc"
+..
+
+[bake build_debug]
+  .make swift_src cglob "examples/swift/Sources/**/*.swift"
+  [run swiftc]
+    .set "-g" 1
+    .takes swift_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/swift/target/out/swift_app_debug"
+..
+
+[bake build_release]
+  .make swift_src cglob "examples/swift/Sources/**/*.swift"
+  [run swiftc]
+    .set "-O" 1
+    .takes swift_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/swift/target/out/swift_app_release"
+..</code></pre>
+            <p class="muted-line">Expected outputs:  <code>examples/swift/target/out/swift_app_debug</code>,  <code>examples/swift/target/out/swift_app_release</code></p>
+          </div>
+          <div class="panel">
+            <h3>Kotlin</h3>
+            <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
+
+[workspace]
+  .set name "demo-kotlin"
+  .set root "."
+  .set target_dir "examples/kotlin/target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[tool kotlinc]
+  .exec "kotlinc"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[bake build_debug]
+  .make kt_src cglob "examples/kotlin/src/**/*.kt"
+  [run kotlinc]
+    .set "-jvm-target" "17"
+    .set "-include-runtime" 1
+    .set "-d" "examples/kotlin/target/out/app_debug.jar"
+    .takes kt_src as "@args"
+  ..
+  .output jar "examples/kotlin/target/out/app_debug.jar"
+..
+
+[bake build_release]
+  .make kt_src cglob "examples/kotlin/src/**/*.kt"
+  [run kotlinc]
+    .set "-jvm-target" "17"
+    .set "-include-runtime" 1
+    .set "-d" "examples/kotlin/target/out/app_release.jar"
+    .takes kt_src as "@args"
+  ..
+  .output jar "examples/kotlin/target/out/app_release.jar"
+..</code></pre>
+            <p class="muted-line">Expected outputs:  <code>examples/kotlin/target/out/app_debug.jar</code>,  <code>examples/kotlin/target/out/app_release.jar</code></p>
+          </div>
+        </div>
+        <div class="grid three">
+          <div class="panel">
+            <h3>Zig</h3>
+            <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
+
+[workspace]
+  .set name "demo-zig"
+  .set root "."
+  .set target_dir "examples/zig/target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[tool zig]
+  .exec "zig"
+..
+
+[profile release]
+  .set opt 2
+..
+
+[bake build_debug]
+  .make zig_src cglob "examples/zig/src/**/*.zig"
+  [run zig]
+    .set "build-exe" 1
+    .set "-O" "Debug"
+    .set "-femit-bin=examples/zig/target/out/zig_app_debug" 1
+    .takes zig_src as "@args"
+  ..
+  .output exe "examples/zig/target/out/zig_app_debug"
+..
+
+[bake build_release]
+  .make zig_src cglob "examples/zig/src/**/*.zig"
+  [run zig]
+    .set "build-exe" 1
+    .set "-O" "ReleaseSafe"
+    .set "-femit-bin=examples/zig/target/out/zig_app_release" 1
+    .takes zig_src as "@args"
+  ..
+  .output exe "examples/zig/target/out/zig_app_release"
+..</code></pre>
+            <p class="muted-line">Expected outputs:  <code>examples/zig/target/out/zig_app_debug</code>,  <code>examples/zig/target/out/zig_app_release</code></p>
+          </div>
+          <div class="panel">
+            <h3>OCaml</h3>
+            <pre><code class="language-text">!muf 4
+;; Exemple complet: build_debug/build_release + sorties ciblees
+
+[workspace]
+  .set name "demo-ocaml"
+  .set root "."
+  .set target_dir "examples/ocaml/target"
+  .set profile "release"
+..
+
+[tool ocamlc]
+  .exec "ocamlc"
+..
+
+[tool ocamlopt]
+  .exec "ocamlopt"
 ..
 
 [profile debug]
@@ -932,92 +1607,37 @@ steel cache clear  [--root &lt;path&gt;] [--json] [-v]</code></pre>
   .set debug 1
 ..
 
-[target x86_64-unknown-linux-gnu]
-  .set os "linux"
-  .set arch "x86_64"
-..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app.exe</code>, <code>app.dll</code>, <code>app_debug.exe</code>, <code>app_release.exe</code>, <code>app-cli.exe</code>, <code>app-test.exe</code></p>
-          </div>
-          <div class="panel">
-            <h3>Swift</h3>
-            <pre><code class="language-text">!muf 4
-
-[tool swiftc]
-  .exec "swiftc"
-  .arg "-O"
-..
-
 [profile release]
   .set opt 2
+  .set debug 0
 ..
 
-[target x86_64-apple-darwin]
-  .set os "macos"
-  .set arch "x86_64"
+[bake build_debug]
+  .make ml_src cglob "examples/ocaml/ultra/src/**/*.ml"
+  [run ocamlc]
+    .set "-g" 1
+    .set "-I" "examples/ocaml/ultra/src"
+    .set "-I" "+unix"
+    .set "unix.cma" 1
+    .takes ml_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/ocaml/target/out/ocaml_app_debug"
+..
+
+[bake build_release]
+  .make ml_src cglob "examples/ocaml/ultra/src/**/*.ml"
+  [run ocamlopt]
+    .set "-O2" 1
+    .set "-I" "examples/ocaml/ultra/src"
+    .set "-I" "+unix"
+    .set "unix.cmxa" 1
+    .takes ml_src as "@args"
+    .emits exe as "-o"
+  ..
+  .output exe "examples/ocaml/target/out/ocaml_app_release"
 ..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>app.exe</code></p>
-          </div>
-          <div class="panel">
-            <h3>Kotlin</h3>
-            <pre><code class="language-text">!muf 4
-
-[tool kotlinc]
-  .exec "kotlinc"
-  .arg "-jvm-target"
-  .arg "17"
-..
-
-[profile release]
-  .set opt 2
-..
-
-[target x86_64-unknown-linux-gnu]
-  .set os "linux"
-  .set arch "x86_64"
-..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app.jar</code>, <code>app-cli.jar</code>, <code>app-test.jar</code></p>
-          </div>
-          <div class="panel">
-            <h3>Zig</h3>
-            <pre><code class="language-text">!muf 4
-
-[tool zig]
-  .exec "zig"
-  .arg "build"
-..
-
-[profile release]
-  .set opt 2
-..
-
-[target x86_64-unknown-linux-gnu]
-  .set os "linux"
-  .set arch "x86_64"
-..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>app.exe</code></p>
-          </div>
-          <div class="panel">
-            <h3>OCaml</h3>
-            <pre><code class="language-text">!muf 4
-
-[tool ocamlc]
-  .exec "ocamlc"
-  .arg "-O2"
-..
-
-[tool ocamlopt]
-  .exec "ocamlopt"
-..
-
-[profile release]
-  .set opt 2
-..
-
-[target x86_64-apple-darwin]
-  .set os "macos"
-  .set arch "x86_64"
-..</code></pre>
-            <p class="muted-line">Sorties attendues: <code>app</code>, <code>app_debug</code>, <code>app_release</code>, <code>app-cli</code>, <code>app-test</code>, <code>libapp.a</code>, <code>libapp.so</code>/<code>libapp.dylib</code>, <code>app.exe</code></p>
+            <p class="muted-line">Expected outputs:  <code>examples/ocaml/target/out/ocaml_app_debug</code>,  <code>examples/ocaml/target/out/ocaml_app_release</code></p>
           </div>
         </div>
       </section>
@@ -1025,41 +1645,40 @@ steel cache clear  [--root &lt;path&gt;] [--json] [-v]</code></pre>
       <section id="recap" class="section">
         <div class="section-title">
           <p class="kicker">Recap</p>
-          <h2>Une config unique, une sortie canonique.</h2>
+          <h2>A unique config, a canonical output.</h2>
         </div>
         <div class="grid two">
           <div class="panel">
-            <h3>Pourquoi Steel</h3>
+            <h3>Why Steel</h3>
             <p>
-              Steel separe la configuration de l'execution. L'objectif est de rendre
-              le build portable, observable et reproductible, quel que soit le langage
-              ou la machine.
+                            Steel separates configuration from execution. The objective is to make
+              the portable, observable and reproducible build, whatever the language
+              or the machine.
             </p>
             <ul>
-              <li>Configuration declarative, explicite et stable</li>
-              <li>Artefact canonique pour audit, CI et debug</li>
-              <li>Introspection native (print/graph/why)</li>
+              <li>Declarative, explicit and stable configuration</li>
+              <li>Canonical artifact for audit, CI and debug</li>
+              <li>Native introspection (print/graph)</li>
             </ul>
-          </div>
-          <div class="panel">
-            <h3>Ce que Steel fournit</h3>
-            <p>
-              Steel produit un artefact fige, normalise, et versionne pour executer
-              un DAG de build sans ambiguite.
-            </p>
-            <div class="callout">
-              <span class="callout-label">Contrat</span>
-              <span><code>steel.log</code> est la verite unique.</span>
-            </div>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>Steel Wiki — modele declaratif et deterministe.</p>
+      <p>Steel Wiki — declarative and deterministic model.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/highlight.min.js"></script>
+    <script>
+      document.querySelectorAll("pre code").forEach((block) => {
+        const text = block.textContent || "";
+        if (text.includes("!muf 4")) {
+          block.classList.add("language-json");
+          hljs.highlightElement(block);
+        }
+      });
+    </script>
     <script>
       mermaid.initialize({
         startOnLoad: true,
@@ -1077,7 +1696,6 @@ steel cache clear  [--root &lt;path&gt;] [--json] [-v]</code></pre>
           fontFamily: "IBM Plex Sans, Segoe UI, sans-serif",
         },
       });
-    </script>
-    <script src="app.js"></script>
+    </script>    <script src="app.js"></script>
   </body>
 </html>
