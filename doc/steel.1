@@ -1,0 +1,404 @@
+.TH MUFFIN 1 "2026-01-08" "Steel" "Commandes utilisateur"
+.
+." -------------------------------------------------------------------------
+." Steel manpage
+." -------------------------------------------------------------------------
+.
+.SH NOM
+steel \- configuration de build déclarative (génère steelconfig.mff + steel.log)
+.
+.SH SYNOPSIS
+.B steel
+.RI <commande> " " [ options ]
+.
+.PP
+Exemples rapides :
+.PP
+.nf
+steel help
+steel --help
+steel version
+
+steel
+steel build steelconf
+
+steel resolve --file steelconf --emit ./out/steelconfig.mff
+steel check --file steelconf
+steel print --file steelconf
+steel run --root . --file steelconf
+steel run --root . --file steelconf --print
+steel doctor --root .
+steel cache status --root .
+steel cache clear --root .
+.fi
+.
+.SH DESCRIPTION
+.B Steel
+est la couche de \fBconfiguration déclarative\fP du build.
+Elle décrit un \fIworkspace\fP (packages, profils, toolchains, targets) et produit une configuration résolue, stable et outillable.
+
+Le rôle de Steel est de :
+.IP \[bu] 2
+\fBparser\fP et \fBvalider\fP la configuration,
+.IP \[bu] 2
+\fBrésoudre\fP valeurs et sélections (defaults, héritages, overrides),
+.IP \[bu] 2
+\fBfiger\fP un artefact canonique \fBsteelconfig.mff\fP,
+.IP \[bu] 2
+\fBjournaliser\fP la build dans \fBsteel.log\fP,
+.IP \[bu] 2
+permettre l'introspection (sorties lisibles / DOT),
+.IP \[bu] 2
+assurer une séparation stricte \fBconfig\fP vs \fBexécution\fP.
+
+Steel vise :
+.IP \[bu] 2
+reproductibilité (config stable),
+.IP \[bu] 2
+portabilité (multi-OS/arch),
+.IP \[bu] 2
+incrémental (rebuild minimal déterministe),
+.IP \[bu] 2
+introspection (graph/print),
+.IP \[bu] 2
+sécurité d'exécution via politiques (capsule/store, selon impl).
+.
+
+.SH COMMANDES
+Steel expose une surface CLI centrée sur la configuration (parse/validation/résolution), l'exécution des tools et l'observabilité.
+
+.SS Aide et version
+.TP
+.B help, -h, --help
+Affiche l'aide générale.
+
+.TP
+.B version, -V, --version
+Affiche la version de Steel.
+
+.SS Configuration
+.TP
+.B steel
+Valide et résout la configuration décrite par \fBsteelconf\fP, puis émet \fBsteelconfig.mff\fP et \fBsteel.log\fP.
+Le fichier attendu est \fBsteelconf\fP à la racine du workspace.
+
+.TP
+.B resolve [options]
+Alias de \fBsteel\fP (émet \fBsteelconfig.mff\fP + \fBsteel.log\fP).
+
+.TP
+.B check [options]
+Validation best-effort : émet \fBsteelconfig.mff\fP sous \fB.steel-cache/check/\fP puis supprime si possible.
+En mode \fB--strict\fP, l'échec de nettoyage est une erreur.
+
+.TP
+.B print [options]
+Émet puis affiche \fBsteelconfig.mff\fP sur stdout.
+
+.SS Execution
+.TP
+.B run [options]
+Exécute les \fB[run <tool>]\fP de \fBsteelconf\fP, avec support multi-bakes et deps.
+Voir OPTIONS RUN.
+
+.SS Observabilite
+.TP
+.B doctor [options]
+Diagnostics d'environnement (config, tools, PATH). Supporte \fB--json\fP.
+
+.TP
+.B cache <status|clear> [options]
+Affiche l'etat du cache ou le supprime. Supporte \fB--json\fP.
+
+.SS Outils (stub)
+.TP
+.B graph
+Export de graphe (stub). Options : \fB--root\fP, \fB--text\fP, \fB--dot\fP, \fB-v\fP.
+
+.TP
+.B fmt
+Formatter steelconf (stub). Options : \fB--check\fP, \fB-v\fP.
+.
+.SH OPTIONS
+Aucune option pour \fBsteel\fP : tout est lu depuis \fBsteelconf\fP.
+
+.SH OPTIONS RUN
+Options principales de \fBsteel run\fP :
+
+.TP
+.B --root <path>
+Racine du workspace (défaut : répertoire courant).
+
+.TP
+.B --file <path>
+Fichier \fBsteelconf\fP explicite (défaut : \fBsteelconf\fP sous \fB--root\fP).
+
+.TP
+.B --profile <name>
+Profil selectionne (defaut : workspace.profile ou \fBdebug\fP).
+
+.TP
+.B --toolchain <path>
+Repertoire de toolchain (prioritaire sur \fBPATH\fP pour la resolution des tools).
+
+.TP
+.B --bake <name>
+Selection d'un bake (option repeatable).
+
+.TP
+.B --all
+Execute tous les bakes (avec deps).
+
+.TP
+.B --print
+Dry-run : affiche les commandes sans les executer.
+
+.TP
+.B --no-cache
+Desactive le skip incrementale.
+
+.TP
+.B --log <path>
+Ecrit un log \fB.mff\fP a l'emplacement indique.
+
+.TP
+.B --log-mode <append|truncate>
+Mode d'ecriture du log (append par defaut).
+
+.TP
+.B -v, --verbose
+Diagnostics verbeux.
+
+.SH FICHIERS
+.TP
+.I steelconf
+Fichier de configuration Steel (à fournir explicitement à \fBbuild\fP, \fBresolve\fP, \fBcheck\fP, \fBprint\fP).
+
+.TP
+.I steelconfig.mff
+Artefact généré (configuration résolue).
+
+.TP
+.I steel.log
+Log de build (horodatage, statut, erreurs).
+
+.TP
+.I dist/
+Répertoire de sortie recommandé (par profil), ex : \fIdist/debug\fP, \fIdist/release\fP.
+
+.TP
+.I .steel/
+Répertoire interne recommandé (cache/store/état), selon implémentation.
+.
+.SH ENVIRONNEMENT
+Variables d'environnement usuelles (conventions) :
+
+.TP
+.B MUFFIN_PROFILE, MUFFIN_TARGET, MUFFIN_EMIT
+Ignorées pour \fBsteel\fP (tout est dans \fBsteelconf\fP).
+
+.TP
+.B MUFFIN_OFFLINE
+Si défini, active le mode offline.
+
+.TP
+.B MUFFIN_FINGERPRINT_TIME
+Si défini, ajoute un marqueur temporel dans l'empreinte.
+
+.TP
+.B PATH
+S'assurer que \fBsteel\fP est accessible (ou utiliser \fB./steel\fP depuis la racine).
+.
+.SH FORMAT DU FICHIER MUF (APERÇU)
+Le format MUF v4.1 est oriente blocs \fB[bloc]\fP et se termine par \fB..\fP.
+Commentaires : \fB;; ...\fP. Header : \fB!muf 4\fP.
+
+Exemple minimal (MUF v4.1) :
+
+.nf
+!muf 4
+
+[workspace]
+  .set name "app"
+  .set profile "debug"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
+  .set ndebug 0
+..
+
+[tool gcc]
+  .exec "gcc"
+..
+
+[bake app]
+  .make c_src cglob "src/**/*.c"
+  [run gcc]
+    .takes c_src as "@args"
+    .set "-O${opt}" 1
+    .set "-g" "${debug}"
+    .set "-DNDEBUG" "${ndebug}"
+    .emits exe as "-o"
+  ..
+  .output exe "target/out/app"
+..
+
+[export]
+  .ref app
+..
+.fi
+
+Champs typiques :
+.IP \[bu] 2
+\fBstore\fP : politique de cache (content/mtime/off),
+.IP \[bu] 2
+\fBprofile\fP : paramètres (optimisation, debug, features),
+.IP \[bu] 2
+\fBtool\fP : exécutable déclaratif (version, sandbox, capsule),
+.IP \[bu] 2
+\fBbake\fP : nœud du DAG (ports in/out, actions, cache, outputs),
+.IP \[bu] 2
+\fBwire\fP : connexions explicites entre ports,
+.IP \[bu] 2
+\fBexport\fP : outputs buildables via \fB-all\fP,
+.IP \[bu] 2
+\fBplan\fP : scénarios d'exécution.
+.
+.SH FORMAT STEELCONFIG.MFF (APERÇU)
+\fBsteelconfig.mff\fP est généré et doit être \fBstable\fP et \fBfacile à consommer\fP.
+Il contient la configuration résolue (host, profile, target, paths, toolchains, valeurs finales, empreintes d'invalidation).
+
+Exemple (indicatif) :
+
+.nf
+mff 1
+
+host
+  os "linux"
+  arch "x86_64"
+.end
+
+profile "debug"
+
+target
+  name "app"
+.end
+
+paths
+  root "/path/to/repo"
+  dist "dist"
+.end
+.fi
+.
+.SH LOGS D'EXECUTION (RUN)
+Le runner ecrit un log \fB.mff\fP lisible par machine et humain, par defaut dans
+\fBtarget/steel_run_<timestamp>.mff\fP.
+
+Exemple (extrait) :
+
+.nf
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-10T04:16:37Z"
+..
+
+[bake log "app"]
+output "target/out/app"
+sources_count 1
+source "app/main.c"
+[run log]
+ts 1768018597
+ts_iso "2026-01-10T04:16:37Z"
+duration_ms 72
+cmd "gcc -std=c17 -O0 -g -Wall -Wextra app/main.c -o target/out/app"
+status 0
+ok true
+..
+runs 1
+duration_ms 72
+..
+[run summary]
+ts_iso "2026-01-10T04:16:37Z"
+..
+.fi
+.
+.SH RÉSOLUTION DE FICHIERS (glob)
+Les expansions filesystem doivent être \fBdéterministes\fP :
+.IP \[bu] 2
+tri lexicographique,
+.IP \[bu] 2
+normalisation des séparateurs,
+.IP \[bu] 2
+déduplication,
+.IP \[bu] 2
+liste figée dans \fBsteelconfig.mff\fP.
+.
+.SH EXEMPLES
+.TP
+Valider/résoudre et générer \fBsteelconfig.mff\fP :
+.nf
+steel
+.fi
+
+.TP
+Afficher la config résolue :
+.nf
+steel print --file steelconf
+steel graph --root . --dot
+.fi
+
+.TP
+Executer un bake :
+.nf
+steel run --root . --file steelconf --bake app
+.fi
+
+.TP
+Observabilite :
+.nf
+steel doctor --root .
+steel cache status --root .
+steel cache clear --root .
+.fi
+
+.SH CODES DE SORTIE
+.TP
+.B 0
+Succès.
+
+.TP
+.B 1
+Erreur de configuration (build/resolve).
+
+.TP
+.B 2
+Erreur d'usage ou de config (runner).
+
+.TP
+.B 3
+Erreur d'execution de tool.
+
+.TP
+.B 4
+Erreur I/O.
+.
+.SH NOTES D'IMPLÉMENTATION
+Une implémentation conforme doit :
+.IP \[bu] 2
+supporter les blocs \fB[...]\fP et fins \fB..\fP,
+.IP \[bu] 2
+fournir des diagnostics (fichier, ligne, colonne),
+.IP \[bu] 2
+garantir une résolution sérialisable en \fBsteelconfig.mff\fP,
+.IP \[bu] 2
+garantir que l'expansion des fichiers (glob) est portable et déterministe.
+.
+.SH VOIR AUSSI
+.BR steel (1)
+
+.SH AUTEUR
+Projet Steel.
