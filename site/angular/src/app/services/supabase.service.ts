@@ -20,20 +20,27 @@ function readEnv(): EnvConfig {
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
-  private client: SupabaseClient;
+  private client: SupabaseClient | null;
 
   constructor() {
     const env = readEnv();
+    if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+      this.client = null;
+      return;
+    }
     this.client = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY, {
       auth: { persistSession: true }
     });
   }
 
-  getClient(): SupabaseClient {
+  getClient(): SupabaseClient | null {
     return this.client;
   }
 
   async signIn(email: string, password: string): Promise<string | null> {
+    if (!this.client) {
+      return 'Auth not configured';
+    }
     const { data, error } = await this.client.auth.signInWithPassword({ email, password });
     if (error) {
       return error.message;
@@ -45,6 +52,9 @@ export class SupabaseService {
   }
 
   async signInWithProvider(provider: OAuthProvider): Promise<string | null> {
+    if (!this.client) {
+      return 'Auth not configured';
+    }
     const { error } = await this.client.auth.signInWithOAuth({
       provider,
       options: { redirectTo: window.location.origin }
@@ -53,10 +63,16 @@ export class SupabaseService {
   }
 
   async signOut(): Promise<void> {
+    if (!this.client) {
+      return;
+    }
     await this.client.auth.signOut();
   }
 
   async resetPassword(email: string): Promise<string | null> {
+    if (!this.client) {
+      return 'Auth not configured';
+    }
     const { error } = await this.client.auth.resetPasswordForEmail(email, {
       redirectTo: window.location.origin
     });
@@ -64,11 +80,17 @@ export class SupabaseService {
   }
 
   async getAccessToken(): Promise<string | null> {
+    if (!this.client) {
+      return null;
+    }
     const { data } = await this.client.auth.getSession();
     return data.session?.access_token ?? null;
   }
 
   async getUserEmail(): Promise<string | null> {
+    if (!this.client) {
+      return null;
+    }
     const { data } = await this.client.auth.getUser();
     return data.user?.email ?? null;
   }
