@@ -1,0 +1,61 @@
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Admin</p>
+    <h2>Moderation & stats</h2>
+    <p class="section-lead">Login required to manage comments and stats.</p>
+  </div>
+
+  <article class="panel">
+    <form class="form" (submit)="login(); $event.preventDefault();">
+      <label>
+        <span>Email</span>
+        <input type="email" [(ngModel)]="email" name="email" />
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" [(ngModel)]="password" name="password" />
+      </label>
+      <div class="form-actions">
+        <button class="btn primary" type="submit">Login</button>
+        <button class="btn ghost" type="button" (click)="logout()">Logout</button>
+        <button class="btn ghost" type="button" (click)="resetPassword()">Forgot password</button>
+      </div>
+      <p class="hint">Or continue with</p>
+      <div class="form-actions">
+        <button class="btn ghost" type="button" (click)="signInWithProvider('github')">GitHub</button>
+        <button class="btn ghost" type="button" (click)="signInWithProvider('google')">Google</button>
+        <button class="btn ghost" type="button" (click)="signInWithProvider('azure')">Microsoft</button>
+      </div>
+      <p class="hint" *ngIf="status">{{ status }}</p>
+    </form>
+  </article>
+</section>
+
+<section class="section" *ngIf="hasAccess">
+  <div class="section-head">
+    <p class="eyebrow">Stats</p>
+    <h2>Page views</h2>
+  </div>
+  <div class="card-grid three">
+    <article class="panel" *ngFor="let stat of stats">
+      <p class="hint">{{ stat.page }}</p>
+      <h3>{{ stat.views }}</h3>
+      <p>Views</p>
+    </article>
+  </div>
+</section>
+
+<section class="section" *ngIf="hasAccess">
+  <div class="section-head">
+    <p class="eyebrow">Moderation</p>
+    <h2>Pending comments</h2>
+  </div>
+  <div class="card-grid two">
+    <article class="panel" *ngFor="let comment of comments">
+      <p class="hint">{{ comment.created_at | date: 'mediumDate' }} · {{ comment.page }}</p>
+      <h3>{{ comment.author }}</h3>
+      <p>{{ comment.message }}</p>
+      <button class="btn primary" type="button" (click)="approve(comment.id)">Approve</button>
+    </article>
+  </div>
+</section>

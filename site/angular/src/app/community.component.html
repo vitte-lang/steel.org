@@ -1,0 +1,70 @@
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.community.eyebrow }}</p>
+    <h2>{{ t.community.title }}</h2>
+    <p class="section-lead">{{ t.community.lead }}</p>
+  </div>
+  <div class="card-grid three">
+    <article class="panel" *ngFor="let card of t.community.cards">
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.text }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.community.linksTitle }}</p>
+    <h2>{{ t.community.linksTitle }}</h2>
+  </div>
+  <div class="card-grid two">
+    <article class="panel" *ngFor="let link of t.community.links">
+      <p>{{ link }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Contact</p>
+    <h2>Send a message</h2>
+    <p class="section-lead">Login required to send a message.</p>
+  </div>
+  <article class="panel">
+    <form class="form" (submit)="submitMessage(); $event.preventDefault();">
+      <label>
+        <span>Email</span>
+        <input type="email" [(ngModel)]="messageEmail" name="messageEmail" />
+      </label>
+      <label class="honeypot">
+        <span>Website</span>
+        <input type="text" [(ngModel)]="messageWebsite" name="messageWebsite" autocomplete="off" />
+      </label>
+      <label>
+        <span>Message</span>
+        <textarea rows="4" [(ngModel)]="messageText" name="messageText"></textarea>
+      </label>
+      <button class="btn primary" type="submit">Send</button>
+      <p class="hint">Or continue with</p>
+      <div class="form-actions">
+        <button class="btn ghost" type="button" (click)="signInWithProvider('github')">GitHub</button>
+        <button class="btn ghost" type="button" (click)="signInWithProvider('google')">Google</button>
+        <button class="btn ghost" type="button" (click)="signInWithProvider('azure')">Microsoft</button>
+      </div>
+      <p class="hint" *ngIf="messageStatus">{{ messageStatus }}</p>
+    </form>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.faq.eyebrow }}</p>
+    <h2>{{ t.faq.title }}</h2>
+  </div>
+  <div class="card-grid two">
+    <article class="panel" *ngFor="let item of t.faq.items">
+      <h3>{{ item.q }}</h3>
+      <p>{{ item.a }}</p>
+    </article>
+  </div>
+</section>
