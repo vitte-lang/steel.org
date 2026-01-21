@@ -1,6 +1,6 @@
 [build]
   base = "site/angular"
-  publish = "site/site/browser"
+  publish = "../site/browser"
   command = "npm run build:site"
 
 [functions]
