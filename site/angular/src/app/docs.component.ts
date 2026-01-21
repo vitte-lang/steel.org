@@ -268,14 +268,6 @@ int add(int a, int b) {
     return this.buildIssues.filter((issue) => issue.level === this.issueFilter);
   }
 
-  get errorCount(): number {
-    return this.countIssues('error');
-  }
-
-  get warnCount(): number {
-    return this.countIssues('warn');
-  }
-
   setIssueFilter(filter: 'all' | 'error' | 'warn'): void {
     this.issueFilter = filter;
   }
@@ -548,9 +540,5 @@ int add(int a, int b) {
   private getLine(content: string, line: number): string {
     const lines = content.split('\n');
     return lines[line - 1] || '';
-  }
-
-  private countIssues(level: BuildIssue['level']): number {
-    return this.buildIssues.filter((issue) => issue.level === level).length;
   }
 }

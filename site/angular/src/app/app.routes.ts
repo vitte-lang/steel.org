@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { adminGuard } from './guards/admin.guard';
-
 export const routes: Routes = [
   {
     path: '',
@@ -38,11 +36,6 @@ export const routes: Routes = [
   {
     path: 'status',
     loadComponent: () => import('./status.component').then((m) => m.StatusComponent)
-  },
-  {
-    path: 'admin',
-    loadComponent: () => import('./admin.component').then((m) => m.AdminComponent),
-    canActivate: [adminGuard]
   },
   { path: '**', redirectTo: '' }
 ];
