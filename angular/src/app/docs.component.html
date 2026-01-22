@@ -119,7 +119,7 @@
               [class.active]="issueFilter === 'error'"
               (click)="setIssueFilter('error')"
             >
-              Errors ({{ buildIssues.filter(i => i.level === 'error').length }})
+              Errors ({{ errorCount }})
             </button>
             <button
               class="filter-btn"
@@ -127,7 +127,7 @@
               [class.active]="issueFilter === 'warn'"
               (click)="setIssueFilter('warn')"
             >
-              Warnings ({{ buildIssues.filter(i => i.level === 'warn').length }})
+              Warnings ({{ warnCount }})
             </button>
           </div>
         </div>
