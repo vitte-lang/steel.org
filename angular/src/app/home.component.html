@@ -1,0 +1,85 @@
+<section class="hero-slab">
+  <div class="hero-copy">
+    <p class="eyebrow">{{ t.hero.eyebrow }}</p>
+    <h1>{{ t.hero.title }}</h1>
+    <p class="subhead">{{ t.hero.lead }}</p>
+    <div class="cta-row">
+      <a class="btn primary" routerLink="/downloads">{{ t.hero.primary }}</a>
+      <a class="btn ghost" routerLink="/docs">{{ t.hero.ghost }}</a>
+    </div>
+    <div class="trust-row">
+      <span class="pill" *ngFor="let pill of t.hero.pills">{{ pill }}</span>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="card-header">
+      <p class="card-title">{{ t.hero.cardTitle }}</p>
+      <span class="card-tag">{{ t.hero.cardTag }}</span>
+    </div>
+    <ol class="steps">
+      <li *ngFor="let step of t.hero.steps">{{ step }}</li>
+    </ol>
+    <div class="terminal">
+      <div class="terminal-top">steel@mymachine$</div>
+      <pre><code>steel --version
+steel 0.1.0_test</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.about.eyebrow }}</p>
+    <h2>{{ t.about.title }}</h2>
+  </div>
+  <div class="card-grid three">
+    <article class="panel" *ngFor="let card of t.about.cards">
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.text }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="showcase">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.showcase.eyebrow }}</p>
+    <h2>{{ t.showcase.title }}</h2>
+    <p class="section-lead">{{ t.showcase.lead }}</p>
+  </div>
+  <div class="card-grid three">
+    <article class="panel" *ngFor="let card of t.showcase.cards">
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.text }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="examples">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.examples.eyebrow }}</p>
+    <h2>{{ t.examples.title }}</h2>
+    <p class="section-lead">{{ t.examples.lead }}</p>
+  </div>
+  <div class="card-grid three">
+    <article class="panel terminal" *ngFor="let example of examples">
+      <h3>{{ example.title }}</h3>
+      <pre><code>{{ example.code }}</code></pre>
+    </article>
+  </div>
+  <div class="section-actions">
+    <a class="btn ghost" routerLink="/docs">{{ t.examples.browseAll }}</a>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.faq.eyebrow }}</p>
+    <h2>{{ t.faq.title }}</h2>
+  </div>
+  <div class="card-grid two">
+    <article class="panel" *ngFor="let item of t.faq.items.slice(0, 4)">
+      <h3>{{ item.q }}</h3>
+      <p>{{ item.a }}</p>
+    </article>
+  </div>
+</section>

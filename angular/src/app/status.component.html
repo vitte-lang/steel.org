@@ -1,0 +1,36 @@
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.status.eyebrow }}</p>
+    <h2>{{ t.status.title }}</h2>
+    <p class="section-lead">{{ t.status.lead }}</p>
+  </div>
+
+  <div class="card-grid three">
+    <article class="panel" *ngFor="let metric of t.status.metrics">
+      <p class="hint">{{ metric.label }}</p>
+      <h3>{{ metric.value }}</h3>
+    </article>
+  </div>
+
+  <div class="card-grid three">
+    <article class="panel" *ngFor="let item of t.status.services">
+      <p class="hint">{{ item.state }}</p>
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.text }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.status.historyTitle }}</p>
+    <h2>{{ t.status.historyTitle }}</h2>
+  </div>
+  <div class="card-grid two">
+    <article class="panel" *ngFor="let incident of t.status.history">
+      <p class="hint">{{ incident.date }}</p>
+      <h3>{{ incident.title }}</h3>
+      <p>{{ incident.text }}</p>
+    </article>
+  </div>
+</section>
