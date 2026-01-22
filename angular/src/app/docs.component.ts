@@ -268,6 +268,14 @@ int add(int a, int b) {
     return this.buildIssues.filter((issue) => issue.level === this.issueFilter);
   }
 
+  get errorCount(): number {
+    return this.buildIssues.filter((issue) => issue.level === 'error').length;
+  }
+
+  get warnCount(): number {
+    return this.buildIssues.filter((issue) => issue.level === 'warn').length;
+  }
+
   setIssueFilter(filter: 'all' | 'error' | 'warn'): void {
     this.issueFilter = filter;
   }

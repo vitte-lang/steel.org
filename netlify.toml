@@ -1,7 +1,7 @@
 [build]
-  base = "angular"
+  base = "../angular"
   command = "npm run build:site"
-  publish = "../site"
+  publish = "../site/browser"
   functions = "netlify/functions"
 
 [build.environment]

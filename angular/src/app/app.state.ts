@@ -48,6 +48,7 @@ type I18n = {
     macHint: string;
     otherTitle: string;
     otherDesc: string;
+    windowsButton: string;
     otherHint: string;
     quickInstall: string;
   };
@@ -145,6 +146,8 @@ type I18n = {
 
 const DOWNLOAD_MAC_URL =
   'https://github.com/vitte-lang/steel.org/releases/download/Steel-0.1.0-1.2026/steel-0.1.0-MacOS_universal_test.pkg';
+const DOWNLOAD_WINDOWS_URL =
+  'https://github.com/vitte-lang/steel.org/releases/download/Steel-0.1.0-1.2026/Steel-0.1.0-WindowsX86_64-windows.exe';
 
 const I18N: Record<LangKey, I18n> = {
   en: {
@@ -179,6 +182,7 @@ const I18N: Record<LangKey, I18n> = {
       macHint: 'File type: .pkg',
       otherTitle: 'Windows + Linux',
       otherDesc: 'In progress.',
+      windowsButton: 'Download Steel for Windows',
       otherHint: 'Windows: .exe — Linux: .deb',
       quickInstall: 'Quick install'
     },
@@ -429,6 +433,7 @@ const I18N: Record<LangKey, I18n> = {
       macHint: 'Type: .pkg',
       otherTitle: 'Windows + Linux',
       otherDesc: 'En cours.',
+      windowsButton: 'Telecharger Steel pour Windows',
       otherHint: 'Windows: .exe — Linux: .deb',
       quickInstall: 'Installation rapide'
     },
@@ -679,6 +684,7 @@ const I18N: Record<LangKey, I18n> = {
       macHint: 'Dateityp: .pkg',
       otherTitle: 'Windows + Linux',
       otherDesc: 'In Arbeit.',
+      windowsButton: 'Steel fur Windows herunterladen',
       otherHint: 'Windows: .exe — Linux: .deb',
       quickInstall: 'Schnellinstallation'
     },
@@ -929,6 +935,7 @@ const I18N: Record<LangKey, I18n> = {
       macHint: 'Tipo file: .pkg',
       otherTitle: 'Windows + Linux',
       otherDesc: 'In corso.',
+      windowsButton: 'Scarica Steel per Windows',
       otherHint: 'Windows: .exe — Linux: .deb',
       quickInstall: 'Installazione rapida'
     },
@@ -1206,6 +1213,7 @@ export class AppState {
   readonly lang = signal<LangKey>('en');
   readonly t = computed(() => I18N[this.lang()]);
   readonly downloadUrl = DOWNLOAD_MAC_URL;
+  readonly windowsDownloadUrl = DOWNLOAD_WINDOWS_URL;
   readonly examples = [...CORE_EXAMPLES, ...EXTRA_EXAMPLES];
 
   setLang(lang: LangKey): void {
