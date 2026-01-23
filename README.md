@@ -2,7 +2,7 @@
 
 ![Steel](https://img.shields.io/badge/Steel-config-orange)
 
-Steel est la couche de configuration **declarative** du build Vitte. Il **lit**, **valide** et **resout** un workspace (packages, profils, toolchains, targets), puis **genere un artefact stable** (`steel.log` / `steelconfig.mff`). Vitte consomme cet artefact pour appliquer les regles de build et executer les etapes de compilation de facon deterministe.
+Steel est la couche de configuration **declarative** du build. Il **lit**, **valide** et **resout** un workspace (packages, profils, toolchains, targets), puis **genere un artefact stable** (`steel.log` / `steelconfig.mff`). Vitte consomme cet artefact pour appliquer les regles de build et executer les etapes de compilation de facon deterministe.
 
 
 ## Points forts
@@ -70,8 +70,7 @@ Commandes (details dans `doc/manifest.md`, liste rapide: `doc/manifest.md#liste-
 
 Exemples:
 ```text
-steel
-steel run --log target/run.mff --log-mode truncate --all
+steel run 
 ```
 
 ## Steel Editor (steecleditor)
@@ -100,10 +99,6 @@ Raccourcis utiles:
 - `Ctrl+R` steel run, `Ctrl+Shift+E` jump run error
 - `Ctrl+Shift+G` glob preview, `Ctrl+Shift+I` insert snippet
 
-Config (optionnel):
-```text
-~/.config/steel/steecleditor.conf
-```
 
 ## SteelLib: import OCaml
 
@@ -144,10 +139,6 @@ Le pipeline est scinde en deux phases : **Configuration** puis **Construction**.
 
 ## Architecture
 
-### Principe : « Freeze then Build »
-
-- `build steel` = **configure** : validation + resolution + **gel** de la configuration.
-- `build vitte` = **build** : orchestration des étapes + production des artefacts.
 
 
 ### Détection de reconstruction (incrémental)
@@ -156,36 +147,10 @@ Au cœur du pipeline, **Steel** calcule automatiquement **ce qui doit être reco
 
 
 
-Pendant la construction, les sources `*.vitte` sont transformées en artefacts (objets, librairies, exécutables) selon les targets et les règles résolues.
-
-### Segmentation par répertoire (fichiers `*.muff`)
-
-Chaque répertoire du projet peut contenir, à la racine du dossier, un fichier **`main.muff`** (et sa syntaxe associée). Ce fichier décrit à la fois :
-
-- la **configuration locale** (paramètres effectifs, profil/target/toolchain, variables),
-- et les **règles de construction** du dossier (inputs, outputs, liaisons, exécution).
-
-Voir aussi : `doc/toolchain_detection.md`.
-
-Steel fournit les binaires `steel` / `Steel` utilisés pour orchestrer ce flux.
-
-#### Agrégation (fichier maître)
-
-Par défaut, l’ensemble des fichiers `main.muff` présents dans les sous-répertoires peut être **intégré** dans un fichier maître **`master.muff`** à la racine du dépôt. `master.muff` sert de point d’ancrage du build global et permet de déclencher un build workspace tout en conservant une segmentation par dossier.
-
 #### Configuration gelée et artefacts
 
 Lors de la phase de configuration, `steel` / `Steel` peut **générer un fichier `.mff`** (configuration gelée) destiné à une compilation globale. Cette configuration est ensuite utilisée pour produire des artefacts binaires Vitte :
 
-- **`.va`** : sortie de bibliothèque statique (si le dossier ou la target déclare une librairie),
-- **`.vo`** : sortie de compilation standard (artefact de compilation),
-- **Windows** : un exécutable **`.exe`** peut être produit en plus des artefacts `.vo`.
-
-Les fichiers de compilation produisent typiquement des binaires **`.vo`**.
-
-#### Commande de build
-
-La construction d’un dossier (ou du workspace via `master.muff`) s’effectue en exécutant le plan principal, par exemple :
 
 ```text
 Steel build main.muff
@@ -238,28 +203,6 @@ Vitte lit steel.log et :
   └── Gère l'incrémental et le cache
 ```
 
-### Composants principaux
-
-#### Parser (`arscan.rs`, `read.rs`)
-- Analyse lexicale et syntaxique des fichiers Steel
-- Constructs de blocs (workspace, package, profile, target, etc.)
-- Gestion des commentaires et du formatage
-
-#### Validation (`dependancies.rs`, `config.rs`)
-- Vérification de la cohérence globale
-- Résolution des références (packages → targets, targets → toolchains)
-- Validation des contraintes et compatibilités
-
-#### Résolution (`variable.rs`, `expand.rs`, `implicit.rs`)
-- Héritage de profil et application des options
-- Interpolation des variables d'environnement et macros
-- Résolution des valeurs par défaut (implicites)
-
-#### Génération (`interface.rs`, `output.rs`)
-- Sérialisation de la configuration 
-- Export de graphes (texte, DOT, JSON)
-- Génération d'artefacts pour Vitte
-
 ### Modèle de données
 
 **Workspace** (conteneur global)
@@ -311,7 +254,7 @@ Vitte orchestre la phase **construction** à partir de la configuration gelée :
 
 `steelconf` contient une configuration **normalisée** et **explicite** (plus d’implicite côté build). Exemples de champs attendus :
 
-- version de schéma (`mcfg 1`),
+- version de schéma (`! muf4`),
 - host/target (OS/arch/triple),
 - profil sélectionné,
 - chemins (root/build/dist/cache),
@@ -326,11 +269,11 @@ Vitte orchestre la phase **construction** à partir de la configuration gelée :
 ### Build
 
 ```text
-build steel [<plan>] [flags] [-- <args>]
+steel run[<plan>] [flags] [-- <args>]
 ```
 
-- `build steel` : exécute le **plan par défaut** (ex: `default`).
-- `build steel <plan>` : exécute un **plan nommé** (ex: `release`, `ci`, `package`).
+- `steel run steelconfig` : exécute le **plan par défaut** (ex: `default`).
+- `steel run steelconfig` <plan>` : exécute un **plan nommé** (ex: `release`, `ci`, `package`).
 
 #### Flags de build
 
@@ -347,15 +290,17 @@ build steel [<plan>] [flags] [-- <args>]
 Exemples :
 
 ```text
-build steel
-build steel release
-build steel -all
-build steel -debug
-build steel -release -j 16
-build steel -D profile=release -D target=x86_64-apple-darwin
-build steel -why app.exe
-build steel -graph=dot
-build steel -watch
+steel build steelconf
+steel fmt steelconf
+steel doctor steelconf
+steel graph 
+steel ninja
+steel cache
+steel toolchain
+steel editor 
+steel editor-setup
+steel help
+steel version
 ```
 
 ### Validation / émission
