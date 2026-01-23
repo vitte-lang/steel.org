@@ -83,38 +83,6 @@ a {
   display: flex;
   align-items: center;
   gap: 16px;
-  position: relative;
-}
-
-.auth-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.auth-actions .btn {
-  padding: 8px 14px;
-  font-size: 0.85rem;
-}
-
-.auth-toggle,
-.auth-menu {
-  display: none;
-}
-
-.auth-menu {
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 10px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 10px 24px rgba(20, 16, 22, 0.08);
-  position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
-  min-width: 220px;
 }
 
 .brand {
@@ -361,223 +329,87 @@ a {
   margin-top: 0;
 }
 
-.editor-grid {
-  display: grid;
-  gap: 22px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.editor-pane {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.editor-tabs {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.tab-btn {
+.code-editor {
+  width: 100%;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.85);
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-weight: 600;
-  cursor: pointer;
-  color: var(--ink-700);
-}
-
-.tab-btn.active {
-  background: var(--ruby-500);
-  color: #fff;
-  border-color: transparent;
-}
-
-.editor-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.editor-body {
-  position: relative;
-  display: grid;
-  gap: 12px;
-}
-
-.editor-host {
-  height: 320px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
+  border-radius: 12px;
   overflow: hidden;
+  background: #f9f6f1;
+  min-height: 320px;
+  position: relative;
+  z-index: 1;
 }
 
-.build-panel {
-  margin-top: 22px;
+.code-editor .cm-editor {
+  height: 320px;
 }
 
-.build-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
-  gap: 18px;
-  margin-top: 12px;
+.code-editor .cm-scroller {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 }
 
-.build-main {
-  display: grid;
-  gap: 16px;
+.app-shell[dir='rtl'] .code-editor .cm-editor,
+.app-shell[dir='rtl'] pre,
+.app-shell[dir='rtl'] code {
+  direction: ltr;
+  text-align: left;
 }
 
-.build-sidebar {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 14px;
-  background: rgba(255, 255, 255, 0.85);
-  display: grid;
-  gap: 12px;
-  align-content: start;
-}
-
-.sidebar-head {
-  display: grid;
-  gap: 10px;
-}
-
-.filter-row {
+.suggestions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 10px;
 }
 
-.filter-btn {
+.suggestion {
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.9);
-  padding: 6px 10px;
+  background: #fff4f0;
+  color: var(--ink-900);
   border-radius: 999px;
-  font-weight: 600;
+  padding: 6px 10px;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   font-size: 0.8rem;
   cursor: pointer;
-  color: var(--ink-700);
 }
 
-.filter-btn.active {
-  background: var(--ruby-500);
-  color: #fff;
-  border-color: transparent;
+.suggestion:hover {
+  border-color: var(--ruby-400);
+  color: var(--ruby-700);
 }
 
-.build-meta {
-  display: grid;
-  gap: 16px;
-  margin-bottom: 16px;
+.suggestion.active {
+  border-color: var(--ruby-500);
+  color: var(--ruby-900);
+  box-shadow: 0 0 0 2px rgba(166, 31, 59, 0.18);
 }
 
-.build-files,
-.build-issues {
-  display: grid;
-  gap: 8px;
-}
-
-.build-files h4,
-.build-issues h4 {
-  margin: 0;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--ink-600);
-}
-
-.file-line,
-.issue-line {
+.inline-actions {
   display: flex;
-  gap: 12px;
   align-items: center;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.85rem;
-  border: 1px solid transparent;
-  background: transparent;
-  padding: 6px 8px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.issue-line:hover {
-  border-color: var(--border);
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.file-status,
-.issue-level {
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  min-width: 70px;
-}
-
-.file-status.built {
-  color: var(--mint-400);
-}
-
-.file-status.skipped {
-  color: var(--ink-600);
-}
-
-.issue-level.error {
-  color: #b1202d;
-}
-
-.issue-level.warn {
-  color: #b36b00;
-}
-
-.build-logs {
-  display: grid;
-  gap: 8px;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.9rem;
-}
-
-.log-line {
-  display: flex;
   gap: 12px;
-  align-items: flex-start;
+  margin: 8px 0 12px;
+  position: relative;
+  z-index: 2;
 }
 
-.log-level {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.7rem;
-  font-weight: 700;
-  min-width: 70px;
+.button {
+  border: 1px solid var(--border);
+  background: #fff4f0;
+  color: var(--ink-900);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
-.log-line.info .log-level {
-  color: var(--ink-600);
-}
-
-.log-line.warn .log-level {
-  color: #b36b00;
-}
-
-.log-line.error .log-level {
-  color: #b1202d;
-}
-
-.log-line.debug .log-level {
-  color: #2166b0;
-}
-
-.log-line.success .log-level {
-  color: var(--mint-400);
-}
-
-.build-result {
-  margin-top: 16px;
-  font-weight: 600;
+.button.ghost {
+  background: transparent;
 }
 
 .hint {
@@ -636,6 +468,19 @@ a {
   padding: 22px;
 }
 
+.panel.terminal pre {
+  background: #1f1a16;
+  color: #e9e2da;
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow: auto;
+  border: 1px solid rgba(96, 78, 64, 0.35);
+}
+
+.panel.terminal h3 {
+  margin-bottom: 10px;
+}
+
 .panel.terminal.wide,
 .panel.wide {
   grid-column: 1 / -1;
@@ -679,28 +524,6 @@ a {
   .card-grid.two,
   .card-grid.three {
     grid-template-columns: 1fr;
-  }
-
-  .editor-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .build-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .auth-actions {
-    display: none;
-  }
-
-  .auth-toggle {
-    display: inline-flex;
-  }
-
-  .auth-menu {
-    display: flex;
-    width: 100%;
-    position: static;
   }
 }
 

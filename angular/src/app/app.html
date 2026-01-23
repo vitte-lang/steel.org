@@ -1,38 +1,43 @@
-<div class="bg-shapes" aria-hidden="true"></div>
+<div class="app-shell" [attr.dir]="state.isRtl() ? 'rtl' : 'ltr'" [attr.lang]="state.lang()">
+  <div class="bg-shapes" aria-hidden="true"></div>
 
-<header class="site-header">
-  <nav class="top-nav">
-    <a class="brand" routerLink="/">
-      <span class="brand-dot"></span>
-      <span class="brand-name">Steel - Command</span>
-    </a>
-    <div class="nav-links">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ state.t().nav.home }}</a>
-      <a routerLink="/downloads" routerLinkActive="active">{{ state.t().nav.downloads }}</a>
-      <a routerLink="/docs" routerLinkActive="active">{{ state.t().nav.docs }}</a>
-      <a routerLink="/community" routerLinkActive="active">{{ state.t().nav.community }}</a>
-      <a routerLink="/showcase" routerLinkActive="active">{{ state.t().nav.showcase }}</a>
-      <a routerLink="/blog" routerLinkActive="active">{{ state.t().nav.blog }}</a>
-      <a routerLink="/security" routerLinkActive="active">{{ state.t().nav.security }}</a>
-      <a routerLink="/status" routerLinkActive="active">{{ state.t().nav.status }}</a>
-    </div>
-    <div class="nav-actions">
-      <div class="lang-switch">
-        <span class="lang-label">{{ state.t().labels.language }}</span>
-        <button class="lang-btn" [class.active]="state.lang() === 'en'" (click)="state.setLang('en')">EN</button>
-        <button class="lang-btn" [class.active]="state.lang() === 'fr'" (click)="state.setLang('fr')">FR</button>
-        <button class="lang-btn" [class.active]="state.lang() === 'de'" (click)="state.setLang('de')">DE</button>
-        <button class="lang-btn" [class.active]="state.lang() === 'it'" (click)="state.setLang('it')">IT</button>
+  <header class="site-header">
+    <nav class="top-nav">
+      <a class="brand" routerLink="/">
+        <span class="brand-dot"></span>
+        <span class="brand-name">Steel - Command</span>
+      </a>
+      <div class="nav-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ state.t().nav.home }}</a>
+        <a routerLink="/downloads" routerLinkActive="active">{{ state.t().nav.downloads }}</a>
+        <a routerLink="/docs" routerLinkActive="active">{{ state.t().nav.docs }}</a>
+        <a routerLink="/showcase" routerLinkActive="active">{{ state.t().nav.showcase }}</a>
+        <a routerLink="/security" routerLinkActive="active">{{ state.t().nav.security }}</a>
+        <a routerLink="/status" routerLinkActive="active">{{ state.t().nav.status }}</a>
       </div>
-      <a class="btn primary" routerLink="/downloads">{{ state.t().nav.downloads }}</a>
-    </div>
-  </nav>
-</header>
+      <div class="nav-actions">
+        <div class="lang-switch">
+          <span class="lang-label">{{ state.t().labels.language }}</span>
+          <button class="lang-btn" [class.active]="state.lang() === 'en'" (click)="state.setLang('en')">EN</button>
+          <button class="lang-btn" [class.active]="state.lang() === 'fr'" (click)="state.setLang('fr')">FR</button>
+          <button class="lang-btn" [class.active]="state.lang() === 'de'" (click)="state.setLang('de')">DE</button>
+        <button class="lang-btn" [class.active]="state.lang() === 'it'" (click)="state.setLang('it')">IT</button>
+        <button class="lang-btn" [class.active]="state.lang() === 'ar'" (click)="state.setLang('ar')">AR</button>
+        <button class="lang-btn" [class.active]="state.lang() === 'es'" (click)="state.setLang('es')">ES</button>
+        <button class="lang-btn" [class.active]="state.lang() === 'zh'" (click)="state.setLang('zh')">ZH</button>
+        <button class="lang-btn" [class.active]="state.lang() === 'ja'" (click)="state.setLang('ja')">JA</button>
+        <button class="lang-btn" [class.active]="state.lang() === 'pt'" (click)="state.setLang('pt')">PT</button>
+        </div>
+        <a class="btn primary" routerLink="/downloads">{{ state.t().nav.downloads }}</a>
+      </div>
+    </nav>
+  </header>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
 
-<footer class="site-footer">
-  <p>{{ state.t().footer }}</p>
-</footer>
+  <footer class="site-footer">
+    <p>{{ state.t().footer }}</p>
+  </footer>
+</div>

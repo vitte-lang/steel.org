@@ -1,0 +1,16 @@
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-21T19:35:14.451806+00:00"
+  ok false
+  message "validation error: steelconf not found: /Users/vincent/Documents/Github/muffin/docs/angular/steelconf"
+  emit "/Users/vincent/Documents/Github/muffin/docs/angular/steelconfig.mff"
+.end
+
+
+errors
+  item "validation error: steelconf not found: /Users/vincent/Documents/Github/muffin/docs/angular/steelconf"
+.end
+

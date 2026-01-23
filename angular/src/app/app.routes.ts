@@ -14,18 +14,6 @@ export const routes: Routes = [
     loadComponent: () => import('./docs.component').then((m) => m.DocsComponent)
   },
   {
-    path: 'community',
-    loadComponent: () => import('./community.component').then((m) => m.CommunityComponent)
-  },
-  {
-    path: 'blog',
-    loadComponent: () => import('./blog.component').then((m) => m.BlogComponent)
-  },
-  {
-    path: 'blog/:slug',
-    loadComponent: () => import('./blog-detail.component').then((m) => m.BlogDetailComponent)
-  },
-  {
     path: 'showcase',
     loadComponent: () => import('./showcase.component').then((m) => m.ShowcaseComponent)
   },

@@ -1,0 +1,32 @@
+functionsDirectory = "/Users/vincent/Documents/Github/steel.org/angular/netlify/functions"
+functionsDirectoryOrigin = "config-v1"
+plugins = []
+headers = []
+redirects = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/Users/vincent/Documents/Github/steel.org/site/browser"
+publishOrigin = "config"
+commandOrigin = "config"
+command = "npm --prefix angular ci && npm --prefix angular run build:site"
+base = "/Users/vincent/Documents/Github/steel.org"
+functions = "/Users/vincent/Documents/Github/steel.org/angular/netlify/functions"
+
+[build.environment]
+NODE_VERSION = "20"
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]

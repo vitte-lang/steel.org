@@ -37,7 +37,7 @@ function adjustAssets(input) {
   let out = input.replace('<base href="./">', '<base href="../">');
   out = out.replace(/href="styles-/g, 'href="../styles-');
   out = out.replace(/src="main-/g, 'src="../main-');
-  out = out.replace(/href="favicon.svg"/g, 'href="../favicon.svg"');
+  out = out.replace(/href="favicon.ico"/g, 'href="../favicon.ico"');
   return out;
 }
 

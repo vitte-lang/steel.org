@@ -45,107 +45,47 @@
     <h2>Build with live C + steelconf</h2>
     <p class="section-lead">Edit C and steelconf with a VSCode-like editor, then simulate a build.</p>
   </div>
-  <div class="editor-grid">
-    <article class="panel editor-pane">
-      <div class="editor-header">
-        <h3>C source</h3>
-        <span class="pill">src</span>
-      </div>
-      <div class="editor-tabs">
-        <button
-          class="tab-btn"
-          type="button"
-          *ngFor="let file of cFiles; let i = index"
-          [class.active]="i === activeCFile"
-          (click)="setActiveCFile(i)"
-        >
-          {{ file.name }}
-        </button>
-      </div>
-      <div class="editor-body">
-        <div class="editor-host" #cEditorHost></div>
+  <div class="card-grid two">
+    <article class="panel">
+      <h3>C source editor</h3>
+      <div
+        class="code-editor"
+        #cEditor
+        role="textbox"
+        aria-label="C source"
+      ></div>
+      <div class="inline-actions">
+        <button type="button" class="button ghost" (click)="resetEditor('c')">Reset example</button>
       </div>
     </article>
-    <article class="panel editor-pane">
-      <div class="editor-header">
-        <h3>steelconf</h3>
-        <span class="pill">steelconf.mff</span>
-      </div>
-      <div class="editor-body">
-        <div class="editor-host" #steelEditorHost></div>
+    <article class="panel">
+      <h3>steelconf editor</h3>
+      <div
+        class="code-editor"
+        #steelEditor
+        role="textbox"
+        aria-label="steelconf"
+      ></div>
+      <div class="inline-actions">
+        <button type="button" class="button ghost" (click)="resetEditor('steel')">Reset example</button>
       </div>
     </article>
   </div>
-  <article class="panel build-panel">
-    <div class="editor-header">
-      <h3>Build output</h3>
-      <button class="btn primary" type="button" (click)="runBuild()">Simulate build</button>
+  <article class="panel">
+    <h3>Diagnostics</h3>
+    <div class="inline-actions">
+      <button type="button" class="button" (click)="runBuild()">Run build</button>
+      <span class="hint">Diagnostics run only on build.</span>
+      <span class="hint" *ngIf="buildStatus">{{ buildStatus }}</span>
     </div>
-    <div class="build-layout">
-      <div class="build-main">
-        <div class="build-meta">
-          <div class="build-files">
-            <h4>Files</h4>
-            <div class="file-line" *ngFor="let file of buildArtifacts">
-              <span class="file-status" [class]="file.status">{{ file.status }}</span>
-              <span>{{ file.path }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="build-logs">
-          <div class="log-line" *ngFor="let log of buildLogs" [class]="log.level">
-            <span class="log-level">{{ log.level }}</span>
-            <span>{{ log.text }}</span>
-          </div>
-          <p class="hint" *ngIf="!buildLogs.length">Run a build to see logs, errors, and result output.</p>
-        </div>
-        <p class="build-result" *ngIf="buildResult">{{ buildResult }}</p>
-      </div>
-      <aside class="build-sidebar">
-        <div class="sidebar-head">
-          <h4>Diagnostics</h4>
-          <div class="filter-row">
-            <button
-              class="filter-btn"
-              type="button"
-              [class.active]="issueFilter === 'all'"
-              (click)="setIssueFilter('all')"
-            >
-              All ({{ buildIssues.length }})
-            </button>
-            <button
-              class="filter-btn"
-              type="button"
-              [class.active]="issueFilter === 'error'"
-              (click)="setIssueFilter('error')"
-            >
-              Errors ({{ errorCount }})
-            </button>
-            <button
-              class="filter-btn"
-              type="button"
-              [class.active]="issueFilter === 'warn'"
-              (click)="setIssueFilter('warn')"
-            >
-              Warnings ({{ warnCount }})
-            </button>
-          </div>
-        </div>
-        <div class="build-issues" *ngIf="filteredIssues.length; else noIssues">
-          <button
-            class="issue-line"
-            type="button"
-            *ngFor="let issue of filteredIssues"
-            (click)="jumpToIssue(issue)"
-          >
-            <span class="issue-level" [class]="issue.level">{{ issue.level }}</span>
-            <span>{{ issue.file }}:{{ issue.line }}:{{ issue.column }} — {{ issue.message }}</span>
-          </button>
-        </div>
-        <ng-template #noIssues>
-          <p class="hint">No diagnostics yet.</p>
-        </ng-template>
-      </aside>
+    <p *ngIf="diagnostics.length === 0">Run a build to see diagnostics.</p>
+    <div *ngFor="let d of diagnostics; let i = index">
+      <p>
+        <strong>{{ i + 1 }}.</strong>
+        <strong>{{ d.level }}</strong>
+        <span *ngIf="d.line">L{{ d.line }}</span>
+        — {{ d.message }}
+      </p>
     </div>
   </article>
 </section>
@@ -209,6 +149,38 @@
   <div class="card-grid two">
     <article class="panel terminal" *ngFor="let cmd of t.docs.commandList">
       <pre><code>steel@mymachine$ {{ cmd }}</code></pre>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Keywords</p>
+    <h2>Keywords MUF 4</h2>
+    <p class="section-lead">Explications simples, logiques, utiles.</p>
+  </div>
+  <div class="card-grid three">
+    <article class="panel">
+      <h3>Blocs</h3>
+      <p><code>workspace</code> — bloc racine. Forme: <code>[workspace]</code> + <code>.set &lt;key&gt; &lt;value&gt;</code>. Ex: <code>.set target_dir "target"</code>.</p>
+      <p><code>profile</code> — profil nomme. Forme: <code>[profile &lt;name&gt;]</code> + <code>.set opt 2</code>. Ex: <code>[profile release]</code>.</p>
+      <p><code>tool</code> — definition d'un binaire. Forme: <code>[tool &lt;name&gt;]</code> + <code>.exec "cmd"</code>. Ex: <code>[tool cc]</code>.</p>
+      <p><code>bake</code> — recette. Forme: <code>[bake &lt;name&gt;]</code> + <code>.make</code> + <code>[run]</code> + <code>.output</code>. Ex: <code>[bake build]</code>.</p>
+      <p><code>export</code> — publication. Forme: <code>[export]</code> + <code>.ref &lt;bake&gt;</code>. Ex: <code>.ref build</code>.</p>
+    </article>
+    <article class="panel">
+      <h3>Run</h3>
+      <p><code>run &lt;tool&gt;</code> — bloc d'exec dans un bake. Ex: <code>[run cc]</code>.</p>
+      <p><code>.takes &lt;id&gt; as &lt;flag&gt;</code> — input -&gt; flag. Ex: <code>.takes c_src as "@args"</code>.</p>
+      <p><code>.emits &lt;port&gt; as &lt;flag&gt;</code> — output -&gt; flag. Ex: <code>.emits exe as "-o"</code>.</p>
+      <p><code>.set &lt;flag&gt; &lt;value&gt;</code> — flag/valeur brut. Ex: <code>.set "-O2" 1</code>.</p>
+    </article>
+    <article class="panel">
+      <h3>Sources + sortie</h3>
+      <p><code>.make &lt;id&gt; &lt;kind&gt; &lt;pattern&gt;</code> — input. Ex: <code>.make c_src cglob "src/**/*.c"</code>.</p>
+      <p><code>.output &lt;port&gt; &lt;path&gt;</code> — sortie finale. Ex: <code>.output exe "target/out/app"</code>.</p>
+      <p><code>.needs &lt;bake&gt;</code> — dependance. Ex: <code>.needs build</code>.</p>
+      <p><code>.ref &lt;bake&gt;</code> — expose. Ex: <code>.ref build</code>.</p>
     </article>
   </div>
 </section>
