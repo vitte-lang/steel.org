@@ -1,0 +1,33 @@
+mff 1
+
+build
+  tool "steel"
+  command "build steel"
+  ts_iso "2026-01-13T21:15:58.190442+00:00"
+  ok true
+  message "build ok"
+  emit "examples/gcc/C/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "build steel"
+  ts_iso "2026-01-13T21:17:40.766088+00:00"
+  ok true
+  message "build ok"
+  emit "examples/gcc/C/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-15T19:05:54.086466+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/muffin/examples/gcc/C/steelconfig.mff"
+.end
+

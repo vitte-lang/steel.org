@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "steel.graph.json/1",
+  "title": "Steel Graph JSON",
+  "type": "object",
+  "required": ["schema", "meta", "nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "steel.graph.json/1"
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "nodes": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "$defs": {
+    "nodeKind": {
+      "oneOf": [
+        { "type": "string", "enum": ["tool", "step", "config", "package"] },
+        {
+          "type": "object",
+          "required": ["other"],
+          "additionalProperties": false,
+          "properties": { "other": { "type": "string" } }
+        }
+      ]
+    },
+    "artifactKind": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "source",
+            "generated_source",
+            "object",
+            "static_lib",
+            "shared_lib",
+            "executable",
+            "debug_symbols",
+            "package",
+            "report",
+            "config"
+          ]
+        },
+        {
+          "type": "object",
+          "required": ["other"],
+          "additionalProperties": false,
+          "properties": { "other": { "type": "string" } }
+        }
+      ]
+    },
+    "portDir": {
+      "type": "string",
+      "enum": ["in", "out"]
+    },
+    "artifactPathKind": {
+      "type": "string",
+      "enum": ["workspace_relative", "absolute"]
+    },
+    "node": {
+      "type": "object",
+      "required": ["id", "kind", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "$ref": "#/$defs/nodeKind" },
+        "title": { "type": "string" },
+        "ports": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/port" }
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "port": {
+      "type": "object",
+      "required": ["name", "dir", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "dir": { "$ref": "#/$defs/portDir" },
+        "kind": { "$ref": "#/$defs/artifactKind" },
+        "many": { "type": "boolean" },
+        "meta": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "endpoint": {
+      "type": "object",
+      "required": ["node", "port"],
+      "additionalProperties": false,
+      "properties": {
+        "node": { "type": "string" },
+        "port": { "type": "string" }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from", "to"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "$ref": "#/$defs/endpoint" },
+        "to": { "$ref": "#/$defs/endpoint" },
+        "artifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["kind", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "$ref": "#/$defs/artifactKind" },
+        "path": { "type": "string" },
+        "path_kind": { "$ref": "#/$defs/artifactPathKind" },
+        "content_type": { "type": "string" },
+        "meta": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    }
+  }
+}

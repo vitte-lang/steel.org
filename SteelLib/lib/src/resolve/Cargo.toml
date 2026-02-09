@@ -1,0 +1,40 @@
+# C:\Users\gogin\Documents\GitHub\steel\SteelLib\lib\src\resolve\Cargo.toml
+
+[package]
+name = "steel_resolve"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Steel resolver: expand, implicit rules, variables, deterministic normalization"
+repository = "https://github.com/vitte-lang/steel"
+publish = false
+
+[lib]
+name = "steel_resolve"
+path = "src/lib.rs"
+
+[features]
+default = []
+strict = []
+
+[dependencies]
+# internal (workspace)
+steel_model = { path = "../model" }
+steel_error = { path = "../error" }
+
+# core utils
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# globbing + path normalization (deterministic expansion)
+globset = "0.4"
+
+# hashing for fingerprints (inputs/args/toolchain)
+sha2 = "0.10"
+
+# lightweight error helpers (optional but practical)
+thiserror = "1.0"
+
+[dev-dependencies]
+tempfile = "3.10"
+pretty_assertions = "1.4"

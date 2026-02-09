@@ -1,0 +1,40 @@
+[package]
+name = "steel_diag"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "SteelLib diagnostics: codes, structured diagnostics, renderers, sinks (std-only)."
+repository = "https://github.com/steel-lang/steel"
+readme = "README.md"
+keywords = ["diagnostics", "error-reporting", "compiler", "lsp", "steel"]
+categories = ["development-tools", "command-line-utilities"]
+rust-version = "1.74"
+
+[lib]
+name = "steel_diag"
+path = "src/lib.rs"
+
+[features]
+default = ["std"]
+
+# Explicit std gate (kept even if currently always-on; allows future no_std split).
+std = []
+
+# Enable ANSI color rendering (kept optional; render.rs currently std-only w/o ansi).
+ansi = []
+
+# Emit JSON Lines in sinks (implemented std-only without serde; feature gate for API stability).
+jsonl = []
+
+# Extra sink combinators (dedup, rate-limit, counters, exit code).
+extras = []
+
+[dependencies]
+# Intentionally empty: std-only crate for maximum portability.
+
+[dev-dependencies]
+# No external deps.
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

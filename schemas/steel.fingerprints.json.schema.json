@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "steel.fingerprints.json/1",
+  "title": "Steel Fingerprints JSON",
+  "type": "object",
+  "required": ["schema", "fingerprints"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "steel.fingerprints.json/1"
+    },
+    "fingerprints": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

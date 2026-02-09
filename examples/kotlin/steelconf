@@ -1,0 +1,48 @@
+!muf 4
+;; Exemple complet: bakes build_debug/build_release et sorties ciblees
+
+[workspace]
+  .set name "example-kotlin"
+  .set root "."
+  .set target_dir "target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile release]
+  .set opt 2
+..
+
+[tool kotlinc]
+  .exec "kotlinc"
+..
+
+[bake build_debug]
+  .make kt_src cglob "src/**/*.kt"
+  [run kotlinc]
+    .set "-jvm-target" "17"
+    .set "-include-runtime" 1
+    .set "-d" "target/out/app_debug.jar"
+    .takes kt_src as "@args"
+  ..
+  .output jar "target/out/app_debug.jar"
+..
+
+[bake build_release]
+  .make kt_src cglob "src/**/*.kt"
+  [run kotlinc]
+    .set "-jvm-target" "17"
+    .set "-include-runtime" 1
+    .set "-d" "target/out/app_release.jar"
+    .takes kt_src as "@args"
+  ..
+  .output jar "target/out/app_release.jar"
+..
+
+[export]
+  .ref build_debug
+  .ref build_release
+..

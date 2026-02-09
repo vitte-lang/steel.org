@@ -1,16 +1,332 @@
 mff 1
 
+[host]
+  os "macos"
+  arch "aarch64"
+..
+
+[workspace]
+  name "muffin_workspace"
+  root "."
+  target_dir "target"
+..
+
+profile "debug"
+
+[target]
+  name "default"
+..
+
+[defaults]
+..
+
+[target.sets]
+..
+
+[paths]
+  root "."
+  dist "./dist"
+  cache "./.steel-cache"
+..
+
+[tools]
+  tool javac
+    .exec javac
+  tool jar
+    .exec jar
+  tool mvn
+    .exec mvn
+  tool gradle
+    .exec gradle
+  tool cc
+    .exec cc
+  tool ar
+    .exec ar
+  tool cargo
+    .exec cargo
+  tool ocamlc
+    .exec ocamlc
+  tool ocamlopt
+    .exec ocamlopt
+  tool python
+    .exec python3
+  tool sh
+    .exec sh
+..
+
+[bakes]
+  bake java_build
+    .make java_src cglob examples/java/src/main/java/**/*.java
+    .output classes examples/java/target/classes
+    run javac
+      .set -d examples/java/target/classes
+      .takes java_src as @args
+  bake java_package
+    .make java_src cglob examples/java/src/main/java/**/*.java
+    .output jar examples/java/target/out/app.jar
+    run javac
+      .set -d examples/java/target/classes
+      .takes java_src as @args
+    run jar
+      .set -c 1
+      .set -f examples/java/target/out/app.jar
+      .set -e com.example.App
+      .set -C examples/java/target/classes
+      .set . 1
+  bake java_test
+    .make mvn_inputs cglob examples/java/pom.xml
+    .output report examples/java/target/surefire-reports
+    run mvn
+      .set -q 1
+      .set -f examples/java/pom.xml
+      .set test 1
+  bake java_package_maven
+    .make mvn_inputs cglob examples/java/pom.xml
+    .output jar examples/java/target/steel-java-example-0.1.0.jar
+    run mvn
+      .set -q 1
+      .set -f examples/java/pom.xml
+      .set test 1
+      .set package 1
+  bake java_package_gradle
+    .make gradle_inputs cglob examples/java/build.gradle
+    .output jar examples/java/build/libs/steel-java-example-0.1.0.jar
+    run gradle
+      .set -p examples/java
+      .set test 1
+      .set build 1
+  bake ocaml_build
+    .make ml_src cglob examples/ocaml/ultra/src/**/*.ml
+    .output exe examples/ocaml/target/out/ocaml_example.byte
+    run ocamlc
+      .set -g 1
+      .set -I examples/ocaml/ultra/src
+      .set -I +unix
+      .set unix.cma 1
+      .takes ml_src as @args
+      .emits exe as -o
+  bake ocaml_package
+    .make ml_src cglob examples/ocaml/ultra/src/**/*.ml
+    .output exe examples/ocaml/target/out/ocaml_example
+    run ocamlopt
+      .set -O2 1
+      .set -I examples/ocaml/ultra/src
+      .set -I +unix
+      .set unix.cmxa 1
+      .takes ml_src as @args
+      .emits exe as -o
+  bake python_build
+    .make py_src cglob examples/cpython/ultra/cli/*.py
+    .output exe examples/cpython/ultra/target/out/app.run
+    run sh
+      .set -c "cd examples/cpython/ultra && python3 -u -m cli.main"
+  bake python_test
+    .make py_src cglob examples/cpython/ultra/tests/*.py
+    .output exe examples/cpython/ultra/target/out/tests.run
+    run sh
+      .set -c "cd examples/cpython/ultra && python3 -u -m tests.run"
+  bake c_build
+    .make c_src cglob examples/gcc/C/src/**/*.c
+    .output exe examples/gcc/C/target/out/gcc_c
+    run cc
+      .takes c_src as @args
+      .set -O${opt} 1
+      .set -g 1
+      .emits exe as -o
+  bake rust_build
+    .make rust_src cglob src/**/*.rs
+    .output exe target/out/rust/steel
+    run sh
+      .set -c "cargo build && mkdir -p target/out/rust && cp target/debug/steel target/out/rust/steel"
+  bake rust_test
+    .make rust_src cglob src/**/*.rs
+    .output report target/out/rust/tests.ok1
+    run sh
+      .set -c "cargo test && mkdir -p target/out/rust && touch target/out/rust/tests.ok"
+  bake rust_package
+    .make rust_src cglob src/**/*.rs
+    .output exe target/out/rust/steel.release
+    run sh
+      .set -c "cargo build --release && mkdir -p target/out/rust && cp target/release/steel target/out/rust/steel.release"
+..
+
+[exports]
+  .ref java_build
+  .ref java_test
+  .ref java_package
+  .ref java_package_maven
+  .ref java_package_gradle
+  .ref ocaml_build
+  .ref ocaml_package
+  .ref python_build
+  .ref python_test
+  .ref c_build
+  .ref rust_build
+  .ref rust_test
+  .ref rust_package
+..
+
+[blocks]
+  block workspace
+    .set name muffin_workspace
+    .set root .
+    .set target_dir target
+    .set profile debug
+  block profile debug
+    .set opt 0
+    .set debug 1
+  block profile release
+    .set opt 2
+    .set debug 0
+  block tool javac
+    .exec javac
+  block tool jar
+    .exec jar
+  block tool mvn
+    .exec mvn
+  block tool gradle
+    .exec gradle
+  block tool cc
+    .exec cc
+  block tool ar
+    .exec ar
+  block tool cargo
+    .exec cargo
+  block tool ocamlc
+    .exec ocamlc
+  block tool ocamlopt
+    .exec ocamlopt
+  block tool python
+    .exec python3
+  block tool sh
+    .exec sh
+  block bake java_build
+    .make java_src cglob examples/java/src/main/java/**/*.java
+    .output classes examples/java/target/classes
+  block run javac
+    .set -d examples/java/target/classes
+    .takes java_src as @args
+  block bake java_package
+    .make java_src cglob examples/java/src/main/java/**/*.java
+    .output jar examples/java/target/out/app.jar
+  block run javac
+    .set -d examples/java/target/classes
+    .takes java_src as @args
+  block run jar
+    .set -c 1
+    .set -f examples/java/target/out/app.jar
+    .set -e com.example.App
+    .set -C examples/java/target/classes
+    .set . 1
+  block bake java_test
+    .make mvn_inputs cglob examples/java/pom.xml
+    .output report examples/java/target/surefire-reports
+  block run mvn
+    .set -q 1
+    .set -f examples/java/pom.xml
+    .set test 1
+  block bake java_package_maven
+    .make mvn_inputs cglob examples/java/pom.xml
+    .output jar examples/java/target/steel-java-example-0.1.0.jar
+  block run mvn
+    .set -q 1
+    .set -f examples/java/pom.xml
+    .set test 1
+    .set package 1
+  block bake java_package_gradle
+    .make gradle_inputs cglob examples/java/build.gradle
+    .output jar examples/java/build/libs/steel-java-example-0.1.0.jar
+  block run gradle
+    .set -p examples/java
+    .set test 1
+    .set build 1
+  block bake ocaml_build
+    .make ml_src cglob examples/ocaml/ultra/src/**/*.ml
+    .output exe examples/ocaml/target/out/ocaml_example.byte
+  block run ocamlc
+    .set -g 1
+    .set -I examples/ocaml/ultra/src
+    .set -I +unix
+    .set unix.cma 1
+    .takes ml_src as @args
+    .emits exe as -o
+  block bake ocaml_package
+    .make ml_src cglob examples/ocaml/ultra/src/**/*.ml
+    .output exe examples/ocaml/target/out/ocaml_example
+  block run ocamlopt
+    .set -O2 1
+    .set -I examples/ocaml/ultra/src
+    .set -I +unix
+    .set unix.cmxa 1
+    .takes ml_src as @args
+    .emits exe as -o
+  block bake python_build
+    .make py_src cglob examples/cpython/ultra/cli/*.py
+    .output exe examples/cpython/ultra/target/out/app.run
+  block run sh
+    .set -c "cd examples/cpython/ultra && python3 -u -m cli.main"
+  block bake python_test
+    .make py_src cglob examples/cpython/ultra/tests/*.py
+    .output exe examples/cpython/ultra/target/out/tests.run
+  block run sh
+    .set -c "cd examples/cpython/ultra && python3 -u -m tests.run"
+  block bake c_build
+    .make c_src cglob examples/gcc/C/src/**/*.c
+    .output exe examples/gcc/C/target/out/gcc_c
+  block run cc
+    .takes c_src as @args
+    .set -O${opt} 1
+    .set -g 1
+    .emits exe as -o
+  block bake rust_build
+    .make rust_src cglob src/**/*.rs
+    .output exe target/out/rust/steel
+  block run sh
+    .set -c "cargo build && mkdir -p target/out/rust && cp target/debug/steel target/out/rust/steel"
+  block bake rust_test
+    .make rust_src cglob src/**/*.rs
+    .output report target/out/rust/tests.ok1
+  block run sh
+    .set -c "cargo test && mkdir -p target/out/rust && touch target/out/rust/tests.ok"
+  block bake rust_package
+    .make rust_src cglob src/**/*.rs
+    .output exe target/out/rust/steel.release
+  block run sh
+    .set -c "cargo build --release && mkdir -p target/out/rust && cp target/release/steel target/out/rust/steel.release"
+  block export
+    .ref java_build
+    .ref java_test
+    .ref java_package
+    .ref java_package_maven
+    .ref java_package_gradle
+    .ref ocaml_build
+    .ref ocaml_package
+    .ref python_build
+    .ref python_test
+    .ref c_build
+    .ref rust_build
+    .ref rust_test
+    .ref rust_package
+..
+mff 1
+
 build
   tool "steel"
   command "steel"
-  ts_iso "2026-01-23T13:21:32.423571+00:00"
-  ok false
-  message "validation error: steelconf not found: /Users/vincent/Documents/Github/steel.org/steelconf"
-  emit "/Users/vincent/Documents/Github/steel.org/steelconfig.mff"
+  ts_iso "2026-01-23T14:18:02.554401+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/steel/steelconfig.mff"
 .end
 
+mff 1
 
-errors
-  item "validation error: steelconf not found: /Users/vincent/Documents/Github/steel.org/steelconf"
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-23T16:36:23.720947+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/steel/steelconfig.mff"
 .end
 

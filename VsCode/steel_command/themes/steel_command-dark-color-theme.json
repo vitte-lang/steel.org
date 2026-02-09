@@ -1,0 +1,163 @@
+{
+  "name": "Steel Command Dark",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#1b1714",
+    "editor.foreground": "#e6d9c9",
+    "editorLineNumber.foreground": "#6f5f52",
+    "editorLineNumber.activeForeground": "#b4937a",
+    "editor.selectionBackground": "#3a2e25",
+    "editor.lineHighlightBackground": "#241e19"
+  },
+  "tokenColors": [
+    {
+      "scope": "comment.line.double-semicolon.steelconf",
+      "settings": {
+        "foreground": "#8e7f72",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "scope": "keyword.control.block.steelconf",
+      "settings": {
+        "foreground": "#ff8a3d",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.workspace.steelconf",
+      "settings": {
+        "foreground": "#ff8a3d",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.profile.steelconf",
+      "settings": {
+        "foreground": "#ffca7a",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.tool.steelconf",
+      "settings": {
+        "foreground": "#7bd7a5",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.bake.steelconf",
+      "settings": {
+        "foreground": "#7cc9ff",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.run.steelconf",
+      "settings": {
+        "foreground": "#ff6b6b",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.export.steelconf",
+      "settings": {
+        "foreground": "#c792ea",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.store.steelconf",
+      "settings": {
+        "foreground": "#9cc4ff",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.capsule.steelconf",
+      "settings": {
+        "foreground": "#7fe3a1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.plan.steelconf",
+      "settings": {
+        "foreground": "#d39cf8",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.section.switch.steelconf",
+      "settings": {
+        "foreground": "#f2c94c",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "entity.name.section.steelconf",
+      "settings": {
+        "foreground": "#ff8a3d",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.control.directive.steelconf",
+      "settings": {
+        "foreground": "#7bd7a5",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "string.quoted.double.steelconf",
+      "settings": {
+        "foreground": "#7cc9ff"
+      }
+    },
+    {
+      "scope": "constant.numeric.steelconf",
+      "settings": {
+        "foreground": "#d39cf8"
+      }
+    },
+    {
+      "scope": "keyword.control.log-section.steelconf",
+      "settings": {
+        "foreground": "#c792ea",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "keyword.other.log-key.steelconf",
+      "settings": {
+        "foreground": "#c4b8aa"
+      }
+    },
+    {
+      "scope": "constant.language.boolean.steelconf",
+      "settings": {
+        "foreground": "#7fe3a1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "constant.numeric.log-value.steelconf",
+      "settings": {
+        "foreground": "#ff9b7f"
+      }
+    },
+    {
+      "scope": "string.other.log-cmd.steelconf",
+      "settings": {
+        "foreground": "#5eead4",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "string.other.log-path.steelconf",
+      "settings": {
+        "foreground": "#9cc4ff"
+      }
+    }
+  ]
+}

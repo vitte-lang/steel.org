@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     'examples/gcc/C/target/out/gcc_c'
+relocations:     []
+...

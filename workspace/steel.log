@@ -1,0 +1,32 @@
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-15T20:37:56.108261+00:00"
+  ok false
+  message "validation error: no steelconf found in workspace (expected one of: [\"steelconf\", \"steel\"])"
+  emit "workspace/steelconfig.mff"
+.end
+
+
+errors
+  item "validation error: no steelconf found in workspace (expected one of: [\"steelconf\", \"steel\"])"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-15T20:39:23.814749+00:00"
+  ok false
+  message "validation error: no steelconf found in workspace (expected one of: [\"steelconf\", \"steel\"])"
+  emit "workspace/steelconfig.mff"
+.end
+
+
+errors
+  item "validation error: no steelconf found in workspace (expected one of: [\"steelconf\", \"steel\"])"
+.end
+

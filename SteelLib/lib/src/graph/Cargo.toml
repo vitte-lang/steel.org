@@ -1,0 +1,23 @@
+[package]
+name = "steel_graph"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Build graph types and exporters for Steel (std-only)."
+repository = "https://github.com/gogin/steel"
+keywords = ["steel", "graph", "dag", "build"]
+categories = ["development-tools"]
+
+[lib]
+name = "steel_graph"
+path = "src/mod.rs"
+
+[features]
+default = ["std-only"]
+std-only = []
+
+[dependencies]
+# std-only
+
+[dev-dependencies]
+# std-only

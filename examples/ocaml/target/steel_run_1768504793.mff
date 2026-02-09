@@ -1,0 +1,21 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T19:19:53Z"
+..
+[bake log "build"]
+[run log]
+ts 1768504793
+ts_iso "2026-01-15T19:19:53Z"
+duration_ms 67
+cmd "/opt/homebrew/bin/ocamlc -g -I ultra/src -I +unix unix.cma ultra/src/types.ml ultra/src/util.ml ultra/src/clock.ml ultra/src/config.ml ultra/src/signal.ml ultra/src/sensor.ml ultra/src/store.ml ultra/src/stats.ml ultra/src/renderer.ml ultra/src/garden.ml ultra/src/cli.ml ultra/src/main.ml -o target/out/ocaml_example.byte"
+status 0
+ok true
+..
+runs 1
+duration_ms 67
+..
+[run summary]
+ts_iso "2026-01-15T19:19:53Z"
+..

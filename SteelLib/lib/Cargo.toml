@@ -1,0 +1,18 @@
+[package]
+name = "SteelLib"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.63"
+description = "Core utility library for Steel"
+license = "MIT"
+repository = "https://github.com/vitte-lang/steel"
+publish = false
+
+[lib]
+name = "vittelib"
+path = "src/lib.rs"
+
+[features]
+default = []
+
+[dependencies]

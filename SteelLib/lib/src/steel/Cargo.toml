@@ -1,0 +1,46 @@
+
+
+[package]
+name = "mcfg"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "MCFG parser/schema/validation for Steel configuration (.mff/.muff)"
+license = "MIT"
+repository = "https://github.com/vitte-lang/steel"
+readme = "README.md"
+keywords = ["steel", "mcfg", "config", "parser"]
+categories = ["development-tools", "config"]
+publish = false
+
+[workspace]
+
+[lib]
+name = "mcfg"
+path = "src/lib.rs"
+
+[features]
+default = ["serde"]
+serde = ["dep:serde", "dep:serde_json"]
+
+[dependencies]
+thiserror = "1"
+steel_mff = { path = "../mff" }
+SteelLib = { path = "../.." }
+
+serde = { version = "1", features = ["derive"], optional = true }
+serde_json = { version = "1", optional = true }
+
+[dev-dependencies]
+pretty_assertions = "1"
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"

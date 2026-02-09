@@ -1,0 +1,43 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T22:44:15Z"
+..
+[bake log "build"]
+[run log]
+ts 1768517055
+ts_iso "2026-01-15T22:44:15Z"
+duration_ms 45
+cmd "/opt/homebrew/bin/python3 -u -m cli.main"
+status 0
+ok true
+stdout "[IN] The Martian — Andy Weir (2014) | 978-0143127741
+[IN] The Hobbit — J.R.R. Tolkien (1937) | 978-0261103573
+[IN] Design Patterns — GoF (1994) | 978-0201633610
+[IN] Clean Code — Robert C. Martin (2008) | 978-0132350884
+[IN] The C Programming Language — K&R (1988) | 978-0131103627
+
+Hint: run with CPYTHON_ULTRA_GUI=1 for the GUI
+"
+..
+runs 1
+duration_ms 45
+..
+[bake log "test"]
+[run log]
+ts 1768517055
+ts_iso "2026-01-15T22:44:15Z"
+duration_ms 22
+cmd "/opt/homebrew/bin/python3 -u -m tests.run"
+status 0
+ok true
+stdout "tests ok
+"
+..
+runs 1
+duration_ms 22
+..
+[run summary]
+ts_iso "2026-01-15T22:44:15Z"
+..

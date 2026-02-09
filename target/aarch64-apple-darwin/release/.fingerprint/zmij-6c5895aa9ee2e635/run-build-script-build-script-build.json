@@ -1,0 +1,1 @@
+{"rustc":12211934750107851607,"features":"","declared_features":"","target":0,"profile":0,"path":0,"deps":[[329814948919240790,"build_script_build",false,5647545073163788193]],"local":[{"RerunIfChanged":{"output":"aarch64-apple-darwin/release/build/zmij-6c5895aa9ee2e635/output","paths":["build.rs"]}}],"rustflags":[],"config":0,"compile_kind":0}

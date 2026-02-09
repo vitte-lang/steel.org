@@ -1,0 +1,26 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T15:33:32Z"
+..
+[run summary]
+ts_iso "2026-01-15T15:33:32Z"
+..
+[bake log "python_test"]
+[run log]
+ts 1768491212
+ts_iso "2026-01-15T15:33:32Z"
+duration_ms 60
+cmd "/bin/sh -c cd examples/cpython/ultra && python3 -u -m tests.run"
+status 1
+ok false
+stderr "Traceback (most recent call last):
+  File \"<frozen runpy>\", line 198, in _run_module_as_main
+  File \"<frozen runpy>\", line 88, in _run_code
+  File \"/Users/vincent/Documents/Github/muffin/examples/cpython/ultra/tests/run.py\", line 3, in <module>
+    from coreic import checkout_default
+ModuleNotFoundError: No module named 'coreic'
+"
+..
+..

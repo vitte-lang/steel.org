@@ -1,0 +1,26 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-21T18:53:32Z"
+..
+[bake log "java_build"]
+output "examples/java/target/classes"
+sources_count 1
+source "examples/java/src/main/java/com/example/App.java"
+[run log]
+ts 1769021613
+ts_iso "2026-01-21T18:53:33Z"
+duration_ms 10
+cmd "/usr/bin/javac -d examples/java/target/classes examples/java/src/main/java/com/example/App.java"
+cwd "/Users/vincent/Documents/Github/muffin"
+status 1
+ok false
+stdout_bytes 0
+stderr_bytes 142
+stderr "The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
+"
+..
+..

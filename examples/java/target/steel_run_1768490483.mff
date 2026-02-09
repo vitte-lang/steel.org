@@ -1,0 +1,47 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T15:21:23Z"
+..
+[bake log "gradle_build"]
+[run log]
+ts 1768490486
+ts_iso "2026-01-15T15:21:26Z"
+duration_ms 3607
+cmd "/opt/homebrew/bin/gradle test build"
+status 1
+ok false
+stdout "
+Welcome to Gradle 9.2.1!
+
+Here are the highlights of this release:
+ - Windows ARM support
+ - Improved publishing APIs
+ - Better guidance for dependency verification failures
+
+For more details see https://docs.gradle.org/9.2.1/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+"
+stderr "
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not determine the dependencies of task ':test'.
+> Could not resolve all dependencies for configuration ':testRuntimeClasspath'.
+   > Failed to calculate the value of task ':compileTestJava' property 'javaCompiler'.
+      > Cannot find a Java installation on your machine (Mac OS X 26.3 aarch64) matching: {languageVersion=17, vendor=any vendor, implementation=vendor-specific, nativeImageCapable=false}. Toolchain download repositories have not been configured.
+
+* Try:
+> Learn more about toolchain auto-detection and auto-provisioning at https://docs.gradle.org/9.2.1/userguide/toolchains.html#sec:auto_detection.
+> Learn more about toolchain repositories at https://docs.gradle.org/9.2.1/userguide/toolchains.html#sub:download_repositories.
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2s
+"
+..
+..

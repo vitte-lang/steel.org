@@ -1,0 +1,48 @@
+!muf 4
+;; Exemple complet: bakes build_debug/build_release et sorties ciblees
+
+[workspace]
+  .set name "example-zig"
+  .set root "."
+  .set target_dir "target"
+  .set profile "release"
+..
+
+[profile debug]
+  .set opt 0
+..
+
+[profile release]
+  .set opt 2
+..
+
+[tool zig]
+  .exec "zig"
+..
+
+[bake build_debug]
+  .make zig_src cglob "src/**/*.zig"
+  [run zig]
+    .set "build-exe" 1
+    .set "-O" "Debug"
+    .set "-femit-bin=target/out/zig_app_debug" 1
+    .takes zig_src as "@args"
+  ..
+  .output exe "target/out/zig_app_debug"
+..
+
+[bake build_release]
+  .make zig_src cglob "src/**/*.zig"
+  [run zig]
+    .set "build-exe" 1
+    .set "-O" "ReleaseSafe"
+    .set "-femit-bin=target/out/zig_app_release" 1
+    .takes zig_src as "@args"
+  ..
+  .output exe "target/out/zig_app_release"
+..
+
+[export]
+  .ref build_debug
+  .ref build_release
+..

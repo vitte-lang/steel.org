@@ -1,0 +1,23 @@
+[package]
+name = "steel_path"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Path normalization and glob helpers for Steel (std-only)."
+repository = "https://github.com/gogin/steel"
+keywords = ["steel", "path", "glob", "normalize"]
+categories = ["development-tools"]
+
+[lib]
+name = "steel_path"
+path = "src/mod.rs"
+
+[features]
+default = ["std-only"]
+std-only = []
+
+[dependencies]
+# std-only
+
+[dev-dependencies]
+# std-only

@@ -1,0 +1,55 @@
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-23T15:47:04.838060+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/steel/examples/c/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-23T15:47:15.059625+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/steel/examples/c/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-23T16:15:44.825008+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/steel/examples/c/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-23T17:26:44.555796+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/steel/examples/c/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-23T18:09:53.814906+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/steel/examples/c/steelconfig.mff"
+.end
+

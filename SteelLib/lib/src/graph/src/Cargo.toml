@@ -1,0 +1,30 @@
+# C:\Users\gogin\Documents\GitHub\steel\SteelLib\lib\src\graph\src\Cargo.toml
+# (crate graph — si tu sépares l’algorithme de graphe du modèle)
+
+[package]
+name = "steel_graph"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Steel graph algorithms: topo sort, scheduling utilities, DAG validation"
+repository = "https://github.com/vitte-lang/steel"
+publish = false
+
+[lib]
+name = "steel_graph"
+path = "lib.rs"
+
+[features]
+default = []
+
+[dependencies]
+steel_error = { path = "../../error" }
+
+# Si ce crate travaille directement sur le modèle partagé:
+steel_model = { path = "../../model" }
+
+# deterministic containers / helpers
+thiserror = "1.0"
+
+[dev-dependencies]
+pretty_assertions = "1.4"

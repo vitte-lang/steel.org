@@ -1,0 +1,23 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T14:48:25Z"
+..
+[bake log "app"]
+[run log]
+ts 1768488505
+ts_iso "2026-01-15T14:48:25Z"
+duration_ms 66
+cmd "/opt/homebrew/bin/python3 -u -m cli.main"
+status 1
+ok false
+stderr "Traceback (most recent call last):
+  File \"<frozen runpy>\", line 198, in _run_module_as_main
+  File \"<frozen runpy>\", line 88, in _run_code
+  File \"/Users/vincent/Documents/Github/muffin/examples/cpython/ultra/cli/main.py\", line 6, in <module>
+    from coreic import status_line
+ModuleNotFoundError: No module named 'coreic'
+"
+..
+..

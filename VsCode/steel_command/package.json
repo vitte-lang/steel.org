@@ -1,0 +1,114 @@
+{
+  "name": "steel-command",
+  "displayName": "steel-command",
+  "description": "Steelconf language support (syntax highlighting + snippets)",
+  "version": "0.0.1",
+  "publisher": "steelcommand",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vitte-lang/steel.git"
+  },
+  "engines": {
+    "vscode": "^1.108.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "steelconf",
+        "aliases": [
+          "steelconf",
+          "steel"
+        ],
+        "extensions": [
+          ".steelconf",
+          ".mff"
+        ],
+        "filenames": [
+          "steelconf",
+          "steelconf_exemple",
+          "steelconfig.mff"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "steelconf",
+        "scopeName": "source.steelconf",
+        "path": "./syntaxes/steelconf.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "steelconf",
+        "path": "./snippets/steelconf.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Steel Command",
+        "uiTheme": "vs",
+        "path": "./themes/steel_command-color-theme.json"
+      },
+      {
+        "label": "Steel Command Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/steel_command-dark-color-theme.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "steelconf.syntaxHelp",
+        "title": "Steelconf: Aide de syntaxe"
+      },
+      {
+        "command": "steelconf.openManifest",
+        "title": "Steelconf: Ouvrir la reference (manifest)"
+      },
+      {
+        "command": "steelconf.openRootSteelconf",
+        "title": "Steelconf: Ouvrir le steelconf du projet"
+      },
+      {
+        "command": "steelconf.openSwiftExample",
+        "title": "Steelconf: Ouvrir l'exemple Swift"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "editor.action.inlineSuggest.commit",
+        "key": "tab",
+        "when": "inlineSuggestionVisible && editorTextFocus && editorLangId == steelconf && !inSnippet"
+      }
+    ]
+  },
+  "icon": "icon.png",
+  "activationEvents": [
+    "onLanguage:steelconf"
+  ],
+  "main": "./dist/extension.js",
+  "scripts": {
+    "compile": "node ./esbuild.mjs",
+    "watch": "node ./esbuild.mjs --watch",
+    "typecheck": "tsc -p ./tsconfig.json --noEmit && tsc -p ./server/tsconfig.json --noEmit",
+    "prepublishOnly": "npm run compile",
+    "package": "vsce package",
+    "release": "npm run compile && npm run package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/vscode": "^1.108.1",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.5.4",
+    "vscode": "^0.9.9"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.11"
+  }
+}

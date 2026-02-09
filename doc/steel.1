@@ -22,9 +22,9 @@ steel version
 steel
 steel build steelconf
 
-steel resolve --file steelconf --emit ./out/steelconfig.mff
-steel check --file steelconf
-steel print --file steelconf
+steel resolve
+steel check
+steel print
 steel run --root . --file steelconf
 steel run --root . --file steelconf --print
 steel doctor --root .
@@ -83,16 +83,16 @@ Validates and resolves the configuration described by \fBsteelconf\fP, then emit
 The expected file is \fBsteelconf\fP at the workspace root.
 
 .TP
-.B resolve [options]
+.B resolve
 Alias of \fBsteel\fP (emits \fBsteelconfig.mff\fP + \fBsteel.log\fP).
 
 .TP
-.B check [options]
+.B check
 Best-effort validation: emits \fBsteelconfig.mff\fP under \fB.steel-cache/check/\fP then deletes it when possible.
 With \fB--strict\fP, a cleanup failure is an error.
 
 .TP
-.B print [options]
+.B print
 Emits and prints \fBsteelconfig.mff\fP to stdout.
 
 .SS Execution
@@ -131,7 +131,7 @@ Graph export (stub). Options: \fB--root\fP, \fB--text\fP, \fB--dot\fP, \fB-v\fP.
 Steelconf formatter (stub). Options: \fB--check\fP, \fB-v\fP.
 .
 .SH OPTIONS
-No global options for \fBsteel\fP: everything is read from \fBsteelconf\fP.
+No global options for \fBsteel\fP: everything is read from \fBsteelconf\fP. Flags apply only to \fBsteel run\fP.
 
 .SH RUN OPTIONS
 Main options for \fBsteel run\fP:

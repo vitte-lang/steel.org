@@ -1,0 +1,8 @@
+[build]
+  base = "."
+  command = "npm --prefix angular ci && npm --prefix angular run build:site"
+  publish = "site/browser"
+  functions = "angular/netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"

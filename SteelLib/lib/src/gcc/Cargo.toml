@@ -1,0 +1,43 @@
+# C:\Users\gogin\Documents\GitHub\steel\SteelLib\lib\src\gcc\Cargo.toml
+
+[package]
+name = "steel_gcc"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "GCC toolchain integration for Steel (detection + spec + driver + args)."
+repository = "https://github.com/steel-build/steel"
+readme = "README.md"
+
+[lib]
+name = "steel_gcc"
+path = "src/lib.rs"
+
+[features]
+default = []
+# Enable if you want verbose tracing hooks inside the gcc module (optional).
+trace = []
+
+[dependencies]
+# Internal Steel crate layout (adjust names/paths if your workspace differs)
+SteelLib = { path = "../.." }
+
+# Common utilities
+anyhow = "1"
+thiserror = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Filesystem + process helpers
+which = "6"
+
+# Optional: richer error context in logs / diagnostics
+tracing = { version = "0.1", optional = true }
+tracing-subscriber = { version = "0.3", optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+
+[package.metadata]
+# Keep empty for now; reserved for Steel tooling.
+steel = { module = "gcc" }

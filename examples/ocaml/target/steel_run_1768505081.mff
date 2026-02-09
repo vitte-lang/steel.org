@@ -1,0 +1,9 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T19:24:41Z"
+..
+[run summary]
+ts_iso "2026-01-15T19:24:41Z"
+..

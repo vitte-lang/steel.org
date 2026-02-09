@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/libexec/makewhatis /usr/local/share/man 2>/dev/null || true
+exit 0

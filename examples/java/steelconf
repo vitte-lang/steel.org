@@ -1,0 +1,101 @@
+!muf 4
+;; steelconf — Java example (javac + jar, Maven, Gradle)
+;; Convention: build/test/package for the default toolchain.
+;; Exemple complet: bakes build_debug/build_release et sorties ciblees
+
+[workspace]
+  .set name "java_example"
+  .set root "."
+  .set target_dir "target"
+  .set profile "debug"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
+..
+
+[profile release]
+  .set opt 2
+  .set debug 0
+..
+
+[tool javac]
+  .exec "javac"
+..
+
+[tool jar]
+  .exec "jar"
+..
+
+[tool mvn]
+  .exec "mvn"
+..
+
+[tool gradle]
+  .exec "gradle"
+..
+
+[bake build]
+  .make java_src cglob "src/main/java/**/*.java"
+  [run javac]
+    .set "-d" "target/classes"
+    .takes java_src as "@args"
+  ..
+  .output classes "target/classes"
+..
+
+[bake package]
+  .make java_src cglob "src/main/java/**/*.java"
+  [run javac]
+    .set "-d" "target/classes"
+    .takes java_src as "@args"
+  ..
+  [run jar]
+    .set "-c" 1
+    .set "-f" "target/out/app.jar"
+    .set "-e" "com.example.App"
+    .set "-C" "target/classes"
+    .set "." 1
+  ..
+  .output jar "target/out/app.jar"
+..
+
+[bake test]
+  .make mvn_inputs cglob "pom.xml"
+  [run mvn]
+    .set "-q" 1
+    .set "-f" "pom.xml"
+    .set "test" 1
+  ..
+  .output report "target/surefire-reports"
+..
+
+[bake maven_package]
+  .make mvn_inputs cglob "pom.xml"
+  [run mvn]
+    .set "-q" 1
+    .set "-f" "pom.xml"
+    .set "test" 1
+    .set "package" 1
+  ..
+  .output jar "target/steel-java-example-0.1.0.jar"
+..
+
+[bake gradle_build]
+  .make gradle_inputs cglob "build.gradle"
+  [run gradle]
+    .set "-p" "."
+    .set "test" 1
+    .set "build" 1
+  ..
+  .output jar "build/libs/steel-java-example-0.1.0.jar"
+..
+
+[export]
+  .ref build
+  .ref test
+  .ref package
+  .ref maven_package
+  .ref gradle_build
+..

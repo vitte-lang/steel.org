@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "steel.decompile.report",
+  "title": "Steel Decompile Report JSON",
+  "type": "object",
+  "required": [
+    "schema",
+    "input",
+    "version",
+    "endian",
+    "toc_offset",
+    "toc_size",
+    "entries",
+    "items"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "steel.decompile.report"
+    },
+    "input": { "type": "string" },
+    "version": { "type": "string" },
+    "endian": { "type": "string" },
+    "toc_offset": { "type": "integer", "minimum": 0 },
+    "toc_size": { "type": "integer", "minimum": 0 },
+    "entries": { "type": "integer", "minimum": 0 },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" }
+    }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "status",
+        "path",
+        "logical",
+        "offset",
+        "stored_size",
+        "original_size",
+        "compression"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["extracted", "exists", "skipped", "denied", "error"]
+        },
+        "path": { "type": ["string", "null"] },
+        "logical": { "type": ["string", "null"] },
+        "offset": { "type": "integer", "minimum": 0 },
+        "stored_size": { "type": "integer", "minimum": 0 },
+        "original_size": { "type": "integer", "minimum": 0 },
+        "compression": { "type": "string" }
+      }
+    }
+  }
+}

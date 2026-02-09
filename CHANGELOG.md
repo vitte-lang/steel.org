@@ -1,6 +1,7 @@
 # Steel Version 2.2026
 
 ## Unreleased
+- Added a maximal VITTE grammar example in `src/main.vit`.
 - Added a repo-wide `.editorconfig` so `steelconf`/`*.muf` always use 2-space indents.
 - Added an editor setup guide and auto-setup on first run (opt-out with `STEEL_NO_EDITOR_SETUP`).
 - Added `steel editor-setup` and `steel editor` commands.
@@ -14,3 +15,35 @@
 - Updated man page (`doc/steel.1`) with editor commands.
 - Simplified README + manifest wording (tech-simple tone).
 - Fixed a macOS-only import warning in `src/os.rs`.
+- Clarified CLI flags that work: `build` accepts no flags (only `steelconf`), while `run` supports `--root`, `--file`, `--profile`, `--toolchain`, `--bake`, `--all`, `--print`, `--no-cache`, `--log`, and `--log-mode`.
+- Added C/C++ keyword autocompletion in steecleditor.
+- Added C/C++ block comment (`/* */`) highlighting in steecleditor.
+- Added C/C++ preprocessor (`#...`) and character literal (`'a'`) highlighting in steecleditor.
+- Added C/C++ raw string (`R"(...)")`) and doc comment (`///`, `/** */`) highlighting in steecleditor.
+- Extended C/C++ raw string highlighting to continue across lines with custom delimiters.
+- Fixed raw string highlighting across soft-wrap chunks.
+- Added Python triple-quote highlighting across lines.
+- Added Python f-string highlighting (best-effort, including triple quotes).
+- Highlighted f-string `{...}` expressions in a distinct color (best-effort).
+- Handled f-string escaped braces (`{{`/`}}`) during highlighting.
+- Handled escapes and nested braces inside f-string expressions (best-effort).
+- Added Python f-string prefix support for `rf`/`fr` (best-effort).
+- Added Python prefix support for `rb`/`br` and `u` (best-effort).
+- Added Python support for three-letter prefix combos (best-effort).
+- Made Python prefix parsing more permissive for mixed prefixes (best-effort).
+- Added `steel mitsou` command as an editor alias.
+- Documented Vim/Nano/Emacs syntax highlighting setup for steelconf.
+- Expanded steelconf syntax colors for Vim/Nano/Emacs (bools, numbers, keywords).
+- Split steelconf keywords into distinct colors across editor configs.
+- Expanded VS Code steelconf highlighting with per-keyword colors.
+- Expanded steecleditor highlighting for C/C++/Python (types, builtins, functions, docstrings).
+- Added C-specific palette overrides for keywords/types/builtins/functions in steecleditor.
+- Added C++-specific palette overrides for keywords/types/builtins/functions in steecleditor.
+- Added Python-specific palette overrides for keywords/builtins/functions/docstrings in steecleditor.
+- Added in-editor Settings menu to choose per-language palettes.
+- Added cross-platform steel binary resolution for steecleditor (Mac/Linux/Windows/BSD).
+- Added system clipboard copy/paste (Ctrl+C/Ctrl+V) in steecleditor.
+- Added Mitsou Editor 2026 title in the steecleditor header.
+- Added current file name next to the Mitsou Editor header.
+- Added language label next to the current file in the Mitsou Editor header.
+- Disabled automatic `..` insertion for steelconf blocks in steecleditor.

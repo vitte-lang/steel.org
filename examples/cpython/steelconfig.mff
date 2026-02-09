@@ -1,0 +1,37 @@
+mff 1
+
+project
+  root "/Users/vincent/Documents/Github/muffin/examples/cpython"
+  steelfile "/Users/vincent/Documents/Github/muffin/examples/cpython/ultra/steelconf"
+.end
+
+select
+  profile "debug"
+  target "aarch64-apple-darwin"
+.end
+
+paths
+  build "/Users/vincent/Documents/Github/muffin/examples/cpython/build"
+  dist "/Users/vincent/Documents/Github/muffin/examples/cpython/dist"
+  cache "/Users/vincent/Documents/Github/muffin/examples/cpython/.steel-cache"
+.end
+
+toolchain
+  rustc "rustc"
+
+  versions
+    rustc "rustc 1.92.0 (ded5c06cf 2025-12-08) (Homebrew)"
+  .end
+.end
+
+vars
+  set "steel.file" "/Users/vincent/Documents/Github/muffin/examples/cpython/ultra/steelconf"
+  set "steel.offline" "false"
+  set "steel.profile" "debug"
+  set "steel.root" "/Users/vincent/Documents/Github/muffin/examples/cpython"
+  set "steel.target" "aarch64-apple-darwin"
+.end
+
+fingerprint
+  value "fnv1a64:dd41448925d7d047"
+.end

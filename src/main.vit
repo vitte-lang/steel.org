@@ -1,0 +1,167 @@
+vitte 0.1
+
+<<< project
+Steel project main module (maximal example covering grammar).
+>>>
+
+doc Project entrypoint and core constructs.
+
+doc Modules / Imports / Exports / Build
+space steel/core
+pull std/io as io only (print, println)
+pull std/time as time
+pull std/fs as fs only (read, write)
+pull std/math as math
+share all
+build target is dev
+build opt-level is 2
+build enable-ffi is true
+build env is "local"
+
+<<< types
+Core type declarations.
+>>>
+
+pub form User[Id]
+  pub field id as Id
+  field name as String = "Ada"
+  field email as String
+  field tags as List of String
+.end
+
+pub form Config
+  field name as String
+  field retries as i32 = 3
+  field flags as Map of String to String
+.end
+
+pub form Pair[A, B]
+  field left as A
+  field right as B
+.end
+
+hid pick Result[T]
+  case Ok(T)
+  case Err(String)
+.end
+
+hid pick Maybe[T]
+  case Some(T)
+  case None
+.end
+
+bond Id means u64
+bond Path means String
+bond Seconds means f64
+
+<<< globals
+Global constants and variables.
+>>>
+
+pub const app_name as String = "steel"
+const default_retries as i32 = 2
+const debug_mode = true
+var counter as i32 = 0
+var last_error as String
+
+<<< procs
+Procedures and flows.
+>>>
+
+pub proc greet(name as String) gives String mark async true
+  emit "hello " + name
+  give "hello " + name
+.end
+
+proc read_config(path as Path) gives Result[Config]
+  make raw = fs.read(path)
+  if raw == null
+    give Result.Err("missing config")
+  else
+    make cfg as Config = pack(raw)
+    give Result.Ok(cfg)
+  .end
+.end
+
+proc parse_flags(raw as String) gives Map of String to String
+  make result = { "env" => "dev", "region" => "us" }
+  give result
+.end
+
+flow compute(a as i32, b as i32) gives i32
+  make total = a + b
+  give total
+.end
+
+flow elapsed(start as Seconds, end as Seconds) gives Seconds
+  give end - start
+.end
+
+<<< entry
+Entrypoint.
+>>>
+
+entry app at steel/core
+  doc starting
+  make users as List of User[Id] = []
+  make cfg_path as Path = "./config.json"
+  make idx = 0
+  make total as i32 = 0
+
+  # loop while
+  loop while idx < 3
+    emit idx
+    set idx += 1
+  .end
+
+  # loop until
+  loop until idx == 5
+    set idx += 1
+  .end
+
+  # each
+  each user, i in users
+    emit user.name
+    emit i
+  .end
+
+  # select / pattern
+  select idx
+    when 0
+      emit "zero"
+    when 1
+      emit "one"
+    when User.Id()
+      emit "variant"
+    otherwise
+      emit "many"
+  .end
+
+  # if / elif / else
+  if idx > 1
+    emit "gt1"
+  elif idx == 1
+    emit "eq1"
+  else
+    emit "lt1"
+  .end
+
+  # make / keep / set
+  make temp as i32 = 1
+  keep sum as i32 = temp + 1
+  set total = total + sum
+
+  # expr stmt / access / call / index
+  io.println(greet("world"))
+  emit users[0].name
+
+  # defer / assert
+  defer emit "done"
+  assert idx >= 0, "idx must be non-negative"
+
+  # foreign
+  foreign proc c_strlen(ptr as u64) gives u64 abi "c"
+  foreign form CFILE abi "c"
+
+  give
+.end

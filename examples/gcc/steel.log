@@ -1,0 +1,16 @@
+mff 1
+
+build
+  tool "steel"
+  command "build steel"
+  ts_iso "2026-01-15T14:45:47.282405+00:00"
+  ok false
+  message "validation error: steelconf not found: /Users/vincent/Documents/Github/muffin/examples/gcc/steelconfig"
+  emit "/Users/vincent/Documents/Github/muffin/examples/gcc/steelconfig.mff"
+.end
+
+
+errors
+  item "validation error: steelconf not found: /Users/vincent/Documents/Github/muffin/examples/gcc/steelconfig"
+.end
+

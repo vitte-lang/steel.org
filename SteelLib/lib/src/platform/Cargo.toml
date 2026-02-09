@@ -1,0 +1,30 @@
+[package]
+name = "steel_platform"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Platform detection and OS-specific path/process helpers for Steel (std-only)."
+repository = "https://github.com/gogin/steel"
+keywords = ["steel", "platform", "os", "paths", "toolchain"]
+categories = ["development-tools", "os"]
+
+[lib]
+name = "steel_platform"
+path = "src/mod.rs"
+
+[features]
+default = ["std-only"]
+
+# Marker feature to indicate the crate intentionally uses std-only probing.
+std-only = []
+
+# Future extension points (keep empty; implement later if needed):
+with-libc = []
+with-windows-knownfolders = []
+with-sysctl = []
+
+[dependencies]
+# std-only: no external deps
+
+[dev-dependencies]
+# std-only tests; no external deps

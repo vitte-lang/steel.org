@@ -1,0 +1,100 @@
+[package]
+name = "steel"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.63"
+autobins = false
+authors = ["Vitte Team"]
+description = "Steel: Declarative configuration layer for Vitte build system"
+repository = "https://github.com/vitte-lang/steel"
+license = "See COPYING"
+readme = "README.md"
+
+[workspace]
+members = [
+    ".",
+    "SteelLib/lib",
+    "SteelLib/lib/src/platform",
+    "SteelLib/lib/src/gcc",
+    "SteelLib/lib/src/ocaml",
+    "SteelLib/lib/src/cpython",
+]
+resolver = "2"
+
+[dependencies]
+# CLI and argument parsing
+clap = { version = "4.4", features = ["derive"] }
+
+# Serialization/deserialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"
+serde_yaml = "0.9"
+
+# File handling
+walkdir = "2.4"
+tempfile = "3.8"
+
+# Error handling and logging
+anyhow = "1.0"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.11"
+
+# Date and time handling
+chrono = "0.4"
+
+# VitteLib (utility library)
+vittelib = { path = "SteelLib/lib", package = "SteelLib" }
+
+# Utilities
+regex = "1.10"
+once_cell = "1.19"
+parking_lot = { version = "0.12", optional = true }
+indexmap = "2.1"
+libc = "0.2"
+num_cpus = "1.16"
+crossterm = "0.27"
+
+# Platform-specific
+[target.'cfg(unix)'.dependencies]
+nix = { version = "0.27", features = ["process"], optional = true }
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["processthreadsapi", "fileapi"], optional = true }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc = { version = "0.2", optional = true }
+
+[features]
+default = []
+legacy = []                             # Windows XP/Vista, macOS 10.9, CentOS 6 support
+modern = ["parking_lot", "nix", "winapi"]  # Optimized for modern OS
+full = ["modern", "advanced-logging"]
+advanced-logging = []
+testing = []
+
+[dev-dependencies]
+criterion = "0.5"
+insta = "1.34"
+
+[lib]
+name = "steel"
+path = "src/lib.rs"
+
+[[bin]]
+name = "steel"
+path = "src/bin/steel.rs"
+
+[[bin]]
+name = "steecleditor"
+path = "src/bin/steecleditor.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[profile.dev]
+opt-level = 0
+debug = true

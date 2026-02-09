@@ -1,0 +1,78 @@
+(*
+  MUF v4.1 — "Bracket + Dot Ops" (no .end)
+  - Header:     !muf 4
+  - Block head: [TAG name?]
+  - Directives: .op arg1 arg2 ...
+  - Block close: ..   (POP marker, alone on a line, WS allowed)
+  - Comments:   ;; to end-of-line
+*)
+
+MufFile         = OptShebang , OptBOM , Header , { SpacingItem } ;
+
+OptShebang      = [ "#!" , { NotNL } , NL ] ;
+OptBOM          = [ "\uFEFF" ] ;
+
+Header          = "!muf" , WS1 , Int , WS0 , NL ;
+
+SpacingItem     = BlankLine | CommentLine | Block ;
+
+BlankLine       = WS0 , NL ;
+CommentLine     = WS0 , ";;" , { NotNL } , NL ;
+
+Block           = WS0 , BlockHead , WS0 , NL ,
+                  { BlockItem } ,
+                  WS0 , BlockClose , WS0 , NL ;
+
+BlockHead       = "[" , WS0 , Tag , [ WS1 , Name ] , WS0 , "]" ;
+
+BlockItem       = BlankLine
+                | CommentLine
+                | Directive
+                | Block ;
+
+BlockClose      = ".." ;
+
+Directive       = WS0 , "." , Op , { WS1 , Atom } , WS0 , NL ;
+
+(*
+  Lexemes
+*)
+
+Tag             = Name ;
+Op              = Name ;
+
+Atom            = Ref | String | Number | Name ;
+
+Ref             = "~" , Name , "/" , Name , { "/" , Name } ;
+
+Number          = Float | Int ;
+Int             = [ "+" | "-" ] , Digits ;
+Float           = [ "+" | "-" ] , Digits , "." , Digits , [ Exp ] ;
+Exp             = ( "e" | "E" ) , [ "+" | "-" ] , Digits ;
+
+Name            = IdentStart , { IdentCont } ;
+IdentStart      = Alpha | "_" ;
+IdentCont       = Alpha | Digit | "_" ;
+
+String          = "\"" , { StrChar } , "\"" ;
+StrChar         = Escape | StrSafe ;
+Escape          = "\\" , ( "\"" | "\\" | "n" | "r" | "t" | "0"
+                         | "x" , Hex , Hex
+                         | "u" , Hex , Hex , Hex , Hex ) ;
+StrSafe         = ? any unicode scalar value except backslash, quote, or NL ? ;
+
+Digits          = Digit , { Digit } ;
+Digit           = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+
+Hex             = Digit | "a" | "b" | "c" | "d" | "e" | "f"
+                        | "A" | "B" | "C" | "D" | "E" | "F" ;
+
+Alpha           = "A".."Z" | "a".."z" ;
+
+WS0             = { WS } ;
+WS1             = WS , { WS } ;
+WS              = " " | "\t" ;
+
+NL              = "\n" | "\r\n" ;
+
+NotNL           = ? any char except CR and LF ? ;

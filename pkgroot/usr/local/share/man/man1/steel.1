@@ -1,0 +1,379 @@
+.TH MUFFIN 1 "2026-01-08" "Steel" "Commandes utilisateur"
+.
+." -------------------------------------------------------------------------
+." Steel manpage
+." -------------------------------------------------------------------------
+.
+.SH NOM
+steel \- configuration de build déclarative (génère steel.log)
+.
+.SH SYNOPSIS
+.B steel
+.RI <commande> " " [ args... ]
+
+.PP
+Exemples rapides :
+.PP
+.nf
+steel help
+steel --help
+steel version
+steel build steel
+steel build steel ./workspace
+steel build steel --profile release --target x86_64-unknown-linux-gnu
+steel resolve --emit ./out/steel.log
+steel check
+steel print
+steel graph --dot
+steel fmt --check
+.fi
+.
+.SH DESCRIPTION
+.B Steel
+est la couche de \fBconfiguration déclarative\fP du build.
+Elle décrit un \fIworkspace\fP (packages, profils, toolchains, targets) et produit une configuration résolue, stable et outillable.
+
+Le rôle de Steel est de :
+.IP \[bu] 2
+\fBparser\fP et \fBvalider\fP la configuration,
+.IP \[bu] 2
+\fBrésoudre\fP valeurs et sélections (defaults, héritages, overrides),
+.IP \[bu] 2
+\fBfiger\fP un artefact canonique \fBsteel.log\fP,
+.IP \[bu] 2
+permettre l'introspection (sorties lisibles / DOT),
+.IP \[bu] 2
+assurer une séparation stricte \fBconfig\fP vs \fBexécution\fP.
+
+Steel vise :
+.IP \[bu] 2
+reproductibilité (config stable),
+.IP \[bu] 2
+portabilité (multi-OS/arch),
+.IP \[bu] 2
+incrémental (rebuild minimal déterministe),
+.IP \[bu] 2
+introspection (graph/print),
+.IP \[bu] 2
+sécurité d'exécution via politiques (capsule/store, selon impl).
+.
+
+.SH COMMANDES
+Steel expose une surface CLI centrée sur la configuration (parse/validation/résolution) et l'introspection.
+
+.SS Aide et version
+.TP
+.B help, -h, --help
+Affiche l'aide générale.
+
+.TP
+.B version, -V, --version
+Affiche la version de Steel.
+
+.SS Configuration
+.TP
+.B build steel
+Valide et résout le workspace puis émet \fBsteel.log\fP.
+Accepte un \fI<path>\fP positionnel comme racine (équivalent à \fB--root\fP).
+Voir OPTIONS.
+
+.TP
+.B resolve
+Alias de \fBbuild steel\fP (émission par défaut).
+
+.TP
+.B check
+Validation best-effort : émet sous \fB.steel-cache/check/\fP puis supprime si possible.
+En mode \fB--strict\fP, l'échec de nettoyage est une erreur.
+
+.TP
+.B print
+Émet puis affiche \fBsteel.log\fP sur stdout.
+
+.SS Génération
+.TP
+.B init
+Initialise un workspace minimal (racine, steelconf, dossiers suggérés).
+Accepte un \fI<path>\fP positionnel comme racine.
+
+.TP
+.B new
+Génère des templates (ex : package, tool, bake) dans un workspace.
+Accepte un \fI<path>\fP positionnel comme racine.
+
+.SS Outils (stub)
+.TP
+.B graph
+Export de graphe (stub). Options : \fB--root\fP, \fB--text\fP, \fB--dot\fP, \fB-v\fP.
+Un \fI<path>\fP positionnel est accepté comme racine.
+
+.TP
+.B explain
+Affiche la résolution pas-à-pas d'un fichier : origines, overrides, defaults.
+Accepte un \fI<file>\fP positionnel.
+
+.TP
+.B diagnose
+Regroupe des checks d'environnement (toolchains, PATH, permissions, versions).
+
+.TP
+.B env
+Affiche les valeurs effectives (profil, target, root, emit).
+
+.TP
+.B fmt
+Formatter steelconf (stub). Options : \fB--file\fP, \fB--check\fP, \fB-v\fP.
+Un \fI<path>\fP positionnel est accepté comme fichier.
+.
+.SH OPTIONS
+Options principales de \fBsteel build steel\fP :
+
+.TP
+.B --root <path>
+Racine du workspace (défaut : répertoire courant).
+
+.TP
+.B --file <path>
+steelconf explicite (skip discovery).
+
+.TP
+.B --profile <name>
+Profil sélectionné (défaut : MUFFIN_PROFILE ou \fBdebug\fP).
+
+.TP
+.B --target <triple>
+Target sélectionnée (défaut : MUFFIN_TARGET ou triple host).
+
+.TP
+.B --emit <path>
+Chemin de sortie pour \fBsteel.log\fP.
+Par défaut : \fBsteel.log\fP à la racine du workspace (ou MUFFIN_EMIT).
+
+.TP
+.B --print
+Affiche l'artefact émis sur stdout.
+
+.TP
+.B --offline
+Active le mode offline.
+
+.TP
+.B --strict
+Fail sur toute irrégularité IO.
+
+.TP
+.B --no-tool-fingerprint
+Désactive l'empreinte des outils (tool --version).
+
+.TP
+.B --include-hidden
+Inclut les fichiers/répertoires cachés pendant la découverte.
+
+.TP
+.B --follow-symlinks
+Suit les symlinks pendant la découverte.
+
+.TP
+.B --max-depth <n>
+Profondeur de découverte (défaut : 16).
+
+.TP
+.B -v, --verbose
+Diagnostics verbeux.
+
+.SH FICHIERS
+.TP
+.I steel
+Buildfile principal. Alternatives : \fIsteelconf\fP, \fIbuild.muf\fP.
+
+.TP
+.I *.muf
+Buildfiles (si le projet segmente la configuration par dossier/workspace).
+
+
+.TP
+.I steel.log
+Artefact généré (configuration résolue).
+
+.TP
+.I dist/
+Répertoire de sortie recommandé (par profil), ex : \fIdist/debug\fP, \fIdist/release\fP.
+
+.TP
+.I .steel/
+Répertoire interne recommandé (cache/store/état), selon implémentation.
+.
+.SH ENVIRONNEMENT
+Variables d'environnement usuelles (conventions) :
+
+.TP
+.B MUFFIN_PROFILE
+Profil par défaut si \fB--profile\fP n'est pas fourni.
+
+.TP
+.B MUFFIN_TARGET
+Target par défaut si \fB--target\fP n'est pas fourni.
+
+.TP
+.B MUFFIN_EMIT
+Chemin par défaut de \fBsteel.log\fP.
+
+.TP
+.B MUFFIN_OFFLINE
+Si défini, active le mode offline.
+
+.TP
+.B MUFFIN_FINGERPRINT_TIME
+Si défini, ajoute un marqueur temporel dans l'empreinte.
+
+.TP
+.B PATH
+S'assurer que \fBsteel\fP est accessible (ou utiliser \fB./steel\fP depuis la racine).
+.
+.SH FORMAT DU FICHIER MUFFIN (APERÇU)
+Steel est orienté blocs et se termine par \fB.end\fP.
+Commentaires : \fB# ...\fP.
+
+Exemple minimal (Bakefile v2) :
+
+.nf
+steel bake 2
+
+store main
+  path "./.steel/store"
+  mode content
+.end
+
+profile debug
+  set opt 0
+  set debug true
+.end
+
+tool compiler
+  exec "compiler"
+  sandbox true
+.end
+
+bake app
+  out exe: bin.exe
+  make src glob "src/**/*.vit"
+  run tool compiler
+    takes src as "--src"
+    emits exe as "--out"
+    set "--emit" "exe"
+  .end
+.end
+
+export app.exe
+
+plan default
+  run exports
+.end
+.fi
+
+Champs typiques :
+.IP \[bu] 2
+\fBstore\fP : politique de cache (content/mtime/off),
+.IP \[bu] 2
+\fBprofile\fP : paramètres (optimisation, debug, features),
+.IP \[bu] 2
+\fBtool\fP : exécutable déclaratif (version, sandbox, capsule),
+.IP \[bu] 2
+\fBbake\fP : nœud du DAG (ports in/out, actions, cache, outputs),
+.IP \[bu] 2
+\fBwire\fP : connexions explicites entre ports,
+.IP \[bu] 2
+\fBexport\fP : outputs buildables via \fB-all\fP,
+.IP \[bu] 2
+\fBplan\fP : scénarios d'exécution.
+.
+.SH FORMAT MUFFINCONFIG.MFF (APERÇU)
+\fBsteel.log\fP est généré et doit être \fBstable\fP et \fBfacile à consommer\fP.
+Il contient la configuration résolue (host, profile, target, paths, toolchains, valeurs finales, empreintes d'invalidation).
+
+Exemple (indicatif) :
+
+.nf
+mff 1
+
+host
+  os "linux"
+  arch "x86_64"
+.end
+
+profile "debug"
+
+target
+  name "app"
+.end
+
+paths
+  root "/path/to/repo"
+  dist "dist"
+.end
+.fi
+.
+.SH RÉSOLUTION DE FICHIERS (glob)
+Les expansions filesystem doivent être \fBdéterministes\fP :
+.IP \[bu] 2
+tri lexicographique,
+.IP \[bu] 2
+normalisation des séparateurs,
+.IP \[bu] 2
+déduplication,
+.IP \[bu] 2
+liste figée dans \fBsteel.log\fP.
+.
+.SH EXEMPLES
+.TP
+Valider/résoudre et générer \fBsteel.log\fP :
+.nf
+steel build steel
+.fi
+
+.TP
+Générer dans un chemin spécifique :
+.nf
+steel build steel --emit ./out/steel.log
+.fi
+
+.TP
+Afficher la config résolue :
+.nf
+steel print
+steel graph --dot
+.fi
+
+.SH CODES DE SORTIE
+.TP
+.B 0
+Succès.
+
+.TP
+.B 1
+Erreur de configuration (parse/validation/résolution).
+
+.TP
+.B 2
+Erreur d'exécution/outillage (I/O, permissions, outils manquants).
+
+.TP
+.B 3
+Erreur interne (bug).
+.
+.SH NOTES D'IMPLÉMENTATION
+Une implémentation conforme doit :
+.IP \[bu] 2
+supporter les blocs \fB.end\fP,
+.IP \[bu] 2
+fournir des diagnostics (fichier, ligne, colonne),
+.IP \[bu] 2
+garantir une résolution sérialisable en \fBsteel.log\fP,
+.IP \[bu] 2
+garantir que l'expansion des fichiers (glob) est portable et déterministe.
+.
+.SH VOIR AUSSI
+.BR steel (1)
+
+.SH AUTEUR
+Projet Steel.

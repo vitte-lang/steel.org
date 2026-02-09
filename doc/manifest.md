@@ -88,6 +88,20 @@ Liste rapide (toutes les commandes):
 
 Ces flags apparaissent dans plusieurs commandes; ils sont censes rester stables.
 
+Note: `steel` / `build steelconf` / `resolve` / `check` / `print` n accepte aucun flag; tout est lu depuis `steelconf`.
+
+Flags valides (run):
+- `--root <path>`
+- `--file <path>`
+- `--profile <name>`
+- `--toolchain <path>`
+- `--bake <name>`
+- `--all`
+- `--print`
+- `--no-cache`
+- `--log <path>`
+- `--log-mode <append|truncate>`
+
 <a id="profile-name"></a>
 #### `--profile <name>`
 

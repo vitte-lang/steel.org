@@ -1,0 +1,29 @@
+[package]
+name = "steel-cpython"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["vitte-lang"]
+description = "Steel CPython backend (bytecode, extensions, bundles, Nuitka)"
+repository = "https://github.com/vitte-lang/steel"
+
+[lib]
+name = "steel_cpython"
+path = "src/lib.rs"
+
+[dependencies]
+# Core Steel
+steellib = { path = "../..", package = "SteelLib" }
+
+# Erreurs structurées
+thiserror = "1.0"
+
+# Optionnel : sérialisation future (spec / artifacts)
+serde = { version = "1.0", features = ["derive"], optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+
+[features]
+default = []
+serde = ["dep:serde"]

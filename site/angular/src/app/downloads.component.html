@@ -1,0 +1,45 @@
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.download.eyebrow }}</p>
+    <h2>{{ t.download.title }}</h2>
+    <p class="section-lead">{{ t.download.lead }}</p>
+  </div>
+  <div class="card-grid two">
+    <article class="panel">
+      <h3>{{ t.download.macTitle }}</h3>
+      <p>{{ t.download.macDesc }}</p>
+      <a class="btn primary" [href]="state.downloadUrl">{{ t.download.macButton }}</a>
+      <p class="hint">{{ t.download.macHint }}</p>
+    </article>
+    <article class="panel muted">
+      <h3>{{ t.download.otherTitle }}</h3>
+      <p>{{ t.download.otherDesc }}</p>
+      <p class="hint">{{ t.download.otherHint }}</p>
+    </article>
+  </div>
+
+  <article class="panel terminal wide">
+    <h3>{{ t.download.quickInstall }}</h3>
+    <pre><code>steel@mymachine$ steel --version
+steel 0.1.0_test
+
+steel@mymachine$ steel run</code></pre>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">{{ t.changelog.eyebrow }}</p>
+    <h2>{{ t.changelog.title }}</h2>
+    <p class="section-lead">{{ t.changelog.lead }}</p>
+  </div>
+  <div class="card-grid two">
+    <article class="panel" *ngFor="let item of t.changelog.items">
+      <h3>{{ item.version }}</h3>
+      <p class="hint">{{ item.date }}</p>
+      <ul class="list">
+        <li *ngFor="let note of item.notes">{{ note }}</li>
+      </ul>
+    </article>
+  </div>
+</section>

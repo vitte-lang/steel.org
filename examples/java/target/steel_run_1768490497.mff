@@ -1,0 +1,43 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T15:21:37Z"
+..
+[bake log "gradle_build"]
+[run log]
+ts 1768490499
+ts_iso "2026-01-15T15:21:39Z"
+duration_ms 1886
+cmd "/opt/homebrew/bin/gradle test build"
+status 1
+ok false
+stdout "> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :jar
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :test FAILED
+4 actionable tasks: 4 executed
+"
+stderr "
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> Test process encountered an unexpected problem.
+   > Could not start Gradle Test Executor 1: Failed to load JUnit Platform.  Please ensure that all JUnit Platform dependencies are available on the test's runtime classpath, including the JUnit Platform launcher.
+
+* Try:
+> Check common problems https://docs.gradle.org/9.2.1/userguide/java_testing.html#sec:java_testing_troubleshooting.
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1s
+"
+..
+..

@@ -1,0 +1,14 @@
+/Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/deps/serde-d52d04bd7b07af5e.d: /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/build/serde-09a1ae2ae66fb5d4/out/private.rs
+
+/Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/deps/libserde-d52d04bd7b07af5e.rlib: /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/build/serde-09a1ae2ae66fb5d4/out/private.rs
+
+/Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/deps/libserde-d52d04bd7b07af5e.rmeta: /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/build/serde-09a1ae2ae66fb5d4/out/private.rs
+
+/Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/Users/vincent/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/build/serde-09a1ae2ae66fb5d4/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/vincent/Documents/Github/muffin/target/x86_64-apple-darwin/release/build/serde-09a1ae2ae66fb5d4/out

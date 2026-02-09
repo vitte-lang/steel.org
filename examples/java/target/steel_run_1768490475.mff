@@ -1,0 +1,44 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T15:21:15Z"
+..
+[bake log "jar_package"]
+[run log]
+ts 1768490475
+ts_iso "2026-01-15T15:21:15Z"
+duration_ms 196
+cmd "/opt/homebrew/opt/openjdk/bin/javac -d target/classes src/main/java/com/example/App.java"
+status 0
+ok true
+..
+[run log]
+ts 1768490475
+ts_iso "2026-01-15T15:21:15Z"
+duration_ms 52
+cmd "/opt/homebrew/opt/openjdk/bin/jar -c -f target/out/app.jar -e com.example.App -C target/classes ."
+status 0
+ok true
+..
+runs 2
+duration_ms 248
+..
+[run summary]
+ts_iso "2026-01-15T15:21:15Z"
+..
+[bake log "maven_package"]
+[run log]
+ts 1768490483
+ts_iso "2026-01-15T15:21:23Z"
+duration_ms 7333
+cmd "/opt/homebrew/bin/mvn -q test package"
+status 0
+ok true
+..
+runs 1
+duration_ms 7333
+..
+[run summary]
+ts_iso "2026-01-15T15:21:23Z"
+..

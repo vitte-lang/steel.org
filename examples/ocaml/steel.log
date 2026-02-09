@@ -1,0 +1,44 @@
+mff 1
+
+build
+  tool "steel"
+  command "build steel"
+  ts_iso "2026-01-15T14:44:51.410570+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/muffin/examples/ocaml/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-15T19:15:43.268328+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/muffin/examples/ocaml/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-16T00:16:38.377847+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/muffin/examples/ocaml/steelconfig.mff"
+.end
+
+mff 1
+
+build
+  tool "steel"
+  command "steel"
+  ts_iso "2026-01-16T00:16:44.562605+00:00"
+  ok true
+  message "build ok"
+  emit "/Users/vincent/Documents/Github/muffin/examples/ocaml/steelconfig.mff"
+.end
+

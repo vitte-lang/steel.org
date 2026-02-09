@@ -1,0 +1,204 @@
+{
+  "name": "steelconf",
+  "scopeName": "source.steelconf",
+  "patterns": [
+    {"include": "#comment"},
+    {"include": "#header"},
+    {"include": "#directive"},
+    {"include": "#runlog"},
+    {"include": "#string"},
+    {"include": "#number"},
+    {"include": "#boolean"},
+    {"include": "#keywords"}
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.line.double-semicolon.steelconf",
+          "match": ";;.*$"
+        }
+      ]
+    },
+    "header": {
+      "patterns": [
+        {
+          "name": "keyword.control.block.steelconf",
+          "begin": "\\[",
+          "beginCaptures": {
+            "0": {"name": "punctuation.definition.section.begin.steelconf"}
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {"name": "punctuation.definition.section.end.steelconf"}
+          },
+          "patterns": [
+            {
+              "name": "keyword.control.section.workspace.steelconf",
+              "match": "\\bworkspace\\b"
+            },
+            {
+              "name": "keyword.control.section.profile.steelconf",
+              "match": "\\bprofile\\b"
+            },
+            {
+              "name": "keyword.control.section.tool.steelconf",
+              "match": "\\btool\\b"
+            },
+            {
+              "name": "keyword.control.section.bake.steelconf",
+              "match": "\\bbake\\b"
+            },
+            {
+              "name": "keyword.control.section.run.steelconf",
+              "match": "\\brun\\b"
+            },
+            {
+              "name": "keyword.control.section.export.steelconf",
+              "match": "\\b(export|exports)\\b"
+            },
+            {
+              "name": "keyword.control.section.store.steelconf",
+              "match": "\\bstore\\b"
+            },
+            {
+              "name": "keyword.control.section.capsule.steelconf",
+              "match": "\\bcapsule\\b"
+            },
+            {
+              "name": "keyword.control.section.plan.steelconf",
+              "match": "\\bplan\\b"
+            },
+            {
+              "name": "keyword.control.section.switch.steelconf",
+              "match": "\\bswitch\\b"
+            },
+            {
+              "name": "variable.parameter.steelconf",
+              "match": "[A-Za-z0-9_./:-]+"
+            }
+          ]
+        },
+        {
+          "name": "keyword.control.section-end.steelconf",
+          "match": "^\\s*\\.\\.\\s*$"
+        },
+        {
+          "name": "keyword.control.format.steelconf",
+          "match": "^\\s*!muf\\s*([0-9]+(\\.[0-9]+)*)?\\b"
+        }
+      ]
+    },
+    "directive": {
+      "patterns": [
+        {
+          "name": "keyword.control.directive.steelconf",
+          "match": "\\.(set|exec|make|output|ref|needs|takes|emits)\\b"
+        }
+      ]
+    },
+    "boolean": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.steelconf",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.section.workspace.steelconf",
+          "match": "\\bworkspace\\b"
+        },
+        {
+          "name": "keyword.control.section.profile.steelconf",
+          "match": "\\bprofile\\b"
+        },
+        {
+          "name": "keyword.control.section.tool.steelconf",
+          "match": "\\btool\\b"
+        },
+        {
+          "name": "keyword.control.section.bake.steelconf",
+          "match": "\\bbake\\b"
+        },
+        {
+          "name": "keyword.control.section.run.steelconf",
+          "match": "\\brun\\b"
+        },
+        {
+          "name": "keyword.control.section.export.steelconf",
+          "match": "\\b(export|exports)\\b"
+        },
+        {
+          "name": "keyword.control.section.store.steelconf",
+          "match": "\\bstore\\b"
+        },
+        {
+          "name": "keyword.control.section.capsule.steelconf",
+          "match": "\\bcapsule\\b"
+        },
+        {
+          "name": "keyword.control.section.plan.steelconf",
+          "match": "\\bplan\\b"
+        },
+        {
+          "name": "keyword.control.section.switch.steelconf",
+          "match": "\\bswitch\\b"
+        }
+      ]
+    },
+    "runlog": {
+      "patterns": [
+        {
+          "name": "keyword.control.log-section.steelconf",
+          "match": "^\\s*\\[(log meta|bake log|run log|run summary)\\b.*\\]"
+        },
+        {
+          "name": "keyword.other.log-key.steelconf",
+          "match": "^\\s*(format|tool|version|ts|ts_iso|duration_ms|cmd|cwd|status|ok|stdout_bytes|stderr_bytes|stdout|stderr|runs|output|sources_count|source)\\b"
+        },
+        {
+          "name": "constant.language.boolean.steelconf",
+          "match": "^\\s*ok\\s+(true|false)\\b"
+        },
+        {
+          "name": "constant.numeric.log-value.steelconf",
+          "match": "^\\s*(status|ts|duration_ms|stdout_bytes|stderr_bytes|runs|sources_count)\\s+([0-9]+)\\b"
+        },
+        {
+          "name": "string.other.log-cmd.steelconf",
+          "match": "^\\s*cmd\\s+\".*\""
+        },
+        {
+          "name": "string.other.log-path.steelconf",
+          "match": "^\\s*(output|source|cwd)\\s+\".*\""
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.steelconf",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.steelconf",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.steelconf",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    }
+  }
+}

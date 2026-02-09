@@ -1,0 +1,42 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-23T15:45:34Z"
+..
+[bake log "build_debug"]
+output "target/out/c_app_debug"
+sources_count 1
+source "src/main.c"
+[run log]
+ts 1769183134
+ts_iso "2026-01-23T15:45:34Z"
+duration_ms 257
+cmd "/usr/bin/cc -O2 src/main.c -o target/out/c_app_debug"
+cwd "/Users/vincent/Documents/Github/steel/examples/c"
+status 0
+ok true
+stdout_bytes 0
+stderr_bytes 0
+..
+runs 1
+duration_ms 257
+..
+[bake log "build_release"]
+output "target/out/c_app_release"
+sources_count 1
+source "src/main.c"
+[run log]
+ts 1769183134
+ts_iso "2026-01-23T15:45:34Z"
+duration_ms 12
+cmd "/usr/bin/cc -O2 src/main.c -c target/out/c_app_release"
+cwd "/Users/vincent/Documents/Github/steel/examples/c"
+status 1
+ok false
+stdout_bytes 0
+stderr_bytes 68
+stderr "clang: error: no such file or directory: 'target/out/c_app_release'
+"
+..
+..

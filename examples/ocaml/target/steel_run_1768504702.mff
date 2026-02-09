@@ -1,0 +1,28 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T19:18:22Z"
+..
+[bake log "build"]
+[run log]
+ts 1768504702
+ts_iso "2026-01-15T19:18:22Z"
+duration_ms 72
+cmd "/opt/homebrew/bin/ocamlc -g -I ultra/src -I +unix unix.cma ultra/src/cli.ml ultra/src/clock.ml ultra/src/config.ml ultra/src/garden.ml ultra/src/main.ml ultra/src/renderer.ml ultra/src/sensor.ml ultra/src/signal.ml ultra/src/stats.ml ultra/src/store.ml ultra/src/types.ml ultra/src/util.ml -o target/out/ocaml_example.byte"
+status 2
+ok false
+stderr "File \"ultra/src/util.ml\", line 1:
+Error: Wrong link order:
+         Renderer (ultra/src/renderer.cmo),
+           Signal (ultra/src/signal.cmo) depends on Types (ultra/src/types.cmo),
+          Main (ultra/src/main.cmo) depends on Store (ultra/src/store.cmo), 
+         Main (ultra/src/main.cmo) depends on Stats (ultra/src/stats.cmo), 
+         Garden (ultra/src/garden.cmo) depends on Signal (ultra/src/signal.cmo),
+         
+         Main (ultra/src/main.cmo) depends on Renderer (ultra/src/renderer.cmo),
+          Sensor (ultra/src/sensor.cmo) depends on Util (ultra/src/util.cmo),
+          Main (ultra/src/main.cmo) depends on Sensor (ultra/src/sensor.cmo)
+"
+..
+..

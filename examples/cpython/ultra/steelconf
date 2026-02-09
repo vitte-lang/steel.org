@@ -1,0 +1,53 @@
+!muf 4
+;; steelconf — CPython Ultra Project
+;; Usage:
+;;   steel run --root . --file steelconf --bake build
+;;   steel run --root . --file steelconf --bake test
+
+[workspace]
+  .set name "cpython_ultra"
+  .set root "."
+  .set target_dir "target"
+  .set profile "debug"
+..
+
+[profile debug]
+  .set opt 0
+  .set debug 1
+..
+
+[profile release]
+  .set opt 2
+  .set debug 0
+..
+
+[tool python]
+  .exec "python3"
+..
+
+[tool sh]
+  .exec "sh"
+..
+
+[bake build]
+  .make py_src cglob "cli/*.py"
+  [run python]
+    .set "-u" 1
+    .set "-m" "cli.main"
+  ..
+  .output exe "target/out/app.run"
+..
+
+[bake test]
+  .make py_src cglob "tests/*.py"
+  [run python]
+    .set "-u" 1
+    .set "-m" "tests.run"
+  ..
+  .output exe "target/out/tests.run"
+..
+
+[export]
+  .ref build
+  .ref test
+..

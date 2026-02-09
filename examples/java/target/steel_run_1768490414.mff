@@ -1,0 +1,20 @@
+[log meta]
+format "steel-runlog-1"
+tool "steel"
+version "steel 0.1.0"
+ts_iso "2026-01-15T15:20:14Z"
+..
+[bake log "jar_package"]
+[run log]
+ts 1768490414
+ts_iso "2026-01-15T15:20:14Z"
+duration_ms 12
+cmd "/usr/bin/javac -d target/classes src/main/java/com/example/App.java"
+status 1
+ok false
+stderr "The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
+"
+..
+..
